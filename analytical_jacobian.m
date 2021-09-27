@@ -13,20 +13,20 @@ Jphixdphix = zeros(N, N);
 
 for i = 1:N
    if i > 1
-      Jpsidpsi(i, i-1) = exp(1i*phix(i-1))/hx;
+      Jpsidpsi(i, i-1) = exp(1i*phix(i-1))/hx^2;
    end
-   Jpsidpsi(i, i) = -2/hx + psi(i)^2 + 2*psi(i)*conj(psi(i));
+   Jpsidpsi(i, i) = -2/hx^2 + psi(i)^2 + 2*psi(i)*conj(psi(i));
    if i < N
-       Jpsidpsi(i, i+1) = exp(-1i*phix(i))/hx;
+       Jpsidpsi(i, i+1) = exp(-1i*phix(i))/hx^2;
    end
 end
 
 for i = 1:N
    if i > 1
-      Jpsidphix(i, i-1) = 1i*exp(1i*phix(i-1))*psi(i-1)/hx;
+      Jpsidphix(i, i-1) = 1i*exp(1i*phix(i-1))*psi(i-1)/hx^2;
    end
    if i < N
-      Jpsidphix(i, i+1) = 1i*exp(-1i*phix(i))*psi(i+1)/hx;
+      Jpsidphix(i, i+1) = 1i*exp(-1i*phix(i))*psi(i+1)/hx^2;
    end
 end
 
