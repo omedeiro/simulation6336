@@ -1,5 +1,5 @@
 function J = eval_num_jac(x0, F)
-    eps_Im = 0.01;
+    eps_Im = 0;
     eps_Re = 0.01;
     S_Im = 2;
     S_Re = 2;
@@ -17,3 +17,5 @@ function J = eval_num_jac(x0, F)
         eps_Im = eps_Im/S_Im;
     end
 end
+
+

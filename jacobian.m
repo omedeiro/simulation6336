@@ -12,10 +12,14 @@ F = @(x) analytical_f(x, hx, N);
 Jnumeric = eval_num_jac(state_0, F)
 Janalytic = eval_analytical_jac(state_0, hx, N)
 
+
+
 figure(1)
 spy(Jnumeric)
 figure(2)
 spy(Janalytic)
+figure(3)
+imagesc(abs(Janalytic-Jnumeric))
+axis square
 
-% imagesc(abs(Janalytic-Jnumeric))
-% axis square
+
