@@ -1,5 +1,5 @@
 N = 3;
-psi = [1; 1; 1];
+psi = [exp(-1i); 1; exp(1i)];
 phix = [1; 1; 1];
 
 hx = 1;
@@ -13,3 +13,4 @@ Jnumeric = eval_num_jac(state_0, F)
 Janalytic = eval_analytical_jac(state_0, hx, N)
 
 imagesc(abs(Janalytic-Jnumeric))
+axis square

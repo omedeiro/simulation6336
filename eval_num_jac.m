@@ -1,11 +1,11 @@
 function J = eval_num_jac(x0, F)
-    eps_Im = 0;
-    eps_Re = .1;
+    eps_Im = 0.01;
+    eps_Re = 0.01;
     S_Im = 2;
     S_Re = 2;
     J = zeros(size(F(x0),1), size(x0,1));
     Jp = ones(size(F(x0),1), size(x0,1));
-    err = 1e-10;
+    err = 1e-5;
     while any(abs((J - Jp)) > err, 'all') 
         Jp = J;
         for k = 1 : size(J,2) % loop columns
