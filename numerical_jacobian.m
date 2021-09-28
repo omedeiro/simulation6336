@@ -1,6 +1,6 @@
 N = 3;
-psi = [1; 0; 0];
-phix = [0; 0; 0];
+psi = [1; 0; 2];
+phix = [2i; 1; 2];
 
 hx = 1;
 
@@ -13,6 +13,7 @@ Jnumeric = eval_num_jac(state_0, F);
 Jnumeric
 Janalytic
 imagesc(abs(Janalytic-Jnumeric))
+
 function J = eval_num_jac(x0, F)
     eps_Im = .01;
     eps_Re = .01;
