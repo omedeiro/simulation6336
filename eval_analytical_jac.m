@@ -31,6 +31,7 @@ function Janalytic = eval_analytical_jac(x0, hx, N)
           Jpsidpsi(i, i_p1) = exp(-1i*phix(i))/hx^2;
        end
        Jpsidpsi(i, i) = -2/hx^2 +1 -2*psi(i)*conj(psi(i));
+       %Jpsidpsi(i, i) = -2/hx^2 + psi(i)^2 + 2*psi(i)*conj(psi(i));
     end
 
 
