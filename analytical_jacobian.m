@@ -1,6 +1,6 @@
 
-psi = [1; 0; 2];
-phix = [0; 1; 2];
+psi = [1; 1; 1];
+phix = [1; 1; 1];
 
 hx = 1;
 % state = cat(1, psi, phix);
