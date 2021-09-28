@@ -1,6 +1,6 @@
 N = 3;
-psi = [1; 1; 1];
-phix = [1; 1; 1];
+psi = [1; 0; 0];
+phix = [0; 0; 0];
 
 hx = 1;
 
@@ -43,4 +43,4 @@ for i = 1:N
     end
 end
 
-J = [Jpsidpsi Jpsidphix; Jphixdpsi Jphixdphix]
+Janalytic = [Jpsidpsi Jpsidphix; Jphixdpsi Jphixdphix]
