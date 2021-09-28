@@ -1,6 +1,6 @@
 N = 3;
-psi = [1; 1; 1];
-phix = [1; 1; 1];
+psi = [1; 0; 0];
+phix = [0; 0; 0];
 
 hx = 1;
 
@@ -10,7 +10,8 @@ state_0 = cat(1, psi, phix);
 F = @(x) analytical_f(x, hx, N);
 
 Jnumeric = eval_num_jac(state_0, F);
-
+Jnumeric
+Janalytic
 imagesc(abs(Janalytic-Jnumeric))
 function J = eval_num_jac(x0, F)
     eps_Im = .01;
@@ -19,7 +20,7 @@ function J = eval_num_jac(x0, F)
     S_Re = 2;
     J = zeros(size(F(x0),1), size(x0,1));
     Jp = ones(size(F(x0),1), size(x0,1));
-    err = 1e-3;
+    err = 1e-8;
     while any(abs((J - Jp)) > err, 'all') 
         Jp = J;
         for k = 1 : size(J,2) % loop columns
