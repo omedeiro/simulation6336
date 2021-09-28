@@ -16,10 +16,15 @@ Janalytic = eval_analytical_jac(state_0, hx, N)
 
 figure(1)
 spy(Jnumeric)
+title('numeric')
 figure(2)
 spy(Janalytic)
+title('analytic')
+
+
 figure(3)
 imagesc(abs(Janalytic-Jnumeric))
 axis square
+colorbar
 
 

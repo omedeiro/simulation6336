@@ -13,9 +13,9 @@ function Janalytic = eval_analytical_jac(x0, hx, N)
           Jpsidpsi(i, i-1) = exp(1i*phix(i-1))/hx^2;
        end
        if i == 1 || i == N
-          Jpsidpsi(i, i) = -1/hx^2 + 1 - 2*psi(i)*conj(psi(i));          
+          Jpsidpsi(i, i) = -1/hx^2 - 2*psi(i)*conj(psi(i));          
        else
-          Jpsidpsi(i, i) = -2/hx^2 + 1 - 2*psi(i)*conj(psi(i));           
+          Jpsidpsi(i, i) = -2/hx^2 - 2*psi(i)*conj(psi(i));           
        end
        if i < N
           Jpsidpsi(i, i+1) = exp(-1i*phix(i))/hx^2;
@@ -27,7 +27,7 @@ function Janalytic = eval_analytical_jac(x0, hx, N)
           Jpsidphix(i, i-1) = 1i*exp(1i*phix(i-1))*psi(i-1)/hx^2;
        end
        if i < N
-          Jpsidphix(i, i+1) = 1i*exp(-1i*phix(i))*psi(i+1)/hx^2;
+          Jpsidphix(i, i) = -1i*exp(-1i*phix(i))*psi(i+1)/hx^2; 
        end
     end
 
