@@ -1,19 +1,3 @@
-N = 3;
-psi = [1; 0; 2];
-phix = [2i; 1; 2];
-
-hx = 1;
-
-state_0 = cat(1, psi, phix);
-
-%define F
-F = @(x) analytical_f(x, hx, N);
-
-Jnumeric = eval_num_jac(state_0, F);
-Jnumeric
-Janalytic
-imagesc(abs(Janalytic-Jnumeric))
-
 function J = eval_num_jac(x0, F)
     eps_Im = .01;
     eps_Re = .01;

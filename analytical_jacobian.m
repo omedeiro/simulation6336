@@ -1,10 +1,9 @@
-N = 3;
+
 psi = [1; 0; 2];
-phix = [2i; 1; 2];
+phix = [0; 1; 2];
 
 hx = 1;
-
-state = cat(1, psi, phix);
+% state = cat(1, psi, phix);
 
 Jpsidpsi = zeros(N, N);
 Jpsidphix = zeros(N, N);
@@ -77,4 +76,6 @@ for i = 1:N
     end
 end
 
-Janalytic = [Jpsidpsi Jpsidphix; Jphixdpsi Jphixdphix]
+Janalytic = [Jpsidpsi Jpsidphix; Jphixdpsi Jphixdphix];
+
+
