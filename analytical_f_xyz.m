@@ -28,9 +28,9 @@ function F = analytical_f_xyz(x, y1, y2, y3, hx, hy, hz, kappa, N)
         end
     end
     
-    for k = 2:N-1
-        for j = 2:N-1
-            for i = 2:N-1
+    for k = 1:N
+        for j = 1:N
+            for i = 1:N
                 %%%%%%%% CENTER %%%%%%%%%%%
                 dPhidtX(i,j,k) = (kappa^2/hy^2)*(y1(i,j+1,k)-2*y1(i,j,k)+y1(i,j-1,k))...
                                 +(kappa^2/hz^2)*(y1(i,j,k+1)-2*y1(i,j,k)+y1(i,j,k-1))...
