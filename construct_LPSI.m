@@ -1,6 +1,6 @@
 function LPSI = construct_LPSI(y,Nx, Ny, Nz)
 % can be used on and phi^{x,y,z} for u_{i,j,k}==psi_{i,j,k}
-    LPSI = zeros(Nx+Ny+Nz);
+    LPSI = zeros(Nx*Ny*Nz);
     for k = 1:Nz
         for j = 1:Ny
             for i = 1:Nx
