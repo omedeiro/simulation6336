@@ -20,6 +20,11 @@ function [diagonal, offdiagy, offdiagz] = dphidself(kappa, hy, hz)
 	offdiagz = kappa^2/hz^2;
 end
 
+function [positive, negative] = dphindphim(kappa, hm)
+	positive = kappa^2/hm^2
+	negative = -kappa^2/hm^2
+end
+
 function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, kappa, N)
 
     Jpsidpsi = zeros(N^3, N^3);
@@ -80,6 +85,18 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
     			Jphixdphix(current, index_map(i, j-1, k, N)) = offy
     			Jphixdphix(current, index_map(i, j, k-1, N)) = offz
     			Jphixdphix(current, index_map(i, j, k-1, N)) = offz
+    			
+    			[positive, negative] = dphindphim(kappa, hy)
+    			Jphixdphiy(current, current) = positive
+    			Jphixdphiy(current, index_map(i+1, j, k, N)) = negative
+    			Jphixdphiy(current, index_map(i+1, j-1, k, N)) = positive
+    			Jphixdphiy(current, index_map(i, j-1, k, N)) = negative
+    			
+    			[positive, negative] = dphindphim(kappa, hz)
+    			Jphixdphiz(current, current) = positive
+    			Jphixdphiz(current, index_map(i+1, j, k, N)) = negative
+    			Jphixdphiz(current, index_map(i+1, j, k-1, N)) = positive
+    			Jphixdphiz(current, index_map(i, j, k-1, N)) = negative
     			
     			% derivatives of phiy
     			[diagonal, right] = dphidpsi(phiy, psi, hy, i, j, k, N)
