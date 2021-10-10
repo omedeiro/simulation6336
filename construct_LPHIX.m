@@ -19,7 +19,7 @@ for k = 1:Nz
             % j TERMS
             if Ny > 1
                 if j == 1 
-                    LPHI(i+m,i+m+mj) = LPHI(i+m,i+mj) + kappa^2/hy^2;
+                    LPHI(i+m,i+m+mj) = LPHI(i+m,i+m+mj) + kappa^2/hy^2;
                 end     
 
                 if j == Ny 
