@@ -27,8 +27,8 @@ for k = 1:Nz
                 end
                 
                 if j > 1 && j < Ny
-                    LPHI(i+m,i+m+mj) = LPHI(i+m,i+m+mj) + kappa^2/hy^2
-                    LPHI(i+m,i+m-mj) = LPHI(i+m,i+m-mj) + kappa^2/hy^2
+                    LPHI(i+m,i+m+mj) = LPHI(i+m,i+m+mj) + kappa^2/hy^2;
+                    LPHI(i+m,i+m-mj) = LPHI(i+m,i+m-mj) + kappa^2/hy^2;
                 end
 
             end
