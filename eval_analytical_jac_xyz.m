@@ -21,8 +21,8 @@ function [diagonal, offdiagy, offdiagz] = dphidself(kappa, hy, hz)
 end
 
 function [positive, negative] = dphindphim(kappa, hm)
-	positive = kappa^2/hm^2
-	negative = -kappa^2/hm^2
+	positive = kappa^2/hm^2;
+	negative = -kappa^2/hm^2;
 end
 
 function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, kappa, N)
@@ -75,80 +75,81 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
     			Jpsidphiz(current, index_map(i, j, k-1, N)) = 1i*exp(1i*phiz(index_map(i, j, k-1, N)))*psi(index_map(i, j, k-1, N))/hz^2;
     			
     			% derivatives of phix
-    			[diagonal, right] = dphidpsi(phix, psi, hx, i, j, k, N)
-    			Jphixdpsi(current, current) = diagonal
-    			Jphixdpsi(current, index_map(i+1, j, k, N)) = right
+    			[diagonal, right] = dphidpsi(phix, psi, hx, i, j, k, N);
+    			Jphixdpsi(current, current) = diagonal;
+    			Jphixdpsi(current, index_map(i+1, j, k, N)) = right;
     			
-    			[diagonal, offy, offz] = dphidself(kappa, hy, hz)
-    			Jphixdphix(current, current) = diagonal
-    			Jphixdphix(current, index_map(i, j+1, k, N)) = offy
-    			Jphixdphix(current, index_map(i, j-1, k, N)) = offy
-    			Jphixdphix(current, index_map(i, j, k-1, N)) = offz
-    			Jphixdphix(current, index_map(i, j, k-1, N)) = offz
+    			[diagonal, offy, offz] = dphidself(kappa, hy, hz);
+    			Jphixdphix(current, current) = diagonal;
+    			Jphixdphix(current, index_map(i, j+1, k, N)) = offy;
+    			Jphixdphix(current, index_map(i, j-1, k, N)) = offy;
+    			Jphixdphix(current, index_map(i, j, k-1, N)) = offz;
+    			Jphixdphix(current, index_map(i, j, k-1, N)) = offz;
     			
-    			[positive, negative] = dphindphim(kappa, hy)
-    			Jphixdphiy(current, current) = positive
-    			Jphixdphiy(current, index_map(i+1, j, k, N)) = negative
-    			Jphixdphiy(current, index_map(i+1, j-1, k, N)) = positive
-    			Jphixdphiy(current, index_map(i, j-1, k, N)) = negative
+    			[positive, negative] = dphindphim(kappa, hy);
+    			Jphixdphiy(current, current) = positive;
+    			Jphixdphiy(current, index_map(i+1, j, k, N)) = negative;
+    			Jphixdphiy(current, index_map(i+1, j-1, k, N)) = positive;
+    			Jphixdphiy(current, index_map(i, j-1, k, N)) = negative;
     			
-    			[positive, negative] = dphindphim(kappa, hz)
-    			Jphixdphiz(current, current) = positive
-    			Jphixdphiz(current, index_map(i+1, j, k, N)) = negative
-    			Jphixdphiz(current, index_map(i+1, j, k-1, N)) = positive
-    			Jphixdphiz(current, index_map(i, j, k-1, N)) = negative
+    			[positive, negative] = dphindphim(kappa, hz);
+    			Jphixdphiz(current, current) = positive;
+    			Jphixdphiz(current, index_map(i+1, j, k, N)) = negative;
+    			Jphixdphiz(current, index_map(i+1, j, k-1, N)) = positive;
+    			Jphixdphiz(current, index_map(i, j, k-1, N)) = negative;
     			
     			% derivatives of phiy
-    			[diagonal, right] = dphidpsi(phiy, psi, hy, i, j, k, N)
-    			Jphiydpsi(current, current) = diagonal
-    			Jphiydpsi(current, index_map(i, j+1, k, N)) = right
+    			[diagonal, right] = dphidpsi(phiy, psi, hy, i, j, k, N);
+    			Jphiydpsi(current, current) = diagonal;
+    			Jphiydpsi(current, index_map(i, j+1, k, N)) = right;
     			
-    			[diagonal, offz, offx] = dphidself(kappa, hz, hx)
-    			Jphiydphiy(current, current) = diagonal
-    			Jphiydphiy(current, index_map(i, j, k+1, N)) = offz
-    			Jphiydphiy(current, index_map(i, j, k-1, N)) = offz
-    			Jphiydphiy(current, index_map(i-1, j, k, N)) = offx
-    			Jphiydphiy(current, index_map(i+1, j, k, N)) = offx
+    			[diagonal, offz, offx] = dphidself(kappa, hz, hx);
+    			Jphiydphiy(current, current) = diagonal;
+    			Jphiydphiy(current, index_map(i, j, k+1, N)) = offz;
+    			Jphiydphiy(current, index_map(i, j, k-1, N)) = offz;
+    			Jphiydphiy(current, index_map(i-1, j, k, N)) = offx;
+    			Jphiydphiy(current, index_map(i+1, j, k, N)) = offx;
     			
-    			[positive, negative] = dphindphim(kappa, hx)
-    			Jphiydphix(current, current) = positive
-    			Jphiydphix(current, index_map(i, j+1, k, N)) = negative
-    			Jphiydphix(current, index_map(i-1, j+1, k, N)) = positive
-    			Jphiydphix(current, index_map(i-1, j, k, N)) = negative
+    			[positive, negative] = dphindphim(kappa, hx);
+    			Jphiydphix(current, current) = positive;
+    			Jphiydphix(current, index_map(i, j+1, k, N)) = negative;
+    			Jphiydphix(current, index_map(i-1, j+1, k, N)) = positive;
+    			Jphiydphix(current, index_map(i-1, j, k, N)) = negative;
     			
-    			[positive, negative] = dphindphim(kappa, hz)
-    			Jphiydphiz(current, current) = positive
-    			Jphiydphiz(current, index_map(i, j+1, k, N)) = negative
-    			Jphiydphiz(current, index_map(i, j+1, k-1, N)) = positive
-    			Jphiydphiz(current, index_map(i, j, k-1, N)) = negative
+    			[positive, negative] = dphindphim(kappa, hz);
+    			Jphiydphiz(current, current) = positive;
+    			Jphiydphiz(current, index_map(i, j+1, k, N)) = negative;
+    			Jphiydphiz(current, index_map(i, j+1, k-1, N)) = positive;
+    			Jphiydphiz(current, index_map(i, j, k-1, N)) = negative;
     			
     			% derivatives of phiz
-    			[diagonal, right] = dphidpsi(phiz, psi, hz, i, j, k, N)
-    			Jphizdpsi(current, current) = diagonal
-    			Jphizdpsi(current, index_map(i, j, k+1, N)) = right
+    			[diagonal, right] = dphidpsi(phiz, psi, hz, i, j, k, N);
+    			Jphizdpsi(current, current) = diagonal;
+    			Jphizdpsi(current, index_map(i, j, k+1, N)) = right;
     			
-    			[diagonal, offx, offy] = dphidself(kappa, hx, hy)
-    			Jphizdphiz(current, current) = diagonal
-    			Jphizdphiz(current, index_map(i+1, j, k, N)) = offx
-    			Jphizdphiz(current, index_map(i-1, j, k, N)) = offx
-    			Jphizdphiz(current, index_map(i, j-1, k, N)) = offy
-    			Jphizdphiz(current, index_map(i, j+1, k, N)) = offy
+    			[diagonal, offx, offy] = dphidself(kappa, hx, hy);
+    			Jphizdphiz(current, current) = diagonal;
+    			Jphizdphiz(current, index_map(i+1, j, k, N)) = offx;
+    			Jphizdphiz(current, index_map(i-1, j, k, N)) = offx;
+    			Jphizdphiz(current, index_map(i, j-1, k, N)) = offy;
+    			Jphizdphiz(current, index_map(i, j+1, k, N)) = offy;
     			
-    			[positive, negative] = dphindphim(kappa, hx)
-    			Jphizdphix(current, current) = positive
-    			Jphizdphix(current, index_map(i, j, k+1, N)) = negative
-    			Jphizdphix(current, index_map(i-1, j, k+1, N)) = positive
-    			Jphizdphix(current, index_map(i-1, j, k, N)) = negative
+    			[positive, negative] = dphindphim(kappa, hx);
+    			Jphizdphix(current, current) = positive;
+    			Jphizdphix(current, index_map(i, j, k+1, N)) = negative;
+    			Jphizdphix(current, index_map(i-1, j, k+1, N)) = positive;
+    			Jphizdphix(current, index_map(i-1, j, k, N)) = negative;
     			
-    			[positive, negative] = dphindphim(kappa, hy)
-    			Jphizdphiy(current, current) = positive
-    			Jphizdphiy(current, index_map(i, j, k+1, N)) = negative
-    			Jphizdphiy(current, index_map(i, j-1, k+1, N)) = positive
-    			Jphizdphiy(current, index_map(i, j-1, k, N)) = negative
+    			[positive, negative] = dphindphim(kappa, hy);
+    			Jphizdphiy(current, current) = positive;
+    			Jphizdphiy(current, index_map(i, j, k+1, N)) = negative;
+    			Jphizdphiy(current, index_map(i, j-1, k+1, N)) = positive;
+    			Jphizdphiy(current, index_map(i, j-1, k, N)) = negative;
     			 
     		end 
     	end
     end
-
+    Janalytic = [Jpsidpsi Jpsidphix Jpsidphiy Jpsidphiz; Jphixdpsi Jphixdphix Jphixdphiy Jphixdphiz; Jphiydpsi Jphiydphix Jphiydphiy Jphiydphiz; Jphizdpsi Jphizdphix Jphizdphiy Jphizdphiz];
+end
 
 
