@@ -1,0 +1,101 @@
+% x is state variable fxn x = [psi1, psi2, ...psiN, phix1, phix2 ... phixN]
+% --> phix1 = x(N+1)
+% 
+% x(i) = x(i+1)*exp(-1i*x(N+i)); %psi1
+% x(N) = x(i-1)*exp(1i*x(N+i-1)); %psiN
+
+function flat_index = index_map(i, j, k, N):
+	flat_index = i + (j-1)*N + (k-1)*N^2;
+end
+
+function [diagonal, right] = dphidpsi(phi, psi, h, i, j, k, N):
+	current = index_map(i, j, k, N);
+	diagonal = imag(exp(-1i*phi(current))*psi(index_map(i+1, j, k));
+	right = imag(exp(-1i*phi(current)*conj(psi(current))));
+end
+
+function [diagonal, offdiagy, offdiagz] = dphidself(kappa, hy, hz)
+	diagonal = -2*kappa^2/hy^2 - 2*kappa^2/hz^2;
+	offdiagy = kappa^2/hy^2;
+	offdiagz = kappa^2/hz^2;
+end
+
+function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, kappa, N)
+
+    Jpsidpsi = zeros(N^3, N^3);
+    Jpsidphix = zeros(N^3, N^3);
+    Jpsidphiy = zeros(N^3, N^3);
+    Jpsidphiz = zeros(N^3, N^3);
+    
+    Jphixdpsi = zeros(N^3, N^3);
+    Jphixdphix = zeros(N^3, N^3);
+    Jphixdphiy = zeros(N^3, N^3);
+    Jphixdphiz = zeros(N^3, N^3);
+    
+    Jphiydpsi = zeros(N^3, N^3);
+    Jphiydphix = zeros(N^3, N^3);
+    Jphiydphiy = zeros(N^3, N^3);
+    Jphiydphiz = zeros(N^3, N^3);
+    
+    Jphizdpsi = zeros(N^3, N^3);
+    Jphizdphix = zeros(N^3, N^3);
+    Jphizdphiy = zeros(N^3, N^3);
+    Jphizdphiz = zeros(N^3, N^3);
+    
+    for i = 1:N
+    	for j = 1:N
+    		for k = 1:N
+    			current = index_map(i, j, k, N)
+    			
+    			% derivatives of psi wrt psi
+    			Jpsidpsi(current, current) = 2/hx^2 + 2/hy^2 + 2/hz^2 - 2*psi(current)*conj(psi(current));
+    			
+    			Jpsidpsi(current, index_map(i-1, j, k, N)) = exp(1i*phix(index_map(i-1, j, k, N))/hx^2;
+    			Jpsidpsi(current, index_map(i+1, j, k, N)) = exp(-1i*phix(current))/hx^2;
+    			
+    			Jpsidpsi(current, index_map(i, j-1, k, N)) = exp(1i*phiy(index_map(i, j-1, k, N))/hy^2;
+    			Jpsidpsi(current, index_map(i, j+1, k, N)) = exp(-1i*phiy(current))/hy^2;
+    			
+    			Jpsidpsi(current, index_map(i, j, k-1, N)) = exp(1i*phiz(index_map(i, j, k-1, N))/hz^2;
+    			Jpsidpsi(current, index_map(i, j, k+1, N)) = exp(-1i*phiz(current))/hz^2;
+    			
+    			%derivatives of psi wrt phi
+    			Jpsidphix(current, current) = -1i*exp(-1i*phix(current))*psi(index_map(i+1, j, k, N))/hx^2;
+    			Jpsidphix(current, index_map(i-1, j, k, N)) = 1i*exp(1i*phix(index_map(i-1, j, k, N)))*psi(index_map(i-1, j, k, N))/hx^2;
+    			
+    			Jpsidphiy(current, current) = -1i*exp(-1i*phiy(current))*psi(index_map(i, j+1, k, N))/hy^2;
+    			Jpsidphiy(current, index_map(i, j-1, k, N)) = 1i*exp(1i*phiy(index_map(i, j-1, k, N)))*psi(index_map(i, j-1, k, N))/hy^2;
+    			
+    			Jpsidphiz(current, current) = -1i*exp(-1i*phiz(current))*psi(index_map(i, j, k+1, N))/hz^2;
+    			Jpsidphiz(current, index_map(i, j, k-1, N)) = 1i*exp(1i*phiz(index_map(i, j, k-1, N)))*psi(index_map(i, j, k-1, N))/hz^2;
+    			
+    			% derivatives of phix
+    			[diagonal, right] = dphidpsi(phix, psi, hx, i, j, k, N)
+    			Jphixdpsi(current, current) = diagonal
+    			Jphixdpsi(current, index_map(i+1, j, k, N)) = right
+    			
+    			[diagonal, offy, offz] = dphidself(kappa, hy, hz)
+    			Jphixdphix(current, current) = diagonal
+    			Jphixdphix(current, index_map(i, j+1, k, N)) = offy
+    			Jphixdphix(current, index_map(i, j-1, k, N)) = offy
+    			Jphixdphix(current, index_map(i, j, k-1, N)) = offz
+    			Jphixdphix(current, index_map(i, j, k-1, N)) = offz
+    			
+    			% derivatives of phiy
+    			[diagonal, right] = dphidpsi(phiy, psi, hy, i, j, k, N)
+    			Jphiydpsi(current, current) = diagonal
+    			Jphiydpsi(current, index_map(i, j+1, k, N)) = right
+    			
+    			[diagonal, offz, offx] = dphidself(kappa, hz, hx)
+    			Jphiydphiy(current, current) = diagonal
+    			Jphiydphiy(current, index_map(i, j, k+1, N)) = offz
+    			Jphiydphiy(current, index_map(i, j-1, k-1, N)) = offz
+    			Jphiydphiy(current, index_map(i-1, j, k, N)) = offx
+    			Jphiydphiy(current, index_map(i+1, j, k, N)) = offx
+    			 
+    		end 
+    	end
+    end
+
+
+
