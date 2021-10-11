@@ -67,7 +67,7 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
     			Jphixdphix(current, current) = diagonal;
     			Jphixdphix(current, index_map(i, j+1, k, N)) = offy;
     			Jphixdphix(current, index_map(i, j-1, k, N)) = offy;
-    			Jphixdphix(current, index_map(i, j, k-1, N)) = offz;
+    			Jphixdphix(current, index_map(i, j, k+1, N)) = offz;
     			Jphixdphix(current, index_map(i, j, k-1, N)) = offz;
     			
     			[positive, negative] = dphindphim(kappa, hy);
@@ -115,8 +115,8 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
     			Jphizdphiz(current, current) = diagonal;
     			Jphizdphiz(current, index_map(i+1, j, k, N)) = offx;
     			Jphizdphiz(current, index_map(i-1, j, k, N)) = offx;
-    			Jphizdphiz(current, index_map(i, j-1, k, N)) = offy;
     			Jphizdphiz(current, index_map(i, j+1, k, N)) = offy;
+    			Jphizdphiz(current, index_map(i, j-1, k, N)) = offy;
     			
     			[positive, negative] = dphindphim(kappa, hx);
     			Jphizdphix(current, current) = positive;
