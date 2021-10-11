@@ -70,7 +70,7 @@ function [dPsidt dPhidtX dPhidtY dPhidtZ] = analytical_f_xyz(x_int, y1_int, y2_i
     LPHIY = construct_LPHIX(hx, hy, hz, kappa, Nx, Ny, Nz);
     LPHIZ = construct_LPHIX(hx, hy, hz, kappa, Nx, Ny, Nz);
     
-    FPSI = construct_FPSI(x, Nx, Ny, Nz);
+    FPSI = construct_FPSI(x);
     FPHIX = construct_FPHIX(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
     FPHIY = construct_FPHIY(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
     FPHIZ = construct_FPHIZ(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
