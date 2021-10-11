@@ -2,14 +2,14 @@ Nx = 6;
 Ny = 6;
 Nz = 6;
 x = ones(Nx-1, Ny-1, Nz-1);
-y1 = ones(Nx-1, Ny-1, Nz-1);
-y2 = ones(Nx-1, Ny-1, Nz-1);
-y3 = ones(Nx-1, Ny-1, Nz-1);
+y1 = zeros(Nx-1, Ny-1, Nz-1);
+y2 = zeros(Nx-1, Ny-1, Nz-1);
+y3 = zeros(Nx-1, Ny-1, Nz-1);
 hx = 1;
 hy = 1;
 hz = 1;
 kappa=1;
-Bx=1;
+Bx=0;
 
 
 
