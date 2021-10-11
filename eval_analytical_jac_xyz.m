@@ -25,10 +25,16 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
     Jphizdphiy = zeros(N^3, N^3);
     Jphizdphiz = zeros(N^3, N^3);
     
-    for i = 1:N
+    for k = 1:N
     	for j = 1:N
-    		for k = 1:N
+    		for i = 1:N
     			current = index_map(i, j, k, N);
+
+				disp("indices")
+				disp(i)
+				disp(j)
+				disp(k)
+				disp(current)
     			
     			% derivatives of psi wrt psi
     			Jpsidpsi(current, current) = 2/hx^2 + 2/hy^2 + 2/hz^2 - 2*psi(current)*conj(psi(current));
@@ -123,10 +129,10 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
     			Jphizdphiy(current, index_map(i, j, k+1, N)) = negative;
     			Jphizdphiy(current, index_map(i, j-1, k+1, N)) = positive;
     			Jphizdphiy(current, index_map(i, j-1, k, N)) = negative;
-    			 
     		end 
     	end
     end
+	spy(Jpsidpsi)
     Janalytic = [Jpsidpsi Jpsidphix Jpsidphiy Jpsidphiz; Jphixdpsi Jphixdphix Jphixdphiy Jphixdphiz; Jphiydpsi Jphiydphix Jphiydphiy Jphiydphiz; Jphizdpsi Jphizdphix Jphizdphiy Jphizdphiz];
 end
 
@@ -134,19 +140,19 @@ end
 function flat_index = index_map(i, j, k, N)
 	if i < 1
 		i = 1;
-	elseif i > 1
+	elseif i > N
 		i = N; 
 	end
 
 	if j < 1
 		j = 1;
-	elseif j > 1
+	elseif j > N
 		j = N; 
 	end
 
 	if k < 1
 		k = 1;
-	elseif k > 1
+	elseif k > N
 		k = N; 
 	end
 
