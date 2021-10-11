@@ -38,7 +38,6 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     y1(:,:,1) = y1(:,:,Nz); %34
     y1(:,:,Nz+1) = y1(:,:,2); %34
     
-    eps = 1;
     x(1,:,:) = x(2,:,:).*exp(-1i*y1(1,:,:)); %35
     x(Nx+1,:,:) = x(Nx,:,:).*exp(1i*y1(Nx,:,:)); %35    
     
@@ -65,13 +64,13 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
 
     %%%% phi_z in last layer yz
     % first face
-    y3(Nx, :, :) = y3_b;
-    y2(Nx, :, :) = zeros(Ny+1, Nz+1);
+    y3(Nx+1, :, :) = y3_b;
+    y2(Nx+1, :, :) = zeros(Ny+1, Nz+1);
 %     % second face
 %     y3(Nx+1, :, :) = y3_b;
 %     y2(Nx+1, :, :) = zeros(Ny+1, Nz+1);
     %connections along x
-    y1(Nx, :, :) = zeros(Ny+1, Nz+1);
+    y1(Nx+1, :, :) = zeros(Ny+1, Nz+1);
     
     LPSIX = construct_LPSIX(y1, Nx, Ny, Nz);
     LPSIY = construct_LPSIY(y2, Nx, Ny, Nz);
