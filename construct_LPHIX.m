@@ -53,9 +53,6 @@ for k = 2:Nz
                     LPHI(i+m,i+m-mk) = LPHI(i+m,i+m-mk) + kappa^2/hz^2;
 %                 end
             end
-            spy(LPHI)
-            drawnow
-            pause(0.1)
        end
     end
 end
