@@ -39,11 +39,11 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     y1(:,:,Nz+1) = y1(:,:,2); %34
     
     eps = 1;
-    x(1,:,:) = x(2,:,:).*exp(-1i*(y1(1,:,:)*eps)); %35
-    x(Nx+1,:,:) = x(Nx,:,:).*exp(1i*(y1(Nx,:,:)*eps)); %35    
+    x(1,:,:) = x(2,:,:).*exp(-1i*y1(1,:,:)); %35
+    x(Nx+1,:,:) = x(Nx,:,:).*exp(1i*y1(Nx,:,:)); %35    
     
-    x(:,1,:) = x(:,2,:).*exp(-1i*(y2(:,1,:)*eps)); %35
-    x(:,Ny+1,:) = x(:,Ny,:).*exp(1i*(y2(:,Ny,:)*eps)); %35
+    x(:,1,:) = x(:,2,:).*exp(-1i*y2(:,1,:)); %35
+    x(:,Ny+1,:) = x(:,Ny,:).*exp(1i*y2(:,Ny,:)); %35
     
     % BCs on yz for Bx (36) 
     if Bx==0
@@ -57,9 +57,9 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     % first face
     y3(1, :, :) = y3_b;
     y2(1, :, :) = zeros(Ny+1, Nz+1);
-    % second face
-    y3(2, :, :) = y3_b;
-    y2(2, :, :) = zeros(Ny+1, Nz+1);
+%     % second face
+%     y3(2, :, :) = y3_b;
+%     y2(2, :, :) = zeros(Ny+1, Nz+1);
     %connections along x
     y1(1, :, :) = zeros(Ny+1, Nz+1);
 
@@ -67,9 +67,9 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     % first face
     y3(Nx, :, :) = y3_b;
     y2(Nx, :, :) = zeros(Ny+1, Nz+1);
-    % second face
-    y3(Nx+1, :, :) = y3_b;
-    y2(Nx+1, :, :) = zeros(Ny+1, Nz+1);
+%     % second face
+%     y3(Nx+1, :, :) = y3_b;
+%     y2(Nx+1, :, :) = zeros(Ny+1, Nz+1);
     %connections along x
     y1(Nx, :, :) = zeros(Ny+1, Nz+1);
     
