@@ -38,12 +38,12 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     y1(:,:,1) = y1(:,:,Nz); %34
     y1(:,:,Nz+1) = y1(:,:,2); %34
     
-
-    x(1,:,:) = x(2,:,:).*exp(-1i*y1(1,:,:)); %35
-    x(Nx+1,:,:) = x(Nx,:,:).*exp(1i*y1(Nx,:,:)); %35    
+    eps = 1;
+    x(1,:,:) = x(2,:,:).*exp(-1i*(y1(1,:,:)*eps)); %35
+    x(Nx+1,:,:) = x(Nx,:,:).*exp(1i*(y1(Nx,:,:)*eps)); %35    
     
-    x(:,1,:) = x(:,2,:).*exp(-1i*y2(:,1,:)); %35
-    x(:,Ny+1,:) = x(:,Ny,:).*exp(1i*y2(:,Ny,:)); %35
+    x(:,1,:) = x(:,2,:).*exp(-1i*(y2(:,1,:)*eps)); %35
+    x(:,Ny+1,:) = x(:,Ny,:).*exp(1i*(y2(:,Ny,:)*eps)); %35
     
     % BCs on yz for Bx (36) 
     if Bx==0
@@ -109,9 +109,9 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     
     %
     dPsidt = D*(LPSIX/hx^2 + LPSIY/hy^2 + LPSIZ/hz^2)*u_x + FPSI;
-    dPhidtX = D*(0 + LPHIY/hy^2 + LPHIZ/hz^2)*u_y1 + FPHIX;
-    dPhidtY = D*(LPHIX/hx^2 + 0 + LPHIZ/hz^2)*u_y2 + FPHIY;
-    dPhidtZ = D*(LPHIX/hx^2 + LPHIY/hy^2 + 0)*u_y3 + FPHIZ;
+    dPhidtX = D*(LPHIX/hx^2 + LPHIY/hy^2 + LPHIZ/hz^2)*u_y1 + FPHIX;
+    dPhidtY = D*(LPHIX/hx^2 + LPHIY/hy^2 + LPHIZ/hz^2)*u_y2 + FPHIY;
+    dPhidtZ = D*(LPHIX/hx^2 + LPHIY/hy^2 + LPHIZ/hz^2)*u_y3 + FPHIZ;
     
 
 
