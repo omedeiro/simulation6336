@@ -1,0 +1,42 @@
+Nx = 6;
+Ny = 6;
+Nz = 6;
+x = zeros(Nx-1, Ny-1, Nz-1);
+y1 = ones(Nx-1, Ny-1, Nz-1);
+y2 = ones(Nx-1, Ny-1, Nz-1);
+y3 = ones(Nx-1, Ny-1, Nz-1);
+hx = 1;
+hy = 1;
+hz = 1;
+kappa=1;
+Bx=1;
+
+
+
+X0 = [cube2column(x);cube2column(y1);cube2column(y2);cube2column(y3)];
+
+%define F
+F = @(X) analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz);
+
+Jnumeric = eval_num_jac(X0, F);
+
+
+function J = eval_num_jac(X0, F)
+    eps_Im = .01;
+    eps_Re = .01;
+    S_Im = 2;
+    S_Re = 2;
+    J = zeros(size(F(X0),1), numel(X0));
+    Jp = ones(size(F(X0),1), numel(X0));
+    err = 1e-5;
+    while any(abs((J - Jp)) > err, 'all') 
+        Jp = J;
+        for k = 1 : size(J,2) % loop columns
+            dx = zeros(size(X0,1), 1);
+            dx(k) = eps_Re + 1i*eps_Im;
+            J(:, k) = (F(X0 + dx) - F(X0))/dx(k);
+        end
+        eps_Re = eps_Re/S_Re;
+        eps_Im = eps_Im/S_Im;
+    end
+end
