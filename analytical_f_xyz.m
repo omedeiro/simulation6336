@@ -46,7 +46,11 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     x(:,Ny+1,:) = x(:,Ny,:).*exp(1i*y2(:,Ny,:)); %35
     
     % BCs on yz for Bx (36) 
-    row_B = [1 : Bx*hy*hz : Bx*hy*hz*(Ny+1)]; 
+    if Bx==0
+        row_B = ones(1, Ny+1);
+    else
+        row_B = [1 : Bx*hy*hz : Bx*hy*hz*(Ny+1)];
+    end
     y3_b = row_B'*ones(1,Nz+1);
 
     %%%% phi_z in first layer yz
