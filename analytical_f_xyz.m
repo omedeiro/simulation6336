@@ -109,10 +109,10 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
 
     
     %
-    dPsidt = D*(LPSIX + LPSIY + LPSIZ)*u_x + FPSI;
-    dPhidtX = D*(LPHIX + LPHIY + LPHIZ)*u_y1 + FPHIX;
-    dPhidtY = D*(LPHIX + LPHIY + LPHIZ)*u_y2 + FPHIY;
-    dPhidtZ = D*(LPHIX + LPHIY + LPHIZ)*u_y3 + FPHIZ;
+    dPsidt = D*(LPSIX/hx^2 + LPSIY/hy^2 + LPSIZ/hz^2)*u_x + FPSI;
+    dPhidtX = D*(0 + LPHIY/hy^2 + LPHIZ/hz^2)*u_y1 + FPHIX;
+    dPhidtY = D*(LPHIX/hx^2 + 0 + LPHIZ/hz^2)*u_y2 + FPHIY;
+    dPhidtZ = D*(LPHIX/hx^2 + LPHIY/hy^2 + 0)*u_y3 + FPHIZ;
     
 
 
