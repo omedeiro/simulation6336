@@ -10,4 +10,5 @@ function ucol = cube2column(u)
                 ucol(i+m) = u(i,j,k);
             end
         end
+    end
 end

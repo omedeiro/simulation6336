@@ -4,7 +4,14 @@
 % x(i) = x(i+1)*exp(-1i*x(N+i)); %psi1
 % x(N) = x(i-1)*exp(1i*x(N+i-1)); %psiN
 
-function [dPsidt dPhidtX dPhidtY dPhidtZ] = analytical_f_xyz(x_int, y1_int, y2_int, y3_int, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
+% function F = analytical_f_xyz(x_int, y1_int, y2_int, y3_int, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
+function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
+    colN = (Nx-1)*(Ny-1)*(Nz-1);
+    x_int = column2cube(X(1:colN), Nx-1, Ny-1, Nz-1);
+    y1_int = column2cube(X(colN+1:2*colN), Nx-1, Ny-1, Nz-1);
+    y2_int = column2cube(X(2*colN+1:3*colN), Nx-1, Ny-1, Nz-1);
+    y3_int = column2cube(X(3*colN+1:4*colN), Nx-1, Ny-1, Nz-1);
+
     %%%%%%%% _int has size (Nx-1, Ny-1, Nz-1)
     x = zeros(Nx+1, Ny+1, Nz+1);
     y1 = zeros(Nx+1, Ny+1, Nz+1);
@@ -70,20 +77,40 @@ function [dPsidt dPhidtX dPhidtY dPhidtZ] = analytical_f_xyz(x_int, y1_int, y2_i
     LPHIY = construct_LPHIX(hx, hy, hz, kappa, Nx, Ny, Nz);
     LPHIZ = construct_LPHIX(hx, hy, hz, kappa, Nx, Ny, Nz);
     
-    FPSI = construct_FPSI(x, Nx, Ny, Nz);
+    FPSI = construct_FPSI(x);
     FPHIX = construct_FPHIX(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
     FPHIY = construct_FPHIY(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
     FPHIZ = construct_FPHIZ(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
     
     % create column vectors
-    u_x = cube2column(x(2:Nx, 2:Ny, 2:Nz));
-    u_y1 = cube2column(y1(2:Nx, 2:Ny, 2:Nz));
-    u_y2 = cube2column(y2(2:Nx, 2:Ny, 2:Nz));
-    u_y3 = cube2column(y3(2:Nx, 2:Ny, 2:Nz));
+    u_x = cube2column(x);
+    u_y1 = cube2column(y1);
+    u_y2 = cube2column(y2);
+    u_y3 = cube2column(y3);
     
+    % remove boundary rows (zeros) - NO EQUATIONS AT BOUNDARY
+    zero_rows = ~any(LPSIX,2);
+    LPSIX(zero_rows, :) = [];
+    LPSIY(zero_rows, :) = [];
+    LPSIZ(zero_rows, :) = [];
+
+    LPHIX(zero_rows, :) = [];
+    LPHIY(zero_rows, :) = [];
+    LPHIZ(zero_rows, :) = [];
+
+    FPSI(zero_rows, :) = [];
+    FPHIX(zero_rows, :) = [];
+    FPHIY(zero_rows, :) = [];
+    FPHIZ(zero_rows, :) = [];
+
+    
+    %
     dPsidt = D*(LPSIX + LPSIY + LPSIZ)*u_x + FPSI;
-    dPhidtX = D*(LPSIX + LPSIY + LPSIZ)*u_y1 + FPHIX;
-    dPhidtY = D*(LPSIX + LPSIY + LPSIZ)*u_y2 + FPHIY;
-    dPhidtX = D*(LPSIX + LPSIY + LPSIZ)*u_y3 + FPHIZ;
+    dPhidtX = D*(LPHIX + LPHIY + LPHIZ)*u_y1 + FPHIX;
+    dPhidtY = D*(LPHIX + LPHIY + LPHIZ)*u_y2 + FPHIY;
+    dPhidtZ = D*(LPHIX + LPHIY + LPHIZ)*u_y3 + FPHIZ;
     
+
+
+    F = [dPsidt; dPhidtX; dPhidtY; dPhidtZ];
 end
