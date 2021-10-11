@@ -3,28 +3,6 @@
 % 
 % x(i) = x(i+1)*exp(-1i*x(N+i)); %psi1
 % x(N) = x(i-1)*exp(1i*x(N+i-1)); %psiN
-
-function flat_index = index_map(i, j, k, N):
-	flat_index = i + (j-1)*N + (k-1)*N^2;
-end
-
-function [diagonal, right] = dphidpsi(phi, psi, h, i, j, k, N):
-	current = index_map(i, j, k, N);
-	diagonal = imag(exp(-1i*phi(current))*psi(index_map(i+1, j, k));
-	right = imag(exp(-1i*phi(current)*conj(psi(current))));
-end
-
-function [diagonal, offdiagy, offdiagz] = dphidself(kappa, hy, hz)
-	diagonal = -2*kappa^2/hy^2 - 2*kappa^2/hz^2;
-	offdiagy = kappa^2/hy^2;
-	offdiagz = kappa^2/hz^2;
-end
-
-function [positive, negative] = dphindphim(kappa, hm)
-	positive = kappa^2/hm^2;
-	negative = -kappa^2/hm^2;
-end
-
 function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, kappa, N)
 
     Jpsidpsi = zeros(N^3, N^3);
@@ -50,18 +28,18 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
     for i = 1:N
     	for j = 1:N
     		for k = 1:N
-    			current = index_map(i, j, k, N)
+    			current = index_map(i, j, k, N);
     			
     			% derivatives of psi wrt psi
     			Jpsidpsi(current, current) = 2/hx^2 + 2/hy^2 + 2/hz^2 - 2*psi(current)*conj(psi(current));
     			
-    			Jpsidpsi(current, index_map(i-1, j, k, N)) = exp(1i*phix(index_map(i-1, j, k, N))/hx^2;
+    			Jpsidpsi(current, index_map(i-1, j, k, N)) = exp(1i*phix(index_map(i-1, j, k, N)))/hx^2;
     			Jpsidpsi(current, index_map(i+1, j, k, N)) = exp(-1i*phix(current))/hx^2;
     			
-    			Jpsidpsi(current, index_map(i, j-1, k, N)) = exp(1i*phiy(index_map(i, j-1, k, N))/hy^2;
+    			Jpsidpsi(current, index_map(i, j-1, k, N)) = exp(1i*phiy(index_map(i, j-1, k, N)))/hy^2;
     			Jpsidpsi(current, index_map(i, j+1, k, N)) = exp(-1i*phiy(current))/hy^2;
     			
-    			Jpsidpsi(current, index_map(i, j, k-1, N)) = exp(1i*phiz(index_map(i, j, k-1, N))/hz^2;
+    			Jpsidpsi(current, index_map(i, j, k-1, N)) = exp(1i*phiz(index_map(i, j, k-1, N)))/hz^2;
     			Jpsidpsi(current, index_map(i, j, k+1, N)) = exp(-1i*phiz(current))/hz^2;
     			
     			%derivatives of psi wrt phi
@@ -153,3 +131,41 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
 end
 
 
+function flat_index = index_map(i, j, k, N)
+	if i < 1
+		i = 1;
+	elseif i > 1
+		i = N; 
+	end
+
+	if j < 1
+		j = 1;
+	elseif j > 1
+		j = N; 
+	end
+
+	if k < 1
+		k = 1;
+	elseif k > 1
+		k = N; 
+	end
+
+	flat_index = i + (j-1)*N + (k-1)*N^2;
+end
+
+function [diagonal, right] = dphidpsi(phi, psi, h, i, j, k, N)
+	current = index_map(i, j, k, N);
+	diagonal = imag(exp(-1i*phi(current))*psi(index_map(i+1, j, k, N)));
+	right = imag(exp(-1i*phi(current)*conj(psi(current))));
+end
+
+function [diagonal, offdiagy, offdiagz] = dphidself(kappa, hy, hz)
+	diagonal = -2*kappa^2/hy^2 - 2*kappa^2/hz^2;
+	offdiagy = kappa^2/hy^2;
+	offdiagz = kappa^2/hz^2;
+end
+
+function [positive, negative] = dphindphim(kappa, hm)
+	positive = kappa^2/hm^2;
+	negative = -kappa^2/hm^2;
+end
