@@ -1,7 +1,7 @@
 Nx = 6;
 Ny = 6;
 Nz = 6;
-x = zeros(Nx-1, Ny-1, Nz-1);
+x = ones(Nx-1, Ny-1, Nz-1);
 y1 = ones(Nx-1, Ny-1, Nz-1);
 y2 = ones(Nx-1, Ny-1, Nz-1);
 y3 = ones(Nx-1, Ny-1, Nz-1);
@@ -18,8 +18,12 @@ X0 = [cube2column(x);cube2column(y1);cube2column(y2);cube2column(y3)];
 %define F
 F = @(X) analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz);
 
+tstart = tic;
 Jnumeric = eval_num_jac(X0, F);
+telapsed = toc(tstart);
 
+
+Janalytic = eval_analytical_jac_xyz(x, y1, y2, y3, hx, hy, hz, kappa, Nx-1);
 
 function J = eval_num_jac(X0, F)
     eps_Im = .01;
@@ -28,7 +32,7 @@ function J = eval_num_jac(X0, F)
     S_Re = 2;
     J = zeros(size(F(X0),1), numel(X0));
     Jp = ones(size(F(X0),1), numel(X0));
-    err = 1e-5;
+    err = 1e-6;
     while any(abs((J - Jp)) > err, 'all') 
         Jp = J;
         for k = 1 : size(J,2) % loop columns
@@ -38,5 +42,6 @@ function J = eval_num_jac(X0, F)
         end
         eps_Re = eps_Re/S_Re;
         eps_Im = eps_Im/S_Im;
+        disp(max(max(abs((J - Jp)))))
     end
 end
