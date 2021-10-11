@@ -4,7 +4,7 @@
 % x(i) = x(i+1)*exp(-1i*x(N+i)); %psi1
 % x(N) = x(i-1)*exp(1i*x(N+i-1)); %psiN
 
-function [dPsidt dPhidtX dPhidtY dPhidtZ] = analytical_f_xyz(x_int, y1_int, y2_int, y3_int, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
+function F = analytical_f_xyz(x_int, y1_int, y2_int, y3_int, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     %%%%%%%% _int has size (Nx-1, Ny-1, Nz-1)
     x = zeros(Nx+1, Ny+1, Nz+1);
     y1 = zeros(Nx+1, Ny+1, Nz+1);
@@ -84,6 +84,7 @@ function [dPsidt dPhidtX dPhidtY dPhidtZ] = analytical_f_xyz(x_int, y1_int, y2_i
     dPsidt = D*(LPSIX + LPSIY + LPSIZ)*u_x + FPSI;
     dPhidtX = D*(LPSIX + LPSIY + LPSIZ)*u_y1 + FPHIX;
     dPhidtY = D*(LPSIX + LPSIY + LPSIZ)*u_y2 + FPHIY;
-    dPhidtX = D*(LPSIX + LPSIY + LPSIZ)*u_y3 + FPHIZ;
+    dPhidtZ = D*(LPSIX + LPSIY + LPSIZ)*u_y3 + FPHIZ;
     
+    F = [dPsidt; dPhidtX; dPhidtY; dPhidtZ];
 end
