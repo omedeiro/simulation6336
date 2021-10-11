@@ -76,10 +76,10 @@ function [dPsidt dPhidtX dPhidtY dPhidtZ] = analytical_f_xyz(x_int, y1_int, y2_i
     FPHIZ = construct_FPHIZ(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
     
     % create column vectors
-    u_x = cube2column(x(2:Nx, 2:Ny, 2:Nz));
-    u_y1 = cube2column(y1(2:Nx, 2:Ny, 2:Nz));
-    u_y2 = cube2column(y2(2:Nx, 2:Ny, 2:Nz));
-    u_y3 = cube2column(y3(2:Nx, 2:Ny, 2:Nz));
+    u_x = cube2column(x);
+    u_y1 = cube2column(y1);
+    u_y2 = cube2column(y2);
+    u_y3 = cube2column(y3);
     
     dPsidt = D*(LPSIX + LPSIY + LPSIZ)*u_x + FPSI;
     dPhidtX = D*(LPSIX + LPSIY + LPSIZ)*u_y1 + FPHIX;
