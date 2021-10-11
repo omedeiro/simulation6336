@@ -1,5 +1,5 @@
 function FPHIZ = construct_FPHIZ(x, y1, y2, y3, hx, hy, kappa, Nx, Ny, Nz)
-    FPHIZ_1 = zeros(Nx+1,Ny+1,Nz+1);
+    FPHIZ_1 = zeros(Nx-1,Ny-1,Nz-1);
     for k = 2 : Nz
         for j = 2 : Ny
             for i = 2 : Nx

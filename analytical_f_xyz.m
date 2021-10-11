@@ -69,7 +69,7 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     y2(Nx, :, :) = zeros(Ny+1, Nz+1);
     % second face
     y3(Nx+1, :, :) = y3_b;
-    y2(Nx+1, :, :) = ones(Ny+1, Nz+1);
+    y2(Nx+1, :, :) = zeros(Ny+1, Nz+1);
     %connections along x
     y1(Nx, :, :) = zeros(Ny+1, Nz+1);
     
@@ -81,7 +81,7 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     LPHIY = construct_LPHIX(hx, hy, hz, kappa, Nx, Ny, Nz);
     LPHIZ = construct_LPHIX(hx, hy, hz, kappa, Nx, Ny, Nz);
     
-    FPSI = construct_FPSI(x);
+    FPSI = construct_FPSI(x, Nx, Ny, Nz);
     FPHIX = construct_FPHIX(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
     FPHIY = construct_FPHIY(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
     FPHIZ = construct_FPHIZ(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz);
@@ -93,20 +93,19 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     u_y3 = cube2column(y3);
     
     % remove boundary rows (zeros) - NO EQUATIONS AT BOUNDARY
-    zero_rows = ~any(LPSIX,2);
-    LPSIX(zero_rows, :) = [];
-    LPSIY(zero_rows, :) = [];
-    LPSIZ(zero_rows, :) = [];
+    
+    LPSIX(~any(LPSIX,2), :) = [];
+    LPSIY(~any(LPSIY,2), :) = [];
+    LPSIZ(~any(LPSIZ,2), :) = [];
 
-    LPHIX(zero_rows, :) = [];
-    LPHIY(zero_rows, :) = [];
-    LPHIZ(zero_rows, :) = [];
+    LPHIX(~any(LPHIX,2), :) = [];
+    LPHIY(~any(LPHIY,2), :) = [];
+    LPHIZ(~any(LPHIZ,2), :) = [];
 
-    FPSI(zero_rows, :) = [];
-    FPHIX(zero_rows, :) = [];
-    FPHIY(zero_rows, :) = [];
-    FPHIZ(zero_rows, :) = [];
-
+%     FPSI(~any(FPSI,2), :) = [];
+%     FPHIX(~any(FPHIX,2), :) = [];
+%     FPHIY(~any(FPHIY,2), :) = [];
+%     FPHIZ(~any(FPHIZ,2), :) = [];
     
     %
     dPsidt = D*(LPSIX/hx^2 + LPSIY/hy^2 + LPSIZ/hz^2)*u_x + FPSI;

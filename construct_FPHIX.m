@@ -1,5 +1,5 @@
 function FPHIX = construct_FPHIX(x, y1, y2, y3, hy, hz, kappa, Nx, Ny, Nz)
-    FPHIX_1 = zeros(Nx+1,Ny+1,Nz+1);
+    FPHIX_1 = zeros(Nx-1,Ny-1,Nz-1);
     for k = 2 : Nz
         for j = 2 : Ny
             for i = 2 : Nx

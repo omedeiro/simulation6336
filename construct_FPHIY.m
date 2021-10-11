@@ -1,5 +1,5 @@
 function FPHIY = construct_FPHIY(x, y1, y2, y3, hx, hz, kappa, Nx, Ny, Nz)
-    FPHIY_1 = zeros(Nx+1,Ny+1,Nz+1);
+    FPHIY_1 = zeros(Nx-1,Ny-1,Nz-1);
     for k = 2 : Nz
         for j = 2 : Ny
             for i = 2 : Nx
