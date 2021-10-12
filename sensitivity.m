@@ -19,7 +19,7 @@ X0 = [cube2column(x);cube2column(y1);cube2column(y2);cube2column(y3)];
 F = @(X) analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz);
 
 tstart = tic;
-J = eval_num_jac(X0, F);
+J = eval_num_jac(X0, F, 1e-5);
 telapsed = toc(tstart);
 
 % imagesc(abs(J))
@@ -48,7 +48,7 @@ dJ_J = zeros(1, numel(dp_p));
 for i = 1 : numel(dp_p) 
     eps = (dp_p(i)/100)*p;
     F_eps = @(X) analytical_f_xyz(X, Bx, hx, hy, hz, p+eps, Nx, Ny, Nz);
-    J_eps = eval_num_jac(X0, F_eps);
+    J_eps = eval_num_jac(X0, F_eps, 1e-5);
     X_eps = J_eps\(-F_eps(X0));
 
     dY_dp(:,i) = C'*(X_eps - X)/eps;
