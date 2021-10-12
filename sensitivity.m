@@ -40,7 +40,7 @@ C = [c_x c_y1 c_y2 c_y3 c_y c_FrontFace];
 
 Y = C'*X;
 p = kappa;
-dp_p = [1 5 10 20 30 40 50 60 70 80 90 100]; % dp/p in %
+dp_p = [-99 -80 -70 -60 -50 -40 -30 -20 -10 -5 1 5 10 20 30 40 50 60 70 80 90 100]; % dp/p in %
 dY_dp = zeros(size(C,2), numel(dp_p));
 dY_Y = zeros(size(C,2), numel(dp_p));
 dJ_J = zeros(1, numel(dp_p));
@@ -58,10 +58,12 @@ for i = 1 : numel(dp_p)
     dJ_J(i) = 100*norm(abs(J_eps - J))/norm(abs(J));
 end
 
-plot(dp_p, dY_Y')
-legend('y_x', 'y_{y1}', 'y_{y2}', 'y_{y3}', 'y_{y}', 'y_{FrontFace}')
-ylabel('% variation of y')
+plot(dp_p, abs(dY_Y'), 'LineWidth', 1)
+set(gca, 'YScale', 'log')
+legend('|y_x|', '|y_{y1}|', '|y_{y2}|', '|y_{y3}|', '|y_{y}|', '|y_{FrontFace}|')
+ylabel('% variation of |y|')
 xlabel('% variation of k')
+grid on
 
 Y
 dY_dp 
