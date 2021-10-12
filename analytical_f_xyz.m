@@ -48,7 +48,8 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     if Bx==0
         row_B = ones(1, Ny+1);
     else
-        row_B = [1 : Bx*hy*hz : Bx*hy*hz*(Ny+1)];
+%         row_B = [1 : Bx*hy*hz : Bx*hy*hz*(Ny+1)];
+        row_B = linspace(1, Bx*hy*hz*(Ny+1), Ny+1);
     end
     y3_b = row_B'*ones(1,Nz+1);
 
