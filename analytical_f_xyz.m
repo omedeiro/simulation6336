@@ -45,33 +45,71 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
     x(:,Ny+1,:) = x(:,Ny,:).*exp(1i*y2(:,Ny,:)); %35
     
     % BCs on yz for Bx (36) 
-    if Bx==0
-        row_B = ones(1, Ny+1);
+    om=1;
+    if om ~= 1
+        if Bx==0
+            row_B = ones(1, Ny+1);
+        else
+    %         row_B = [1 : Bx*hy*hz : Bx*hy*hz*(Ny+1)];
+            row_B = linspace(1, Bx*hy*hz*(Ny+1), Ny+1);
+        end
+        y3_b = row_B'*ones(1,Nz+1);
+
+        %%%% phi_z in first layer yz
+        % first face
+        y3(1, :, :) = y3_b;
+        y2(1, :, :) = ones(Ny+1, Nz+1);
+    %     % second face
+    %     y3(2, :, :) = y3_b;
+    %     y2(2, :, :) = zeros(Ny+1, Nz+1);
+        %connections along x
+        y1(1, :, :) = ones(Ny+1, Nz+1);
+
+        %%%% phi_z in last layer yz
+        % first face
+        y3(Nx+1, :, :) = y3_b;
+        y2(Nx+1, :, :) = ones(Ny+1, Nz+1);
+    %     % second face
+    %     y3(Nx+1, :, :) = y3_b;
+    %     y2(Nx+1, :, :) = zeros(Ny+1, Nz+1);
+
+        %connections along x
+        y1(Nx+1, :, :) = ones(Ny+1, Nz+1);
+
     else
-%         row_B = [1 : Bx*hy*hz : Bx*hy*hz*(Ny+1)];
-        row_B = linspace(1, Bx*hy*hz*(Ny+1), Ny+1);
+        % Magnetic field boundary conditions eq 37
+        By=0; % we can update later
+        Bz=0; % we can update later
+        for kk = 1:Nz
+            for ii = 1:Nx
+                y1(ii,1,kk) = -Bz*hx*hy + y1(ii,2,kk)+y2(ii,1,kk) - y2(ii+1,1,kk);
+                y1(ii,Nx+1,kk) = -Bz*hx*hy - y1(ii,Nx,kk) - y2(ii,Nx+1,kk) + y2(ii+1,Nx+1,kk);
+                
+                y2(ii,1,kk) = -Bz*hx*hy - y2(ii+1,1,kk) + y1(ii,1,kk) - y1(ii,2,kk);
+                y2(ii,Nx+1,kk) = -Bz*hx*hy + y2(ii+1,Nx+1,kk) - y1(ii,Nx+1,kk) + y1(ii,Nx,kk);
+            end
+        end
+        for jj = 1:Ny
+            for ii = 1:Nx
+                y2(ii,jj,1) = -Bx*hy*hz + y2(ii,jj,2)+y3(ii,jj,1) - y3(ii,jj+1,1);
+                y2(ii,jj,Ny+1) = -Bx*hy*hz - y2(ii,jj,Ny) - y3(ii,jj,Ny+1) + y3(ii,jj+1,Ny+1);
+
+                y3(ii,jj,1) = -Bx*hy*hz - y3(ii,jj+1,1) + y2(ii,jj,1) - y2(ii,jj,2);
+                y3(ii,jj,Nz+1) = -Bx*hy*hz + y3(ii,jj+1,Nz) - y2(ii,jj,Nz+1) + y2(ii,jj,Nz);
+            end
+        end
+        for kk = 1:Nz
+            for jj = 1:Ny
+                y3(1,jj,kk) = -By*hy*hz + y3(2,jj,kk)+y1(1,jj,kk) - y1(1,jj,kk+1);
+                y3(Nz+1,jj,kk) = -By*hy*hz - y3(Nz,jj,kk)-y1(Nz+1,jj,kk) + y1(Nz+1,jj,kk+1);
+
+                y1(1,jj,kk) = -By*hy*hz - y1(1,jj,kk+1) + y3(1,jj,kk) - y3(2,jj,kk);
+                y1(Nz+1,jj,kk) = -By*hy*hz + y1(Nz,jj,kk+1) - y3(Nz+1,jj,kk) + y3(Nz,jj,kk);
+
+            end
+        end
+
     end
-    y3_b = row_B'*ones(1,Nz+1);
-
-    %%%% phi_z in first layer yz
-    % first face
-    y3(1, :, :) = y3_b;
-    y2(1, :, :) = ones(Ny+1, Nz+1);
-%     % second face
-%     y3(2, :, :) = y3_b;
-%     y2(2, :, :) = zeros(Ny+1, Nz+1);
-    %connections along x
-    y1(1, :, :) = ones(Ny+1, Nz+1);
-
-    %%%% phi_z in last layer yz
-    % first face
-    y3(Nx+1, :, :) = y3_b;
-    y2(Nx+1, :, :) = ones(Ny+1, Nz+1);
-%     % second face
-%     y3(Nx+1, :, :) = y3_b;
-%     y2(Nx+1, :, :) = zeros(Ny+1, Nz+1);
-    %connections along x
-    y1(Nx+1, :, :) = ones(Ny+1, Nz+1);
     
     LPSIX = construct_LPSIX(y1, Nx, Ny, Nz);
     LPSIY = construct_LPSIY(y2, Nx, Ny, Nz);
