@@ -1,11 +1,10 @@
-function J = eval_num_jac(X0, F)
+function J = eval_num_jac(X0, F, err)
     eps_Im = .01;
     eps_Re = .01;
     S_Im = 2;
     S_Re = 2;
     J = zeros(size(F(X0),1), numel(X0));
     Jp = ones(size(F(X0),1), numel(X0));
-    err = 1e-6;
     while any(abs((J - Jp)) > err, 'all') 
         Jp = J;
         for k = 1 : size(J,2) % loop columns
@@ -18,3 +17,4 @@ function J = eval_num_jac(X0, F)
         disp(max(max(abs((J - Jp)))))
     end
 end
+
