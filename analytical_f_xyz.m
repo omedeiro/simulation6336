@@ -80,32 +80,37 @@ function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
         % Magnetic field boundary conditions eq 37
         By=0; % we can update later
         Bz=0; % we can update later
-        for kk = 1:Nz
-            for ii = 1:Nx
-                y1(ii,1,kk) = -Bz*hx*hy + y1(ii,2,kk)+y2(ii,1,kk) - y2(ii+1,1,kk);
-                y1(ii,Nx+1,kk) = -Bz*hx*hy - y1(ii,Nx,kk) - y2(ii,Nx+1,kk) + y2(ii+1,Nx+1,kk);
+        for kk = 2:Nz
+            for ii = 2:Nx
+                y1(ii,1,kk) = -Bz*hx*hy + y1(ii,2,kk) + y2(ii,1,kk) - y2(ii+1,1,kk);
+                y1(ii,Ny+1,kk) = Bz*hx*hy + y1(ii,Ny,kk) - y2(ii,Ny+1,kk) + y2(ii+1,Ny+1,kk);
                 
                 y2(ii,1,kk) = -Bz*hx*hy - y2(ii+1,1,kk) + y1(ii,1,kk) - y1(ii,2,kk);
-                y2(ii,Nx+1,kk) = -Bz*hx*hy + y2(ii+1,Nx+1,kk) - y1(ii,Nx+1,kk) + y1(ii,Nx,kk);
+                y2(ii,Ny+1,kk) = -Bz*hx*hy - y2(ii+1,Ny+1,kk) + y1(ii,Ny+1,kk) - y1(ii,Ny,kk);
+                
+                y3(ii,1,kk) = -Bx*hy*hz + y2(ii,1,kk) - y2(ii,1,kk+1) + y3(ii,2,kk);
+                y3(ii,Ny+1,kk) = Bx*hy*hz - y2(ii,Ny+1,kk) + y2(ii,Ny+1,kk+1) + y3(ii,Ny,kk);
             end
         end
-        for jj = 1:Ny
-            for ii = 1:Nx
-                y2(ii,jj,1) = -Bx*hy*hz + y2(ii,jj,2)+y3(ii,jj,1) - y3(ii,jj+1,1);
-                y2(ii,jj,Ny+1) = -Bx*hy*hz - y2(ii,jj,Ny) - y3(ii,jj,Ny+1) + y3(ii,jj+1,Ny+1);
+        for jj = 2:Ny
+            for ii = 2:Nx
+                y2(ii,jj,1) = -Bx*hy*hz + y2(ii,jj,2) + y3(ii,jj,1) - y3(ii,jj+1,1);
+                y2(ii,jj,Nz+1) = Bx*hy*hz + y2(ii,jj,Nz) - y3(ii,jj,Nz+1) + y3(ii,jj+1,Nz+1);
 
                 y3(ii,jj,1) = -Bx*hy*hz - y3(ii,jj+1,1) + y2(ii,jj,1) - y2(ii,jj,2);
-                y3(ii,jj,Nz+1) = -Bx*hy*hz + y3(ii,jj+1,Nz) - y2(ii,jj,Nz+1) + y2(ii,jj,Nz);
+                y3(ii,jj,Nz+1) = -Bx*hy*hz - y3(ii,jj+1,Nz) + y2(ii,jj,Nz+1) - y2(ii,jj,Nz);           
             end
         end
-        for kk = 1:Nz
-            for jj = 1:Ny
-                y3(1,jj,kk) = -By*hy*hz + y3(2,jj,kk)+y1(1,jj,kk) - y1(1,jj,kk+1);
-                y3(Nz+1,jj,kk) = -By*hy*hz - y3(Nz,jj,kk)-y1(Nz+1,jj,kk) + y1(Nz+1,jj,kk+1);
+        for kk = 2:Nz
+            for jj = 2:Ny
+                y3(1,jj,kk) = -By*hx*hz + y3(2,jj,kk) + y1(1,jj,kk) - y1(1,jj,kk+1);
+                y3(Nx+1,jj,kk) = By*hy*hz + y3(Nx,jj,kk) - y1(Nx+1,jj,kk) + y1(Nx+1,jj,kk+1);
 
-                y1(1,jj,kk) = -By*hy*hz - y1(1,jj,kk+1) + y3(1,jj,kk) - y3(2,jj,kk);
-                y1(Nz+1,jj,kk) = -By*hy*hz + y1(Nz,jj,kk+1) - y3(Nz+1,jj,kk) + y3(Nz,jj,kk);
-
+                y1(1,jj,kk) = -By*hx*hz - y1(1,jj,kk+1) + y3(1,jj,kk) - y3(2,jj,kk);
+                y1(Nx+1,jj,kk) = -By*hy*hz - y1(Nx,jj,kk+1) + y3(Nx+1,jj,kk) - y3(Nx,jj,kk);
+                
+                y2(1,jj,kk) = -Bz*hy*hx + y1(1,jj,kk) - y1(1,jj+1,kk) + y2(2,jj,kk);
+                y2(Nx+1,jj,kk) = Bz*hy*hx - y1(Nx+1,jj,kk) + y1(Nx+1,jj+1,kk) + y2(Nx,jj,kk);
             end
         end
 
