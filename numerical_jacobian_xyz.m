@@ -2,6 +2,7 @@ Nx = 3;
 Ny = 3;
 Nz = 3;
 x = ones(Nx-1, Ny-1, Nz-1);
+x = sqrt(x/numel(x));
 y1 = zeros(Nx-1, Ny-1, Nz-1);
 y2 = zeros(Nx-1, Ny-1, Nz-1);
 y3 = zeros(Nx-1, Ny-1, Nz-1);

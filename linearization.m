@@ -4,6 +4,7 @@ Nx = 3;
 Ny = 3;
 Nz = 3;
 x = ones(Nx-1, Ny-1, Nz-1);
+x = sqrt(x/numel(x));
 y1 = ones(Nx-1, Ny-1, Nz-1);
 y2 = ones(Nx-1, Ny-1, Nz-1);
 y3 = ones(Nx-1, Ny-1, Nz-1);
