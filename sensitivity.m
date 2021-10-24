@@ -59,6 +59,7 @@ for i = 1 : numel(dp_p)
     dJ_J(i) = 100*norm(abs(J_eps - J))/norm(abs(J));
 end
 
+%% 
 plot(dp_p, abs(dY_Y'), 'LineWidth', 1)
 set(gca, 'YScale', 'log')
 legend('|y_x|', '|y_{y1}|', '|y_{y2}|', '|y_{y3}|', '|y_{y}|', '|y_{FrontFace}|')
