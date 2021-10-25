@@ -161,5 +161,5 @@ function F = analytical_f_xyz(X, p, u)
 
 
     F = [dPsidt; dPhidtX; dPhidtY; dPhidtZ];
-    F = abs(F);
+%     F = abs(F);
 end
