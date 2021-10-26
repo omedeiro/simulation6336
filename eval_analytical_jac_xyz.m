@@ -29,12 +29,6 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
     	for j = 1:N
     		for i = 1:N
     			current = index_map(i, j, k, N);
-
-% 				disp("indices")
-% 				disp(i)
-% 				disp(j)
-% 				disp(k)
-% 				disp(current)
     			
     			% derivatives of psi wrt psi
     			Jpsidpsi(current, current) = 2/hx^2 + 2/hy^2 + 2/hz^2 - 2*psi(current)*conj(psi(current));
