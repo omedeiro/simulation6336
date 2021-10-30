@@ -7,7 +7,7 @@ Nx = p.Nx;
 Ny = p.Ny;
 Nz = p.Nz;
 
-LPHI = zeros((Nx+1)*(Ny+1)*(Nz+1));
+LPHI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
 for k = 2:Nz
     for j = 2:Ny
         for i = 2:Nx
