@@ -7,26 +7,26 @@ eval_f = "analytical_f_xyz";
 
 
 p.kappa=1;
-p.Nx = 5;
-p.Ny = 5;
+p.Nx = 20;
+p.Ny = 20;
 p.Nz = 5;
 p.hx = 1;
 p.hy = 1;
 p.hz = 1;
 
-x = ones(p.Nx-1, p.Ny-1, p.Nz-1);
-x = sqrt(x/numel(x));
-y1 = zeros(p.Nx-1, p.Ny-1, p.Nz-1);
-y2 = zeros(p.Nx-1, p.Ny-1, p.Nz-1);
-y3 = zeros(p.Nx-1, p.Ny-1, p.Nz-1);
+x = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, sqrt(1/((p.Nx-1)*(p.Ny-1)*(p.Nz-1))));
+y1 = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1,0);
+y2 = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1,0);
+y3 = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1,0);
 
-x_start = [cube2column(x);cube2column(y1);cube2column(y2);cube2column(y3)];
+
+x_start = [x;y1;y2;y3];
 
 t_start=0;
-t_stop=0.1;
+t_stop=0.05;
 visualize=0;
-max_dt_FE = .005;
-figure(1)
+max_dt_FE = .05;
+% figure(1)
 [X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,visualize);
 
 
@@ -37,7 +37,7 @@ yy = cube2column(yy);
 zz = cube2column(zz);
 
 %% 
-n = (p.Nx-1)^3;
+n = (p.Nx-1)*(p.Ny-1)*(p.Nz-1);
 
 for t = 1:size(X, 2)
     figure(2)
@@ -47,16 +47,36 @@ for t = 1:size(X, 2)
     PHITZ = X(3*n+1:4*n,t);
 
     subplot(2,2,1)
-    scatter3(xx,yy,zz,36,real(PSIT), 'filled')
+    scatter3(xx,yy,zz,36,real(PSIT), 'filled', 'MarkerFaceAlpha', 0.5)
+    colorbar
+    axis equal
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
     
     subplot(2,2,2)
-    scatter3(xx,yy,zz,36,real(PHITX), 'filled')
+    scatter3(xx,yy,zz,36,real(PHITX), 'filled', 'MarkerFaceAlpha', 0.5)
+    colorbar
+    axis equal
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
     
     subplot(2,2,3)
-    scatter3(xx,yy,zz,36,real(PHITY), 'filled')
+    scatter3(xx,yy,zz,36,real(PHITY), 'filled', 'MarkerFaceAlpha', 0.5)
+    colorbar
+    axis equal
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
     
     subplot(2,2,4)
-    scatter3(xx,yy,zz,36,real(PHITZ), 'filled')
+    scatter3(xx,yy,zz,36,abs(PHITZ), 'filled', 'MarkerFaceAlpha', 0.5)
+    colorbar
+    axis equal
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
     
     pause(0.5)    
     sgtitle(t)
@@ -69,18 +89,38 @@ for t = 1:size(X, 2)
     PHITZ = X(3*n+1:4*n,t);
 
     subplot(2,2,1)
-    scatter3(xx,yy,zz,36,imag(PSIT), 'filled')
+    scatter3(xx,yy,zz,36,imag(PSIT), 'filled', 'MarkerFaceAlpha', 0.5)
+    colorbar
+    axis equal
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
     
     subplot(2,2,2)
-    scatter3(xx,yy,zz,36,imag(PHITX), 'filled')
+    scatter3(xx,yy,zz,36,imag(PHITX), 'filled', 'MarkerFaceAlpha', 0.5)
+    colorbar
+    axis equal
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
     
     subplot(2,2,3)
-    scatter3(xx,yy,zz,36,real(PHITY), 'filled')
+    scatter3(xx,yy,zz,36,real(PHITY), 'filled', 'MarkerFaceAlpha', 0.5)
+    colorbar
+    axis equal
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
     
     subplot(2,2,4)
-    scatter3(xx,yy,zz,36,real(PHITZ), 'filled')
+    scatter3(xx,yy,zz,36,real(PHITZ), 'filled', 'MarkerFaceAlpha', 0.5)
+    colorbar
+    axis equal
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
     
-    pause(0.5)    
+    pause(0.05)    
     sgtitle(t)
     drawnow
 end

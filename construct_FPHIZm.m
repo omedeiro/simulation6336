@@ -1,4 +1,4 @@
-function FPHIZ = construct_FPHIZm(x, y1, y2, y3, p.hx, p.hy, p.kappa, p.Nx, p.Ny, p.Nz)
+function FPHIZ = construct_FPHIZm(X,p)
 colN = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
 x = X(1:colN);
 y1 = X(colN+1:2*colN);

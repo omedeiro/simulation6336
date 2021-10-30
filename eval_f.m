@@ -6,13 +6,14 @@
 
 % function F = analytical_f_xyz(x_int, y1_int, y2_int, y3_int, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
 % function F = analytical_f_xyz(X, Bx, hx, hy, hz, kappa, Nx, Ny, Nz)
-function F = analytical_f_xyz(X, p, u)
+function F = eval_f(X, p, u)
 
     colN = (p.Nx-1)*(p.Ny-1)*(p.Nz-1);
-    x_int = column2cube(X(1:colN), p.Nx-1, p.Ny-1, p.Nz-1);
-    y1_int = column2cube(X(colN+1:2*colN), p.Nx-1, p.Ny-1, p.Nz-1);
-    y2_int = column2cube(X(2*colN+1:3*colN), p.Nx-1, p.Ny-1, p.Nz-1);
-    y3_int = column2cube(X(3*colN+1:4*colN), p.Nx-1, p.Ny-1, p.Nz-1);
+    x = X(1:colN);
+    y1 = X(colN+1:2*colN);
+    y2 = X(2*colN+1:3*colN);
+    y3 = X(3*colN+1:4*colN);
+
 
     %%%%%%%% _int has size (p.Nx-1, p.Ny-1, p.Nz-1)
     x = zeros(p.Nx+1, p.Ny+1, p.Nz+1);
