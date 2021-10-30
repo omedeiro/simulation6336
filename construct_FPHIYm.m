@@ -13,8 +13,8 @@ function FPHIY = construct_FPHIYm(x, y1, y2, y3, p)
             for i = 2 : Nx
                 mj = (Nx+1)*j-(Nx+1)*(j-1);
                 mk = (Nx+1)*(Ny+1)*k-(Nx+1)*(Ny+1)*(k-1);
-                m = i +_(Nx+1)*(j-1)+(Nx+1)*(Ny+1)*(k-1);
-                M = i +_(Nx-1)*(j-1)+(Nx-1)*(Ny-1)*(k-1);
+                m = i + (Nx+1)*(j-1)+(Nx+1)*(Ny+1)*(k-1);
+                M = i + (Nx-1)*(j-1)+(Nx-1)*(Ny-1)*(k-1);
                 
                 FPHIY(M) = (kappa^2/hz^2)*(-y3(m+mj)+y3(m)+y3(m+mj-mk)-y3(m-mk))...
                                 +(kappa^2/hx^2)*(-y1(m+mj)+y1(m)+y1(m-1+mj)-y1(m-1))...
