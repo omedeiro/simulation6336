@@ -1,4 +1,4 @@
-function LPHI = construct_LPHIZ(p)
+function LPHI = construct_LPHIZm(p)
 hx = p.hx;
 hy = p.hy;
 hz = p.hz; 
@@ -6,7 +6,7 @@ kappa = p.kappa;
 Nx = p.Nx;
 Ny = p.Ny;
 Nz = p.Nz;
-LPHI = zeros((Nx+1)*(Ny+1)*(Nz+1));
+LPHI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
 for k = 2:Nz
     for j = 2:Ny
         for i = 2:Nx
