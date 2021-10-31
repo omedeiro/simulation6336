@@ -153,7 +153,7 @@ function F = eval_f(X, p, u)
     FPSI = construct_FPSIm(x, p);
     FPHIX = construct_FPHIXm(x, y1, y2, y3, p);
     FPHIY = construct_FPHIYm(x, y1, y2, y3, p);
-    FPHIZ = construct_FPHIZm(x, y1, y2, y3, pz);
+    FPHIZ = construct_FPHIZm(x, y1, y2, y3, p);
     
     % remove boundary rows (zeros) - NO EQUATIONS AT BOUNDARY
     
