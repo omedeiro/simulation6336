@@ -142,18 +142,18 @@ function F = eval_f(X, p, u)
     end
 
     
-    LPSIX = construct_LPSIX(y1, p.Nx, p.Ny, p.Nz);
-    LPSIY = construct_LPSIY(y2, p.Nx, p.Ny, p.Nz);
-    LPSIZ = construct_LPSIZ(y3, p.Nx, p.Ny, p.Nz);
+    LPSIX = construct_LPSIXm(y1, p);
+    LPSIY = construct_LPSIYm(y2, p);
+    LPSIZ = construct_LPSIZm(y3, p);
       
-    LPHIX = construct_LPHIX(p.hx, p.hy, p.hz, p.kappa, p.Nx, p.Ny, p.Nz);
-    LPHIY = construct_LPHIY(p.hx, p.hy, p.hz, p.kappa, p.Nx, p.Ny, p.Nz);
-    LPHIZ = construct_LPHIZ(p.hx, p.hy, p.hz, p.kappa, p.Nx, p.Ny, p.Nz);
+    LPHIX = construct_LPHIXm(p);
+    LPHIY = construct_LPHIYm(p);
+    LPHIZ = construct_LPHIZm(p);
     
-    FPSI = construct_FPSI(x, p.Nx, p.Ny, p.Nz);
-    FPHIX = construct_FPHIX(x, y1, y2, y3, p.hy, p.hz, p.kappa, p.Nx, p.Ny, p.Nz);
-    FPHIY = construct_FPHIY(x, y1, y2, y3, p.hy, p.hz, p.kappa, p.Nx, p.Ny, p.Nz);
-    FPHIZ = construct_FPHIZ(x, y1, y2, y3, p.hy, p.hz, p.kappa, p.Nx, p.Ny, p.Nz);
+    FPSI = construct_FPSIm(x, p);
+    FPHIX = construct_FPHIXm(x, y1, y2, y3, p);
+    FPHIY = construct_FPHIYm(x, y1, y2, y3, p);
+    FPHIZ = construct_FPHIZm(x, y1, y2, y3, pz);
     
     % remove boundary rows (zeros) - NO EQUATIONS AT BOUNDARY
     

@@ -1,11 +1,7 @@
-function FPHIZ = construct_FPHIZm(X,p)
-colN = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
-x = X(1:colN);
-y1 = X(colN+1:2*colN);
-y2 = X(2*colN+1:3*colN);
-y3 = X(3*colN+1:4*colN);
+function FPHIZ = construct_FPHIZm(x, y1, y2, y3, p)
 
 FPHIZ = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
+
     for k = 2 : p.Nz
         for j = 2 : p.Ny
             for i = 2 : p.Nx

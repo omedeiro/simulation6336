@@ -1,9 +1,4 @@
-function FPHIX = construct_FPHIXm(X, p)
-colN = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
-x = X(1:colN);
-y1 = X(colN+1:2*colN);
-y2 = X(2*colN+1:3*colN);
-y3 = X(3*colN+1:4*colN);
+function FPHIX = construct_FPHIXm(x, y1, y2, y3, p)
 
 FPHIX = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 
