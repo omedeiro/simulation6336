@@ -53,7 +53,7 @@ function F = eval_f(X, p, u)
                 % periodic boundaries 
                 x(m1) = x(mNx); %34
                 x(mNxp1) = x(m2); %34
-                %%%%%%%%%%%%%%%%%%%%%%%%%%not sure about y1 periodic
+
                 y1(m1) = y1(mNx); %34
                 y1(Nxp1) = y1(m2); %34
             else 
@@ -86,7 +86,7 @@ function F = eval_f(X, p, u)
                 % periodic boundaries 
                 x(m1) = x(mNy); %34
                 x(mNyp1) = x(m2); %34
-                %%%%%%%%%%%%%%%%%%%%%%%%%%not sure about y2 periodic
+
                 y2(m1) = y2(mNy); %34
                 y2(Nyp1) = y2(m2); %34
             else 
@@ -107,7 +107,7 @@ function F = eval_f(X, p, u)
     end
     
      % z boundaries
-    periodic_z = 1;
+    periodic_z = 0;
     for j = 1 : p.Ny+1
         for i = 1 : p.Nx+1
             m1 = i + (p.Nx+1)*(j-1);
@@ -119,11 +119,10 @@ function F = eval_f(X, p, u)
                 % periodic boundaries 
                 x(m1) = x(mNz); %34
                 x(mNzp1) = x(m2); %34
-                %%%%%%%%%%%%%%%%%%%%%%%%%%%%% WHY y1 periodic instead of y3
-                %%%%%%%%%%%%%%%%%%%%%%%%%%%%% or y1 and y2 maybe error in
-                %%%%%%%%%%%%%%%%%%%%%%%%%%%%% paper?
-                y1(m1) = y1(mNz); %34
-                y1(Nzp1) = y1(m2); %34
+                %%%%%%%%%%%%%%%%%%%%%%% WHY y1 periodic instead of y3, maybe error in paper?
+                %%%%%%%%%%%%%%%%%%%%%%% y1(m1) is defined below
+                y3(m1) = y3(mNz); %34
+                y3(Nzp1) = y3(m2); %34
             else 
                 % zero current on z
                 x(m1) = x(m2).*exp(-1i*y3(m1)); %35
