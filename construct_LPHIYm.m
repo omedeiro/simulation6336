@@ -17,7 +17,7 @@ for k = 2:Nz
             
             mj = (Nx+1)*j-(Nx+1)*(j-1);
             mk = (Nx+1)*(Ny+1)*k-(Nx+1)*(Ny+1)*(k-1);
-            m = i +_(Nx+1)*(j-1)+(Nx+1)*(Ny+1)*(k-1);
+            m = i + (Nx+1)*(j-1)+(Nx+1)*(Ny+1)*(k-1);
             
             % Diagonal
 %             if i ~= 2 && i ~= Nx

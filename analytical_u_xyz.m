@@ -7,7 +7,7 @@ if t <0
 else 
    u.Bx = 0;
    u.By = 0;
-   u.Bz = 1;
+   u.Bz = 10;
 end
 
 end

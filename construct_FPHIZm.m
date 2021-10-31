@@ -9,7 +9,7 @@ FPHIZ = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
                 mk = (p.Nx+1)*(p.Ny+1)*k-(p.Nx+1)*(p.Ny+1)*(k-1);
                 m = i+(p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
                 
-                M = i+(p.Nx-1)*(j-1)+(p.Nx-1)*(p.Ny-1)*(k-1);
+                M = i-1+(p.Nx-1)*(j-2)+(p.Nx-1)*(p.Ny-1)*(k-2);
 
                 
                 FPHIZ(M) =(p.kappa^2/p.hx^2)*(-y1(m+mk)+y1(m)+y1(m-1+mk)-y1(m-1))...
