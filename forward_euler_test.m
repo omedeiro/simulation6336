@@ -7,12 +7,12 @@ eval_f = "eval_f";
 
 
 p.kappa=1;
-p.Nx = 20;
-p.Ny = 20;
-p.Nz = 20;
-p.hx = 1;
-p.hy = 1;
-p.hz = 1;
+p.Nx = 30;
+p.Ny = 30;
+p.Nz = 10;
+p.hx = 1e-9;
+p.hy = 1e-9;
+p.hz = 1e-9;
 
 x = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, sqrt(1/((p.Nx-1)*(p.Ny-1)*(p.Nz-1))));
 y1 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
@@ -23,17 +23,18 @@ y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 x_start = [x;y1;y2;y3];
 
 t_start=0;
-t_stop=0.010;
+t_stop=0.001;
 visualize=0;
 max_dt_FE = .001;
 % figure(1)
 [X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,visualize);
 
 
+
 %% 
 
 
-[xx, yy, zz] = meshgrid(1:p.hx:p.Nx-1, 1:p.hy:p.Ny-1, 1:p.hz:p.Nz-1);
+[xx, yy, zz] = meshgrid(0:p.hx:p.hx*(p.Nx-2), 0:p.hy:p.hy*(p.Ny-2), 0:p.hz:p.hz*(p.Nz-2));
 xx = cube2column(xx);
 yy = cube2column(yy);
 zz = cube2column(zz);
