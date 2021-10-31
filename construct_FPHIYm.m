@@ -1,4 +1,4 @@
-function FPHIY = construct_FPHIYm(x, y1, y2, y3, p)
+function FPHIY = construct_FPHIYm(X, p)
     hx = p.hx;
     hy = p.hy;
     hz = p.hz; 
@@ -6,6 +6,12 @@ function FPHIY = construct_FPHIYm(x, y1, y2, y3, p)
     Nx = p.Nx;
     Ny = p.Ny;
     Nz = p.Nz;
+    
+    colN = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
+    x = X(1:colN);
+    y1 = X(colN+1:2*colN);
+    y2 = X(2*colN+1:3*colN);
+    y3 = X(3*colN+1:4*colN);
 
     FPHIY = sparse((Nx-1)*(Ny-1)*(Nz-1),1);
     for k = 2 : Nz

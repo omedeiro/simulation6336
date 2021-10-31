@@ -9,110 +9,139 @@
 function F = eval_f(X, p, u)
 
     colN = (p.Nx-1)*(p.Ny-1)*(p.Nz-1);
-    x = X(1:colN);
-    y1 = X(colN+1:2*colN);
-    y2 = X(2*colN+1:3*colN);
-    y3 = X(3*colN+1:4*colN);
-
+    x_int = X(1:colN);
+    y1_int = X(colN+1:2*colN);
+    y2_int = X(2*colN+1:3*colN);
+    y3_int = X(3*colN+1:4*colN);
 
     %%%%%%%% _int has size (p.Nx-1, p.Ny-1, p.Nz-1)
-    x = zeros(p.Nx+1, p.Ny+1, p.Nz+1);
-    y1 = zeros(p.Nx+1, p.Ny+1, p.Nz+1);
-    y2 = zeros(p.Nx+1, p.Ny+1, p.Nz+1); 
-    y3 = zeros(p.Nx+1, p.Ny+1, p.Nz+1);
+    x = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    y1 = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    y2 = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    y3 = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     
-    x(2:p.Nx, 2:p.Ny, 2:p.Nz) = x_int;
-    y1(2:p.Nx, 2:p.Ny, 2:p.Nz) = y1_int;
-    y2(2:p.Nx, 2:p.Ny, 2:p.Nz) = y2_int;
-    y3(2:p.Nx, 2:p.Ny, 2:p.Nz) = y3_int;
+    %%%%%%% set internal values
+    for k = 2 : p.Nz
+        for j = 2 : p.Ny
+            for i = 2 : p.Nx
+                M = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                m = i-1 + (p.Nx-1)*(j-2)+(p.Nx-1)*(p.Ny-1)*(k-2);
     
-    
-    D = p.kappa^2;
+                x(M) = x_int(m);
+                y1(M) = y1_int(m);
+                y2(M) = y2_int(m);
+                y3(M) = y3_int(m);
+            end
+        end
+    end
 
     %%% BOUNDARY CONDITIONS %%%
     
-    x(:,:,1) = x(:,:,p.Nz); %34
-    x(:,:,p.Nz+1) = x(:,:,2); %34
+    mk = (p.Nx+1)*(p.Ny+1);
+    mj = (p.Nx+1);
     
-    y1(:,:,1) = y1(:,:,p.Nz); %34
-    y1(:,:,p.Nz+1) = y1(:,:,2); %34
-    
-    x(1,:,:) = x(2,:,:).*exp(-1i*y1(1,:,:)); %35
-    x(p.Nx+1,:,:) = x(p.Nx,:,:).*exp(1i*y1(p.Nx,:,:)); %35    
-    
-    x(:,1,:) = x(:,2,:).*exp(-1i*y2(:,1,:)); %35
-    x(:,p.Ny+1,:) = x(:,p.Ny,:).*exp(1i*y2(:,p.Ny,:)); %35
-    
-    % BCs on yz for u.Bx (36) 
-    om=1;
-    if om ~= 1
-        if u.Bx==0
-            row_B = ones(1, p.Ny+1);
-        else
-    %         row_B = [1 : u.Bx*p.hy*p.hz : u.Bx*p.hy*p.hz*(p.Ny+1)];
-            row_B = linspace(1, u.Bx*p.hy*p.hz*(p.Ny+1), p.Ny+1);
-        end
-        y3_b = row_B'*ones(1,p.Nz+1);
+    % x boundaries
+    periodic_x = 0;
+    for k = 1 : p.Nz+1
+        for j = 1 : p.Ny+1
+            m1 = 1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            m2 = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            mNx = Nx + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            mNxp1 = Nx+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            
+            if periodic_x
+                % periodic boundaries 
+                x(m1) = x(mNx); %34
+                x(mNxp1) = x(m2); %34
+                %%%%%%%%%%%%%%%%%%%%%%%%%%not sure about y1 periodic
+                y1(m1) = y1(mNx); %34
+                y1(Nxp1) = y1(m2); %34
+            else 
+                % zero current on x
+                x(m1) = x(m2).*exp(-1i*y1(m1)); %35
+                x(mNxp1) = x(mNx).*exp(1i*y1(mNx)); %35 
+            end
+           
+            % Magnetic field x boundary conditions eq 37 
+            if k ~= 1 && k ~= p.Nz+1 && j ~= 1 && j ~= p.Ny+1
+                y2(m1) = -u.Bz*p.hx*p.hy + y1(m1) - y1(m1+mj) + y2(m2);
+                y2(mNxp1) = -u.Bz*p.hx*p.hy + y1(mNxp1) - y1(mNxp1+mj) + y2(mNx);
 
-        %%%% phi_z in first layer yz
-        % first face
-        y3(1, :, :) = y3_b;
-        y2(1, :, :) = ones(p.Ny+1, p.Nz+1);
-    %     % second face
-    %     y3(2, :, :) = y3_b;
-    %     y2(2, :, :) = zeros(p.Ny+1, p.Nz+1);
-        %connections along x
-        y1(1, :, :) = ones(p.Ny+1, p.Nz+1);
-        y1(p.Nx+1, :, :) = ones(p.Ny+1, p.Nz+1);
-
-        %%%% phi_z in last layer yz
-        % first face
-        y3(p.Nx+1, :, :) = y3_b;
-        y2(p.Nx+1, :, :) = ones(p.Ny+1, p.Nz+1);
-    %     % second face
-    %     y3(p.Nx+1, :, :) = y3_b;
-    %     y2(p.Nx+1, :, :) = zeros(p.Ny+1, p.Nz+1);
-
-
-    else
-        % Magnetic field boundary conditions eq 37
-
-        for kk = 2:p.Nz
-            for ii = 2:p.Nx
-%                 m = Nx*(j-1)+Nx*Ny*(k-1);
-
-                y1(ii,1,kk) = u.Bz*p.hx*p.hy + y1(ii,2,kk) + y2(ii,1,kk) - y2(ii+1,1,kk);
-                y1(ii,p.Ny+1,kk) = u.Bz*p.hx*p.hy + y1(ii,p.Ny,kk) - y2(ii,p.Ny+1,kk) + y2(ii+1,p.Ny+1,kk);
-                
-                y3(ii,1,kk) = -u.Bx*p.hy*p.hz + y2(ii,1,kk) - y2(ii,1,kk+1) + y3(ii,2,kk);
-                y3(ii,p.Ny+1,kk) = -u.Bx*p.hy*p.hz + y2(ii,p.Ny+1,kk) - y2(ii,p.Ny+1,kk+1) + y3(ii,p.Ny,kk);
-                
+                y3(m1) = u.By*p.hz*p.hx + y3(m2) +y1(m1) - y1(m1+mk);
+                y3(mNxp1) = u.By*p.hz*p.hx + y3(mNx) +y1(mNxp1) - y1(mNxp1+mk);
             end
         end
-        for jj = 2:p.Ny
-            for ii = 2:p.Nx
-                
-                y2(ii,jj,1) = u.Bx*p.hy*p.hz + y2(ii,jj,2) + y3(ii,jj,1) - y3(ii,jj+1,1);
-                y2(ii,jj,p.Nz+1) = u.Bx*p.hy*p.hz + y2(ii,jj,p.Nz) + y3(ii,jj,p.Nz+1) - y3(ii,jj+1,p.Nz+1);
-                
-                y1(ii,jj,1) = -u.By*p.hz*p.hx + y3(ii,jj,1) - y3(ii+1,jj,1) + y1(ii,jj,2);
-                y1(ii,jj,p.Nz+1) = -u.By*p.hz*p.hx + y3(ii,jj,p.Nz+1) - y3(ii+1,jj,p.Nz+1) + y1(ii,jj,p.Nz);
-          
-            end
-        end
-        for kk = 2:p.Nz
-            for jj = 2:p.Ny              
-                
-                y2(1,jj,kk) = -u.Bz*p.hx*p.hy + y1(1,jj,kk) - y1(1,jj+1,kk) + y2(2,jj,kk);
-                y2(p.Nx+1,jj,kk) = -u.Bz*p.hx*p.hy + y1(p.Nx+1,jj,kk) - y1(p.Nx+1,jj+1,kk) + y2(p.Nx,jj,kk);
-                
-                y3(1,jj,kk) = u.By*p.hz*p.hx + y3(2,jj,kk) +y1(1,jj,kk) - y1(1,jj,kk+1);
-                y3(p.Nx+1,jj,kk) = u.By*p.hz*p.hx + y3(p.Nx,jj,kk) +y1(p.Nx+1,jj,kk) - y1(p.Nx+1,jj,kk+1);
-                
-            end
-        end
-
     end
+    
+    % y boundaries
+    periodic_y = 0;
+    for k = 1 : p.Nz+1
+        for i = 1 : p.Nx+1 
+            m1 = i + (p.Nx+1)*(p.Ny+1)*(k-1);
+            m2 = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            mNy = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            mNyp1 = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
+            
+            if periodic_y
+                % periodic boundaries 
+                x(m1) = x(mNy); %34
+                x(mNyp1) = x(m2); %34
+                %%%%%%%%%%%%%%%%%%%%%%%%%%not sure about y2 periodic
+                y2(m1) = y2(mNy); %34
+                y2(Nyp1) = y2(m2); %34
+            else 
+                % zero current on y
+                x(m1) = x(m2).*exp(-1i*y2(m1)); %35
+                x(mNyp1) = x(mNy).*exp(1i*y2(mNy)); %35
+            end
+
+            % Magnetic field y boundary conditions eq 37 
+            if k ~= 1 && k ~= p.Nz+1 && i ~= 1 && i ~= p.Nx+1
+                y1(m1) = u.Bz*p.hx*p.hy + y1(m2) + y2(m1) - y2(m1+1);
+                y1(mNyp1) = u.Bz*p.hx*p.hy + y1(mNy) - y2(mNyp1) + y2(mNyp1+1);
+
+                y3(m1) = -u.Bx*p.hy*p.hz + y2(m1) - y2(m1+mk) + y3(m2);
+                y3(mNyp1) = -u.Bx*p.hy*p.hz + y2(mNyp1) - y2(mNyp1+mk) + y3(mNy);
+            end
+        end
+    end
+    
+     % z boundaries
+    periodic_z = 1;
+    for j = 1 : p.Ny+1
+        for i = 1 : p.Nx+1
+            m1 = i + (p.Nx+1)*(j-1);
+            m2 = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
+            mNz = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
+            mNzp1 = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*p.Nz;
+
+            if periodic_z
+                % periodic boundaries 
+                x(m1) = x(mNz); %34
+                x(mNzp1) = x(m2); %34
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%% WHY y1 periodic instead of y3
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%% or y1 and y2 maybe error in
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%% paper?
+                y1(m1) = y1(mNz); %34
+                y1(Nzp1) = y1(m2); %34
+            else 
+                % zero current on z
+                x(m1) = x(m2).*exp(-1i*y3(m1)); %35
+                x(mNzp1) = x(mNz).*exp(1i*y3(mNz)); %35
+            end
+            
+            % Magnetic field z boundary conditions eq 37 
+            if j ~= 1 && j ~= p.Ny+1 && i ~= 1 && i ~= p.Nx+1
+                y1(m1) = -u.By*p.hz*p.hx + y3(m1) - y3(m1+1) + y1(m2);
+                y1(mNzp1) = -u.By*p.hz*p.hx + y3(mNzp1) - y3(mNzp1+1) + y1(mNz);
+
+                y2(m1) = u.Bx*p.hy*p.hz + y2(m2) + y3(m1) - y3(m1+mj);
+                y2(mNzp1) = u.Bx*p.hy*p.hz + y2(mNz) + y3(mNzp1) - y3(mNzp1+mj);
+            end
+            
+        end
+    end
+
     
     LPSIX = construct_LPSIX(y1, p.Nx, p.Ny, p.Nz);
     LPSIY = construct_LPSIY(y2, p.Nx, p.Ny, p.Nz);
@@ -127,12 +156,6 @@ function F = eval_f(X, p, u)
     FPHIY = construct_FPHIY(x, y1, y2, y3, p.hy, p.hz, p.kappa, p.Nx, p.Ny, p.Nz);
     FPHIZ = construct_FPHIZ(x, y1, y2, y3, p.hy, p.hz, p.kappa, p.Nx, p.Ny, p.Nz);
     
-    % create column vectors
-    u_x = sparse(cube2column(x));
-    u_y1 = sparse(cube2column(y1));
-    u_y2 = sparse(cube2column(y2));
-    u_y3 = sparse(cube2column(y3));
-    
     % remove boundary rows (zeros) - NO EQUATIONS AT BOUNDARY
     
     LPSIX(~any(LPSIX,2), :) = [];
@@ -144,13 +167,12 @@ function F = eval_f(X, p, u)
     LPHIZ(~any(LPHIZ,2), :) = [];
 
     %
-    dPsidt = D*(LPSIX/p.hx^2 + LPSIY/p.hy^2 + LPSIZ/p.hz^2)*u_x + FPSI;
-    dPhidtX = D*(LPHIY./p.hy^2 + LPHIZ./p.hz^2)*u_y1 + FPHIX;
-    dPhidtY = D*(LPHIX./p.hx^2 + LPHIZ./p.hz^2)*u_y2 + FPHIY;
-    dPhidtZ = D*(LPHIX./p.hx^2 + LPHIY./p.hy^2)*u_y3 + FPHIZ;
-    
+    D = p.kappa^2;
 
+    dPsidt = D*(LPSIX/p.hx^2 + LPSIY/p.hy^2 + LPSIZ/p.hz^2)*x + FPSI;
+    dPhidtX = D*(LPHIY./p.hy^2 + LPHIZ./p.hz^2)*y1 + FPHIX;
+    dPhidtY = D*(LPHIX./p.hx^2 + LPHIZ./p.hz^2)*y2 + FPHIY;
+    dPhidtZ = D*(LPHIX./p.hx^2 + LPHIY./p.hy^2)*y3 + FPHIZ;
 
     F = [dPsidt; dPhidtX; dPhidtY; dPhidtZ];
-%     F = abs(F);
 end
