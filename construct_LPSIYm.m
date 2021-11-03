@@ -3,21 +3,17 @@ function LPSI = construct_LPSIYm(y,p)
 % LPSI = zeros((Nx+1)*(Ny+1)*(Nz+1));
 LPSI = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), (p.Nx+1)*(p.Ny+1)*(p.Nz+1));
 
-for k = 2:p.Nz
-    for j = 2:p.Ny
-        for i = 2:p.Nx
-            mj = (p.Nx+1)*j-(p.Nx+1)*(j-1);
-            mk = (p.Nx+1)*(p.Ny+1)*k-(p.Nx+1)*(p.Ny+1)*(k-1);
-            m = i+(p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+
+    mk = (p.Nx+1)*(p.Ny+1);
+    mj = (p.Nx+1);
+    m = p.M2;
             
-            LPSI(m,m) = -2;
+            LPSI(sub2ind(size(LPSI),m,m)) = -2;
             
             if p.Ny > 1
-                LPSI(m,m+mj) = exp(1i*y(m));
-                LPSI(m,m-mj) = exp(-1i*y(m-mj));
+                LPSI(sub2ind(size(LPSI),m,m+mj)) = exp(1i*y(m));
+                LPSI(sub2ind(size(LPSI),m,m-mj)) = exp(-1i*y(m-mj));
             end
-        end
-    end
-end
+
 
 end

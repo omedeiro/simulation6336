@@ -20,20 +20,45 @@ function F = eval_f(X, p, u)
     y2 = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     y3 = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     
-    %%%%%%% set internal values
-    for k = 2 : p.Nz
-        for j = 2 : p.Ny
-            for i = 2 : p.Nx
-                M = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                m = i-1 + (p.Nx-1)*(j-2)+(p.Nx-1)*(p.Ny-1)*(k-2);
+    % change name for smeplicity
+    M2 = p.M2;
+    m2 = p.m2;
+    m = p.m;
     
-                x(M) = x_int(m);
-                y1(M) = y1_int(m);
-                y2(M) = y2_int(m);
-                y3(M) = y3_int(m);
-            end
-        end
-    end
+    m1x = p.m1x;
+    m2x = p.m2x;
+    mNx = p.mNx;
+    mNxp1 = p.mNxp1;
+    m1x_int = p.m1x_int;
+    m2x_int = p.m2x_int;
+    mNx_int = p.mNx_int;
+    mNxp1_int = p.mNxp1_int;
+    
+    m1y = p.m1y;
+    m2y = p.m2y;
+    mNy = p.mNy;
+    mNyp1 = p.mNyp1;
+    m1y_int = p.m1y_int;
+    m2y_int = p.m2y_int;
+    mNy_int = p.mNy_int;
+    mNyp1_int = p.mNyp1_int;
+    
+    m1z = p.m1z;
+    m2z = p.m2z;
+    mNz = p.mNz;
+    mNzp1 = p.mNzp1;
+    m1z_int = p.m1z_int;
+    m2z_int = p.m2z_int;
+    mNz_int = p.mNz_int;
+    mNzp1_int = p.mNzp1_int;
+    
+    
+    %%%%%%% set internal values
+    x(M2) = x_int(m2);
+    y1(M2) = y1_int(m2);
+    y2(M2) = y2_int(m2);
+    y3(M2) = y3_int(m2);
+
 
     %%% BOUNDARY CONDITIONS %%%
     
@@ -42,104 +67,82 @@ function F = eval_f(X, p, u)
     
     % x boundaries
     periodic_x = 0;
-    for k = 1 : p.Nz+1
-        for j = 1 : p.Ny+1
-            m1 = 1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            m2 = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            mNx = p.Nx + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            mNxp1 = p.Nx+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
             
             if periodic_x
                 % periodic boundaries 
-                x(m1) = x(mNx); %34
-                x(mNxp1) = x(m2); %34
+                x(m1x) = x(mNx); %34
+                x(mNxp1) = x(m2x); %34
 
-                y1(m1) = y1(mNx); %34
-                y1(Nxp1) = y1(m2); %34
+                y1(m1x) = y1(mNx); %34
+                y1(Nxp1) = y1(m2x); %34
             else 
                 % zero current on x
-                x(m1) = x(m2).*exp(-1i*y1(m1)); %35
+                x(m1x) = x(m2x).*exp(-1i*y1(m1x)); %35
                 x(mNxp1) = x(mNx).*exp(1i*y1(mNx)); %35 
             end
            
             % Magnetic field x boundary conditions eq 37 
-            if k ~= 1 && k ~= p.Nz+1 && j ~= 1 && j ~= p.Ny+1
-                y2(m1) = -u.Bz*p.hx*p.hy + y1(m1) - y1(m1+mj) + y2(m2);
-                y2(mNxp1) = -u.Bz*p.hx*p.hy + y1(mNxp1) - y1(mNxp1+mj) + y2(mNx);
+            
+                y2(m1x_int) = -u.Bz*p.hx*p.hy + y1(m1x_int) - y1(m1x_int+mj) + y2(m2x_int);
+                y2(mNxp1_int) = -u.Bz*p.hx*p.hy + y1(mNxp1_int) - y1(mNxp1_int+mj) + y2(mNx_int);
 
-                y3(m1) = u.By*p.hz*p.hx + y3(m2) +y1(m1) - y1(m1+mk);
-                y3(mNxp1) = u.By*p.hz*p.hx + y3(mNx) +y1(mNxp1) - y1(mNxp1+mk);
-            end
-        end
-    end
-    
+                y3(m1x_int) = u.By*p.hz*p.hx + y3(m2x_int) +y1(m1x_int) - y1(m1x_int+mk);
+                y3(mNxp1_int) = u.By*p.hz*p.hx + y3(mNx_int) +y1(mNxp1_int) - y1(mNxp1_int+mk);
+            
+ 
     % y boundaries
     periodic_y = 0;
-    for k = 1 : p.Nz+1
-        for i = 1 : p.Nx+1 
-            m1 = i + (p.Nx+1)*(p.Ny+1)*(k-1);
-            m2 = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            mNy = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            mNyp1 = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
             
             if periodic_y
                 % periodic boundaries 
-                x(m1) = x(mNy); %34
-                x(mNyp1) = x(m2); %34
+                x(m1y) = x(mNy); %34
+                x(mNyp1) = x(m2y); %34
 
-                y2(m1) = y2(mNy); %34
-                y2(Nyp1) = y2(m2); %34
+                y2(m1y) = y2(mNy); %34
+                y2(Nyp1) = y2(m2y); %34
             else 
                 % zero current on y
-                x(m1) = x(m2).*exp(-1i*y2(m1)); %35
+                x(m1y) = x(m2y).*exp(-1i*y2(m1y)); %35
                 x(mNyp1) = x(mNy).*exp(1i*y2(mNy)); %35
             end
 
             % Magnetic field y boundary conditions eq 37 
-            if k ~= 1 && k ~= p.Nz+1 && i ~= 1 && i ~= p.Nx+1
-                y1(m1) = u.Bz*p.hx*p.hy + y1(m2) + y2(m1) - y2(m1+1);
-                y1(mNyp1) = u.Bz*p.hx*p.hy + y1(mNy) - y2(mNyp1) + y2(mNyp1+1);
+            
+                y1(m1y_int) = u.Bz*p.hx*p.hy + y1(m2y_int) + y2(m1y_int) - y2(m1y_int+1);
+                y1(mNyp1_int) = u.Bz*p.hx*p.hy + y1(mNy_int) - y2(mNyp1_int) + y2(mNyp1_int+1);
 
-                y3(m1) = -u.Bx*p.hy*p.hz + y2(m1) - y2(m1+mk) + y3(m2);
-                y3(mNyp1) = -u.Bx*p.hy*p.hz + y2(mNyp1) - y2(mNyp1+mk) + y3(mNy);
-            end
-        end
-    end
+                y3(m1y_int) = -u.Bx*p.hy*p.hz + y2(m1y_int) - y2(m1y_int+mk) + y3(m2y_int);
+                y3(mNyp1_int) = -u.Bx*p.hy*p.hz + y2(mNyp1_int) - y2(mNyp1_int+mk) + y3(mNy_int);
+            
+
     
      % z boundaries
     periodic_z = 0;
-    for j = 1 : p.Ny+1
-        for i = 1 : p.Nx+1
-            m1 = i + (p.Nx+1)*(j-1);
-            m2 = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
-            mNz = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
-            mNzp1 = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*p.Nz;
 
             if periodic_z
                 % periodic boundaries 
-                x(m1) = x(mNz); %34
-                x(mNzp1) = x(m2); %34
+                x(m1z) = x(mNz); %34
+                x(mNzp1) = x(m2z); %34
                 %%%%%%%%%%%%%%%%%%%%%%% WHY y1 periodic instead of y3, maybe error in paper?
                 %%%%%%%%%%%%%%%%%%%%%%% y1(m1) is defined below
-                y3(m1) = y3(mNz); %34
-                y3(Nzp1) = y3(m2); %34
+                y3(m1z) = y3(mNz); %34
+                y3(Nzp1) = y3(m2z); %34
             else 
                 % zero current on z
-                x(m1) = x(m2).*exp(-1i*y3(m1)); %35
+                x(m1z) = x(m2z).*exp(-1i*y3(m1z)); %35
                 x(mNzp1) = x(mNz).*exp(1i*y3(mNz)); %35
             end
             
             % Magnetic field z boundary conditions eq 37 
-            if j ~= 1 && j ~= p.Ny+1 && i ~= 1 && i ~= p.Nx+1
-                y1(m1) = -u.By*p.hz*p.hx + y3(m1) - y3(m1+1) + y1(m2);
-                y1(mNzp1) = -u.By*p.hz*p.hx + y3(mNzp1) - y3(mNzp1+1) + y1(mNz);
-
-                y2(m1) = u.Bx*p.hy*p.hz + y2(m2) + y3(m1) - y3(m1+mj);
-                y2(mNzp1) = u.Bx*p.hy*p.hz + y2(mNz) + y3(mNzp1) - y3(mNzp1+mj);
-            end
             
-        end
-    end
+                y1(m1z_int) = -u.By*p.hz*p.hx + y3(m1z_int) - y3(m1z_int+1) + y1(m2z_int);
+                y1(mNzp1_int) = -u.By*p.hz*p.hx + y3(mNzp1_int) - y3(mNzp1_int+1) + y1(mNz_int);
+
+                y2(m1z_int) = u.Bx*p.hy*p.hz + y2(m2z_int) + y3(m1z_int) - y3(m1z_int+mj);
+                y2(mNzp1_int) = u.Bx*p.hy*p.hz + y2(mNz_int) + y3(mNzp1_int) - y3(mNzp1_int+mj);
+            
+            
+  
 
     
     LPSIX = construct_LPSIXm(y1, p);

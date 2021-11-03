@@ -4,20 +4,16 @@ Ny = p.Ny;
 Nz = p.Nz;
 LPSI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
 
-for k = 2:Nz
-    for j = 2:Ny
-        for i = 2:Nx
-            mj = (Nx+1)*j-(Nx+1)*(j-1);
-            mk = (Nx+1)*(Ny+1)*k-(Nx+1)*(Ny+1)*(k-1);
-            m = i+(Nx+1)*(j-1)+(Nx+1)*(Ny+1)*(k-1);
+    mk = (p.Nx+1)*(p.Ny+1);
+    mj = (p.Nx+1);
+    m = p.M2;
+    
             
-            LPSI(m,m) = -2;
+            LPSI(sub2ind(size(LPSI),m,m)) = -2;
 
             if Nz > 1
-                LPSI(m,m+mk) = exp(1i*y(m));
-                LPSI(m,m-mk) = exp(-1i*y(m-mk));
+                LPSI(sub2ind(size(LPSI),m,m+mk)) = exp(1i*y(m));
+                LPSI(sub2ind(size(LPSI),m,m-mk)) = exp(-1i*y(m-mk));
             end
-        end
-    end
-end
+
 end

@@ -1,16 +1,14 @@
-function LPSI = construct_LPSIX(y,p)
+function LPSI = construct_LPSIXm(y,p)
 Nx = p.Nx;
 Ny = p.Ny;
 Nz = p.Nz;
 LPSI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
-    for k = 2:Nz
-        for j = 2:Ny
-            for i = 2:Nx
-                m = i+(Nx+1)*(j-1)+(Nx+1)*(Ny+1)*(k-1);
-                LPSI(m,m-1) = exp(-1i*y(m-1));
-                LPSI(m,m) = -2;
-                LPSI(m,m+1) = exp(1i*y(m));
-            end
-        end
-    end
+mk = (p.Nx+1)*(p.Ny+1);
+mj = (p.Nx+1);
+m = p.M2;
+
+LPSI(sub2ind(size(LPSI),m,m-1)) = exp(-1i*y(m-1));
+LPSI(sub2ind(size(LPSI),m,m)) = -2;
+LPSI(sub2ind(size(LPSI),m,m+1)) = exp(1i*y(m));
+ 
 end

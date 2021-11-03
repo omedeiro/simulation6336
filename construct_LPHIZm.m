@@ -7,20 +7,16 @@ Nx = p.Nx;
 Ny = p.Ny;
 Nz = p.Nz;
 LPHI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
-for k = 2:Nz
-    for j = 2:Ny
-        for i = 2:Nx
-%             mj = Nx*j-Nx*(j-1);
-%             mk = Nx*Ny*k-Nx*Ny*(k-1);
-%             m = Nx*(j-1)+Nx*Ny*(k-1);
-            mj = (Nx+1)*j-(Nx+1)*(j-1);
-            mk = (Nx+1)*(Ny+1)*k-(Nx+1)*(Ny+1)*(k-1);
-            m = i + (Nx+1)*(j-1)+(Nx+1)*(Ny+1)*(k-1);
+
+    mk = (p.Nx+1)*(p.Ny+1);
+    mj = (p.Nx+1);
+    m = p.M2;
+   
             
             
             % Diagonal
 %             if i ~= 1 && i ~= Nx
-                LPHI(m,m) = LPHI(m,m) - 2*(kappa^2/hx^2 + kappa^2/hy^2);
+                LPHI(sub2ind(size(LPHI),m,m)) = LPHI(sub2ind(size(LPHI),m,m)) - 2*(kappa^2/hx^2 + kappa^2/hy^2);
 %             end
             
 %             if i == 2 || i == Nx
@@ -38,8 +34,8 @@ for k = 2:Nz
 %                 end
 %                 
 %                 if i > 2 && i < Nx
-                    LPHI(m,m+1) = LPHI(m,m+1) + kappa^2/hx^2;
-                    LPHI(m,m-1) = LPHI(m,m-1) + kappa^2/hx^2;
+                    LPHI(sub2ind(size(LPHI),m,m+1)) = LPHI(sub2ind(size(LPHI),m,m+1)) + kappa^2/hx^2;
+                    LPHI(sub2ind(size(LPHI),m,m-1)) = LPHI(sub2ind(size(LPHI),m,m-1)) + kappa^2/hx^2;
 %                 end
 
             end
@@ -56,12 +52,10 @@ for k = 2:Nz
 %                 end
 
 %                 if j > 2 && j < Ny
-                    LPHI(m,m+mj) = LPHI(m,m+mj) + kappa^2/hy^2;
-                    LPHI(m,m-mj) = LPHI(m,m-mj) + kappa^2/hy^2;
+                    LPHI(sub2ind(size(LPHI),m,m+mj)) = LPHI(sub2ind(size(LPHI),m,m+mj)) + kappa^2/hy^2;
+                    LPHI(sub2ind(size(LPHI),m,m-mj)) = LPHI(sub2ind(size(LPHI),m,m-mj)) + kappa^2/hy^2;
 %                 end
             end
-       end
-    end
-end
+
 
 end

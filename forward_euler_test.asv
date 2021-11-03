@@ -9,7 +9,7 @@ eval_f = "eval_f";
 p.kappa=1;
 p.Nx = 30;
 p.Ny = 30;
-p.Nz = 30;
+p.Nz = 10;
 p.hx = 1e-9;
 p.hy = 1e-9;
 p.hz = 1e-9;
@@ -25,8 +25,6 @@ for k = 2 : p.Nz
         end
     end
 end
-% p.M2 = sub2ind([(p.Nx+1) (p.Nx+1) (p.Ny+1)], [2:p.Nx], [2:p.Ny], [2:p.Nz]);
-% p.m2 = sub2ind([(p.Nx-1) (p.Nx-1) (p.Ny-1)], [1:p.Nx-1], [1:p.Ny-1], [1:p.Nz-1]);
 
 h = 1;
 for k = 1 : p.Nz+1
@@ -37,8 +35,8 @@ for k = 1 : p.Nz+1
         end
     end
 end
-% 
-% p.M2 = sub2ind([(p.Nx+1) (p.Nx+1) (p.Ny+1)], [1:p.Nx+1], [1:p.Ny+1], [1:p.Nz+1]);
+
+
 
 % x
 h = 1;
@@ -51,10 +49,10 @@ for k = 1 : p.Nz+1
         p.mNxp1(h) = p.Nx+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
         h = h + 1;
         if k ~= 1 && k ~= p.Nz+1 && j ~= 1 && j ~= p.Ny+1
-            p.m1x_int(h_int) = 1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            p.m2x_int(h_int) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            p.mNx_int(h_int) = p.Nx + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            p.mNxp1_int(h_int) = p.Nx+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            p.m1x(h_int) = 1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            p.m2x(h_int) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            p.mNx(h_int) = p.Nx + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+            p.mNxp1(h_int) = p.Nx+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
             h_int = h_int + 1;
         end           
     end
@@ -71,35 +69,21 @@ for k = 1 : p.Nz+1
         p.mNy(h) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
         p.mNyp1(h) = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
         h = h + 1;
-        if k ~= 1 && k ~= p.Nz+1 && i ~= 1 && i ~= p.Nx+1
-            p.m1y_int(h_int) = i + (p.Nx+1)*(p.Ny+1)*(k-1);
-            p.m2y_int(h_int) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            p.mNy_int(h_int) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-            p.mNyp1_int(h_int) = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
-            h_int = h_int + 1;
-        end           
     end
 end
 
-% z
+
 h = 1;
-h_int = 1;
 for j = 1 : p.Ny+1
     for i = 1 : p.Nx+1
-        p.m1z(h) = i + (p.Nx+1)*(j-1);
-        p.m2z(h) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
-        p.mNz(h) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
-        p.mNzp1(h) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*p.Nz;
+        p.m1z = i + (p.Nx+1)*(j-1);
+        p.m2z = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
+        p.mNz = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
+        p.mNzp1 = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*p.Nz;
         h = h + 1;
-        if j ~= 1 && j ~= p.Ny+1 && i ~= 1 && i ~= p.Nx+1
-            p.m1z_int(h_int) = i + (p.Nx+1)*(j-1);
-            p.m2z_int(h_int) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
-            p.mNz_int(h_int) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
-            p.mNzp1_int(h_int) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*p.Nz;
-            h_int = h_int + 1;
-        end
     end
 end
+
 
 x = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, sqrt(1/((p.Nx-1)*(p.Ny-1)*(p.Nz-1))));
 y1 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
@@ -109,7 +93,7 @@ y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 x_start = [x;y1;y2;y3];
 
 t_start=0;
-t_stop=0.003;
+t_stop=0.001;
 visualize=0;
 max_dt_FE = .001;
 % figure(1)
