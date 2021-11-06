@@ -4,16 +4,16 @@ function LPSI = construct_LPSIYm(y,p)
 LPSI = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), (p.Nx+1)*(p.Ny+1)*(p.Nz+1));
 
 
-    mk = (p.Nx+1)*(p.Ny+1);
-    mj = (p.Nx+1);
-    m = p.M2;
+mk = (p.Nx+1)*(p.Ny+1);
+mj = (p.Nx+1);
+m = p.M2;
             
-            LPSI(sub2ind(size(LPSI),m,m)) = -2;
+LPSI(sub2ind(size(LPSI),m,m)) = -2;
             
-            if p.Ny > 1
-                LPSI(sub2ind(size(LPSI),m,m+mj)) = exp(1i*y(m));
-                LPSI(sub2ind(size(LPSI),m,m-mj)) = exp(-1i*y(m-mj));
-            end
+if p.Ny > 1
+    LPSI(sub2ind(size(LPSI),m,m+mj)) = exp(1i*y(m));
+    LPSI(sub2ind(size(LPSI),m,m-mj)) = exp(-1i*y(m-mj));
+end
 
 
 end

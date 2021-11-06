@@ -13,54 +13,20 @@ mk = (p.Nx+1)*(p.Ny+1);
 mj = (p.Nx+1);
 m = p.M2; 
 
-%             mj = Nx*j-Nx*(j-1);
-%             mk = Nx*Ny*k-Nx*Ny*(k-1);
-%             m = Nx*(j-1)+Nx*Ny*(k-1);
+
+LPHI(sub2ind(size(LPHI),m,m-1)) =  - 2*(kappa^2/hy^2 + kappa^2/hz^2);
 
 
-            % Diagonal
-%             if i ~= 2 && i ~= Nx
-
-                LPHI(sub2ind(size(LPHI),m,m-1)) = LPHI(sub2ind(size(LPHI),m,m-1)) - 2*(kappa^2/hy^2 + kappa^2/hz^2);
-%             end
-            
-%             if i == 2 || i == Nx
-%                 LPHI(i+m,i+m) = LPHI(i+m,i+m) -(kappa^2/hy^2 + kappa^2/hz^2);
-%             end
-            
-            % j TERMS
-            if Ny > 1
-%                 if j == 2 
-%                     LPHI(i+m,i+m+mj) = LPHI(i+m,i+m+mj) + kappa^2/hy^2;
-%                 end     
-% 
-%                 if j == Ny 
-%                     LPHI(i+m,i+m-mj) = LPHI(i+m,i+m-mj) + kappa^2/hy^2;
-%                 end
-%                 
-%                 if j > 2 && j < Ny
-                    LPHI(sub2ind(size(LPHI),m,m+mj)) = LPHI(sub2ind(size(LPHI),m,m+mj)) + kappa^2/hy^2;
-                    LPHI(sub2ind(size(LPHI),m,m-mj)) = LPHI(sub2ind(size(LPHI),m,m-mj)) + kappa^2/hy^2;
-%                 end
-
-            end
+if Ny > 1
+    LPHI(sub2ind(size(LPHI),m,m+mj)) = kappa^2/hy^2;
+    LPHI(sub2ind(size(LPHI),m,m-mj)) = kappa^2/hy^2;
+end
 
             
-            % k TERMS
-            if Nz > 1
-%                 if k == 2
-%                     LPHI(i+m,i+m+mk) = LPHI(i+m,i+m+mk) + kappa^2/hz^2;
-%                 end     
-% 
-%                 if k == Nz
-%                     LPHI(i+m,i+m-mk) = LPHI(i+m,i+m-mk) + kappa^2/hz^2;
-%                 end
-
-%                 if k > 2 && k < Nz
-                    LPHI(sub2ind(size(LPHI),m,m+mk)) = LPHI(sub2ind(size(LPHI),m,m+mk)) + kappa^2/hz^2;
-                    LPHI(sub2ind(size(LPHI),m,m-mk)) = LPHI(sub2ind(size(LPHI),m,m-mk)) + kappa^2/hz^2;
-%                 end
-            end
-
+% k TERMS
+if Nz > 1
+    LPHI(sub2ind(size(LPHI),m,m+mk)) = kappa^2/hz^2;
+    LPHI(sub2ind(size(LPHI),m,m-mk)) = kappa^2/hz^2;
+end
 
 end
