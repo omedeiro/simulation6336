@@ -5,9 +5,9 @@ if t <0
    u.By = 0;
    u.Bz = 0;
 else 
-   u.Bx = 0;
-   u.By = 0;
-   u.Bz = 0.1;
+   u.Bx = -t;
+   u.By = -t;
+   u.Bz = 0;
 end
 
 end
