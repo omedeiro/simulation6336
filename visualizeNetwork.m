@@ -1,4 +1,4 @@
-function visualizeNetwork(X,p)
+function visualizeNetwork(t,X,p)
 
 [Bx,By,Bz] = eval_Bfield(X,p);
 
@@ -13,7 +13,7 @@ yy2 = cube2column(yy2);
 zz2 = cube2column(zz2);
 n = (p.Nx-1)*(p.Ny-1)*(p.Nz-1);
 n2 = (p.Nx-2)*(p.Ny-2)*(p.Nz-2);
-for t = 1:size(X, 2)
+% for t = 1:size(X, 2)
     figure(2)
     PSIT = X(1:n,t);
     PHITX = X(n+1:2*n,t);
@@ -23,7 +23,7 @@ for t = 1:size(X, 2)
     subplot(2,2,1)
     scatter3(xx,yy,zz,36,abs(PSIT), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-    caxis([0 max(max(abs(PSIT)))]);
+%     caxis([0 max(max(abs(PSIT)))]);
     axis equal
     title('\psi')
     xlabel('x')
@@ -33,7 +33,7 @@ for t = 1:size(X, 2)
     subplot(2,2,2)
     scatter3(xx2,yy2,zz2,36,abs(Bx(:,t)), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-    caxis([0 max(max(Bx))]);
+%     caxis([0 max(max(Bx))]);
     axis equal
     title('Bx')
     xlabel('x')
@@ -43,7 +43,7 @@ for t = 1:size(X, 2)
     subplot(2,2,3)
     scatter3(xx2,yy2,zz2,36,abs(By(:,t)), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-    caxis([0 max(max(By))]);
+%     caxis([0 max(max(By))]);
     axis equal
     title('By')
     xlabel('x')
@@ -53,16 +53,24 @@ for t = 1:size(X, 2)
     subplot(2,2,4)
     scatter3(xx2,yy2,zz2,36,abs(Bz(:,t)), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-    caxis([0 max(max(Bz))]);
+%     caxis([0 max(max(Bz))]);
     axis equal
     title('Bz')
     xlabel('x')
     ylabel('y')
     zlabel('z')
     
+
     pause(0.5)    
     sgtitle(t)
     drawnow
+    
+    Bavg_x = mean(Bx(:,t),'all', 'omitnan');
+    Bavg_y = mean(By(:,t),'all', 'omitnan');
+    Bavg_z = mean(Bz(:,t),'all', 'omitnan');
+    
+    figure(3)
+    q = quiver3(1,1,1,Bavg_x,Bavg_y,Bavg_z)
     
 %     figure(3)
 %     PSIT = X(1:n,t);
@@ -130,6 +138,6 @@ for t = 1:size(X, 2)
 %     xlabel('x')
 %     ylabel('y')
 %     zlabel('z')
-end
+% end
 
 end

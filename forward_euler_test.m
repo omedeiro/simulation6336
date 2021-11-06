@@ -6,13 +6,13 @@ eval_u = "analytical_u_xyz";
 eval_f = "eval_f";
 
 
-p.kappa=.5;
-p.Nx = 30;
-p.Ny = 30;
-p.Nz = 30;
-p.hx = 1e-9;
-p.hy = 1e-9;
-p.hz = 1e-9;
+p.kappa=5;
+p.Nx = 100;
+p.Ny = 100;
+p.Nz = 10;
+p.hx = 1e-2;
+p.hy = 1e-2;
+p.hz = 1e-2;
 
 
 h = 1;
@@ -101,7 +101,7 @@ for j = 1 : p.Ny+1
     end
 end
 
-x = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, sqrt(1/((p.Nx-1)*(p.Ny-1)*(p.Nz-1))));
+x = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, sqrt(1/((p.Nx-1)*(p.Ny-1)*(p.Nz-1))));
 y1 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y2 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
@@ -109,11 +109,10 @@ y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 x_start = [x;y1;y2;y3];
 
 t_start=0;
-t_stop=0.01;
-visualize=0;
-max_dt_FE = .001;
+t_stop=0.001;
+max_dt_FE = .0005;
 
-[X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,visualize);
+[X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,1);
 
 
 %% 

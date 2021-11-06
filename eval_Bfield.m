@@ -1,8 +1,8 @@
 function [Bx, By, Bz] = eval_Bfield(X,p)
 
-mk = (p.Nx+1)*(p.Ny+1);
-mj = (p.Nx+1);
-m = p.M2; 
+mk = (p.Nx-1)*(p.Ny-1);
+mj = (p.Nx-1);
+% m = p.M2; 
 
 n = (p.Nx-1)*(p.Ny-1)*(p.Nz-1);
 n2 = (p.Nx-2)*(p.Ny-2)*(p.Nz-2);

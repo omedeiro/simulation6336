@@ -74,7 +74,7 @@ function F = eval_f(X, p, u)
                 x(mNxp1) = x(m2x); %34
 
                 y1(m1x) = y1(mNx); %34
-                y1(Nxp1) = y1(m2x); %34
+                y1(mNxp1) = y1(m2x); %34
             else 
                 % zero current on x
                 x(m1x) = x(m2x).*exp(-1i*y1(m1x)); %35
@@ -99,7 +99,7 @@ function F = eval_f(X, p, u)
                 x(mNyp1) = x(m2y); %34
 
                 y2(m1y) = y2(mNy); %34
-                y2(Nyp1) = y2(m2y); %34
+                y2(mNyp1) = y2(m2y); %34
             else 
                 % zero current on y
                 x(m1y) = x(m2y).*exp(-1i*y2(m1y)); %35
@@ -126,7 +126,7 @@ function F = eval_f(X, p, u)
                 %%%%%%%%%%%%%%%%%%%%%%% WHY y1 periodic instead of y3, maybe error in paper?
                 %%%%%%%%%%%%%%%%%%%%%%% y1(m1) is defined below
                 y3(m1z) = y3(mNz); %34
-                y3(Nzp1) = y3(m2z); %34
+                y3(mNzp1) = y3(m2z); %34
             else 
                 % zero current on z
                 x(m1z) = x(m2z).*exp(-1i*y3(m1z)); %35
