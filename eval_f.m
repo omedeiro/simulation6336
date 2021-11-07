@@ -14,12 +14,6 @@ function F = eval_f(X, p, u)
     y2_int = X(2*colN+1:3*colN);
     y3_int = X(3*colN+1:4*colN);
 
-    %%%%%%%% _int has size (p.Nx-1, p.Ny-1, p.Nz-1)
-    x = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-    y1 = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-    y2 = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-    y3 = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-    
     % change name for smeplicity
     M2 = p.M2;
     m2 = p.m2;
@@ -54,10 +48,15 @@ function F = eval_f(X, p, u)
     
     
     %%%%%%% set internal values
-    x(M2) = x_int(m2);
-    y1(M2) = y1_int(m2);
-    y2(M2) = y2_int(m2);
-    y3(M2) = y3_int(m2);
+%     x(M2) = x_int(m2);
+%     y1(M2) = y1_int(m2);
+%     y2(M2) = y2_int(m2);
+%     y3(M2) = y3_int(m2);
+    x = sparse(M2, 1, x_int(m2), (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    y1 = sparse(M2, 1, y1_int(m2), (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    y2 = sparse(M2, 1, y2_int(m2), (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    y3 = sparse(M2, 1, y3_int(m2), (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    
 
 
     %%% BOUNDARY CONDITIONS %%%
@@ -146,6 +145,10 @@ function F = eval_f(X, p, u)
     LPSIY = construct_LPSIYm(y2, p);
     LPSIZ = construct_LPSIZm(y3, p);
     
+    LPHIX = p.LPHIX;
+    LPHIY = p.LPHIY;
+    LPHIZ = p.LPHIZ;
+    
     FPSI = construct_FPSIm(x, p);
     FPHIX = construct_FPHIXm(x, y1, y2, y3, p);
     FPHIY = construct_FPHIYm(x, y1, y2, y3, p);
@@ -165,9 +168,9 @@ function F = eval_f(X, p, u)
     D = p.kappa^2;
 
     dPsidt = D*(LPSIX/p.hx^2 + LPSIY/p.hy^2 + LPSIZ/p.hz^2)*x + FPSI;
-    dPhidtX = D*(p.LPHIY./p.hy^2 + p.LPHIZ./p.hz^2)*y1 + FPHIX;
-    dPhidtY = D*(p.LPHIX./p.hx^2 + p.LPHIZ./p.hz^2)*y2 + FPHIY;
-    dPhidtZ = D*(p.LPHIX./p.hx^2 + p.LPHIY./p.hy^2)*y3 + FPHIZ;
+    dPhidtX = D*(LPHIY./p.hy^2 + LPHIZ./p.hz^2)*y1 + FPHIX;
+    dPhidtY = D*(LPHIX./p.hx^2 + LPHIZ./p.hz^2)*y2 + FPHIY;
+    dPhidtZ = D*(LPHIX./p.hx^2 + LPHIY./p.hy^2)*y3 + FPHIZ;
 
     F = [dPsidt; dPhidtX; dPhidtY; dPhidtZ];
 end

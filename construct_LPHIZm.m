@@ -8,26 +8,28 @@ kappa = p.kappa;
 % Nz = p.Nz;
 LPHI = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), (p.Nx+1)*(p.Ny+1)*(p.Nz+1));
 % 
-% mk = (p.Nx+1)*(p.Ny+1);
-% mj = (p.Nx+1);
-% m = p.M2;
+mk = (p.Nx+1)*(p.Ny+1);
+mj = (p.Nx+1);
+m = p.M2;
+N_L = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
+
 %    
 %             
             
 % Diagonal
-LPHI(p.L_m) = - 2*(kappa^2/hx^2 + kappa^2/hy^2);
+LPHI = LPHI + sparse(m, m, - 2*(kappa^2/hx^2 + kappa^2/hy^2), N_L, N_L);
 
 % i TERMS
-if Nx > 1
-    LPHI(p.L_p1) = kappa^2/hx^2;
-    LPHI(p.L_m1) = kappa^2/hx^2;
+if p.Nx > 1
+    LPHI = LPHI + sparse(m, m+1, kappa^2/hx^2, N_L, N_L);
+    LPHI = LPHI + sparse(m, m-1, kappa^2/hx^2, N_L, N_L);
 end
 
             
 % k TERMS
-if Ny > 1
-    LPHI(p.L_pmj) = kappa^2/hy^2;
-    LPHI(p.L_mmj) = kappa^2/hy^2;
+if p.Ny > 1
+    LPHI = LPHI + sparse(m, m+mj, kappa^2/hy^2, N_L, N_L);
+    LPHI = LPHI + sparse(m, m-mj, kappa^2/hy^2, N_L, N_L);
 end
 
 

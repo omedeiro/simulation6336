@@ -21,8 +21,8 @@ for n=1:ceil((t_stop-t_start)/timestep),
    f = feval(eval_f, X(:,n), p, u);
    X(:,n+1)= X(:,n) +  dt * f;
    if visualize
-%       visualizeResults(t,X,n+1,'.b');
-        visualizeNetwork(n,X,p)
+% %       visualizeResults(t,X,n+1,'.b');
+%         visualizeNetwork(n,X,p)
         save('X.mat','X');
    end
 end

@@ -20,7 +20,7 @@ function p = contruct_indices(p)
         for j = 1 : p.Ny+1
             for i = 1 : p.Nx+1
 
-                if k ~= 1 && k ~= p.Nz+1 && j ~= 1 && j ~= p.Ny+1 && i ~= 1 && j ~= p.Nx+1
+                if k ~= 1 && k ~= p.Nz+1 && j ~= 1 && j ~= p.Ny+1 && i ~= 1 && i ~= p.Nx+1
                     p.M2(h_M2) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
                     h_M2 = h_M2 + 1;
                 end
@@ -78,15 +78,15 @@ function p = contruct_indices(p)
     end
     
     
-    % indices for L
-    m = p.M2; 
-    dim_L = [(p.Nx+1)*(p.Ny+1)*(p.Nz+1),(p.Nx+1)*(p.Ny+1)*(p.Nz+1)];
-    p.L_m = sub2ind(dim_L,m,m);
-    p.L_pmj = sub2ind(dim_L,m,m+mj);
-    p.L_mmj = sub2ind(dim_L,m,m-mj);
-    p.L_pmk = sub2ind(dim_L,m,m+mk);
-    p.L_mmk = sub2ind(dim_L,m,m-mk);
-    p.L_p1 = sub2ind(dim_L,m,m+1);
-    p.L_m1 = sub2ind(dim_L,m,m-1);
+%     % indices for L
+%     m = p.M2; 
+%     dim_L = [(p.Nx+1)*(p.Ny+1)*(p.Nz+1),(p.Nx+1)*(p.Ny+1)*(p.Nz+1)];
+%     p.L_m = sub2ind(dim_L,m,m);
+%     p.L_pmj = sub2ind(dim_L,m,m+mj);
+%     p.L_mmj = sub2ind(dim_L,m,m-mj);
+%     p.L_pmk = sub2ind(dim_L,m,m+mk);
+%     p.L_mmk = sub2ind(dim_L,m,m-mk);
+%     p.L_p1 = sub2ind(dim_L,m,m+1);
+%     p.L_m1 = sub2ind(dim_L,m,m-1);
 end
 

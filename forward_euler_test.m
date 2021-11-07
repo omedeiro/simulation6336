@@ -10,9 +10,9 @@ p.kappa = 5;
 p.Nx = 100;
 p.Ny = 100;
 p.Nz = 100;
-p.hx = 1e-2;
-p.hy = 1e-2;
-p.hz = 1e-2;
+p.hx = 1;
+p.hy = 1;
+p.hz = 1;
 
 p = contruct_indices(p);
 
