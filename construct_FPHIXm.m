@@ -1,6 +1,6 @@
 function FPHIX = construct_FPHIXm(x, y1, y2, y3, p)
 
-FPHIX = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
+%FPHIX = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 mk = (p.Nx+1)*(p.Ny+1);
 mj = (p.Nx+1);
 

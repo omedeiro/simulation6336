@@ -7,7 +7,7 @@ Nx = p.Nx;
 Ny = p.Ny;
 Nz = p.Nz;
 
-LPHI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
+% LPHI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
 
 mk = (p.Nx+1)*(p.Ny+1);
 mj = (p.Nx+1);

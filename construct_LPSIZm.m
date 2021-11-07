@@ -2,7 +2,7 @@ function LPSI = construct_LPSIZm(y,p)
 Nx = p.Nx;
 Ny = p.Ny;
 Nz = p.Nz;
-LPSI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
+%LPSI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
 
 mk = (p.Nx+1)*(p.Ny+1);
 mj = (p.Nx+1);

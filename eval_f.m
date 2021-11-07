@@ -141,17 +141,10 @@ function F = eval_f(X, p, u)
                 y2(m1z_int) = u.Bx*p.hy*p.hz + y2(m2z_int) + y3(m1z_int) - y3(m1z_int+mj);
                 y2(mNzp1_int) = u.Bx*p.hy*p.hz + y2(mNz_int) + y3(mNzp1_int) - y3(mNzp1_int+mj);
             
-            
-  
-
     
     LPSIX = construct_LPSIXm(y1, p);
     LPSIY = construct_LPSIYm(y2, p);
     LPSIZ = construct_LPSIZm(y3, p);
-      
-    LPHIX = construct_LPHIXm(p);
-    LPHIY = construct_LPHIYm(p);
-    LPHIZ = construct_LPHIZm(p);
     
     FPSI = construct_FPSIm(x, p);
     FPHIX = construct_FPHIXm(x, y1, y2, y3, p);
@@ -172,9 +165,9 @@ function F = eval_f(X, p, u)
     D = p.kappa^2;
 
     dPsidt = D*(LPSIX/p.hx^2 + LPSIY/p.hy^2 + LPSIZ/p.hz^2)*x + FPSI;
-    dPhidtX = D*(LPHIY./p.hy^2 + LPHIZ./p.hz^2)*y1 + FPHIX;
-    dPhidtY = D*(LPHIX./p.hx^2 + LPHIZ./p.hz^2)*y2 + FPHIY;
-    dPhidtZ = D*(LPHIX./p.hx^2 + LPHIY./p.hy^2)*y3 + FPHIZ;
+    dPhidtX = D*(p.LPHIY./p.hy^2 + p.LPHIZ./p.hz^2)*y1 + FPHIX;
+    dPhidtY = D*(p.LPHIX./p.hx^2 + p.LPHIZ./p.hz^2)*y2 + FPHIY;
+    dPhidtZ = D*(p.LPHIX./p.hx^2 + p.LPHIY./p.hy^2)*y3 + FPHIZ;
 
     F = [dPsidt; dPhidtX; dPhidtY; dPhidtZ];
 end

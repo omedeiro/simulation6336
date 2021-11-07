@@ -1,6 +1,6 @@
 function FPHIZ = construct_FPHIZm(x, y1, y2, y3, p)
 
-FPHIZ = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
+%FPHIZ = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 
 mk = (p.Nx+1)*(p.Ny+1);
 mj = (p.Nx+1);
