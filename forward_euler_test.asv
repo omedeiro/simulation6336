@@ -110,7 +110,7 @@ x_start = [x;y1;y2;y3];
 
 t = 0.1;
 
-err_J = 1e-5;
+err_J = 1e-2;
 J = eval_num_jac(x_start, eval_f, p, eval_u, t, err_J)
 
 t_start=0;
