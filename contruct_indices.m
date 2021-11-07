@@ -1,7 +1,13 @@
 function p = contruct_indices(p)
+
+    mk = (p.Nx+1)*(p.Ny+1);
+    mj = (p.Nx+1);
+
     p.m2 = 1:(p.Nx-1)*(p.Nx-1)*(p.Ny-1);
     p.m = 1:(p.Nx+1)*(p.Nx+1)*(p.Ny+1);
-
+   
+    
+    % indices for vectors
     h_x = 1;
     h_int_x = 1;
     h_y = 1;
@@ -70,5 +76,17 @@ function p = contruct_indices(p)
             end
         end
     end
+    
+    
+    % indices for L
+    m = p.M2; 
+    dim_L = [(p.Nx+1)*(p.Ny+1)*(p.Nz+1),(p.Nx+1)*(p.Ny+1)*(p.Nz+1)];
+    p.L_m = sub2ind(dim_L,m,m);
+    p.L_pmj = sub2ind(dim_L,m,m+mj);
+    p.L_mmj = sub2ind(dim_L,m,m-mj);
+    p.L_pmk = sub2ind(dim_L,m,m+mk);
+    p.L_mmk = sub2ind(dim_L,m,m-mk);
+    p.L_p1 = sub2ind(dim_L,m,m+1);
+    p.L_m1 = sub2ind(dim_L,m,m-1);
 end
 

@@ -6,10 +6,10 @@ eval_u = "analytical_u_xyz";
 eval_f = "eval_f";
 
 
-p.kappa=5;
-p.Nx = 5;
-p.Ny = 5;
-p.Nz = 5;
+p.kappa = 5;
+p.Nx = 100;
+p.Ny = 100;
+p.Nz = 100;
 p.hx = 1e-2;
 p.hy = 1e-2;
 p.hz = 1e-2;

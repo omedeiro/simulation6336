@@ -1,19 +1,19 @@
 function LPSI = construct_LPSIZm(y,p)
-Nx = p.Nx;
-Ny = p.Ny;
-Nz = p.Nz;
-%LPSI = sparse((Nx+1)*(Ny+1)*(Nz+1), (Nx+1)*(Ny+1)*(Nz+1));
+% Nx = p.Nx;
+% Ny = p.Ny;
+% Nz = p.Nz;
+LPSI = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), (p.Nx+1)*(p.Ny+1)*(p.Nz+1));
 
 mk = (p.Nx+1)*(p.Ny+1);
-mj = (p.Nx+1);
+% mj = (p.Nx+1);
 m = p.M2;
 
             
-LPSI(sub2ind(size(LPSI),m,m)) = -2;
+LPSI(p.L_m) = -2;
 
 if Nz > 1
-    LPSI(sub2ind(size(LPSI),m,m+mk)) = exp(1i*y(m));
-    LPSI(sub2ind(size(LPSI),m,m-mk)) = exp(-1i*y(m-mk));
+    LPSI(p.L_pmk) = exp(1i*y(m));
+    LPSI(p.L_mmk) = exp(-1i*y(m-mk));
 end
 
 end
