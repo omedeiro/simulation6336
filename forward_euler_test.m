@@ -33,7 +33,7 @@ x_start = [x;y1;y2;y3];
 % J = eval_num_jac(x_start, eval_f, p, eval_u, t, err_J)
 
 t_start=0;
-t_stop=0.005;
+t_stop=0.01;
 max_dt_FE = .0005;
 
 [X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,1);

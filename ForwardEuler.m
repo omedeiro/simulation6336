@@ -15,6 +15,7 @@ t(1) = t_start;
 %    visualizeResults(t,X,1,'.b');
 % end
 for n=1:ceil((t_stop-t_start)/timestep),
+   n
    dt = min(timestep, (t_stop-t(n)));
    t(n+1)= t(n) + dt;
    u = feval(eval_u, t(n));
