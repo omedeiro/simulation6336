@@ -15,6 +15,7 @@ t(1) = t_start;
 %    visualizeResults(t,X,1,'.b');
 % end
 for n=1:ceil((t_stop-t_start)/timestep),
+   tic
    n
    dt = min(timestep, (t_stop-t(n)));
    t(n+1)= t(n) + dt;
@@ -26,4 +27,5 @@ for n=1:ceil((t_stop-t_start)/timestep),
 %         visualizeNetwork(n,X,p)
         save('X.mat','X');
    end
+   t_step = toc
 end

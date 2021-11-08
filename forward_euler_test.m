@@ -7,9 +7,9 @@ eval_f = "eval_f";
 
 
 p.kappa = 5;
-p.Nx = 100;
-p.Ny = 100;
-p.Nz = 100;
+p.Nx = 200;
+p.Ny = 200;
+p.Nz = 20;
 p.hx = 1;
 p.hy = 1;
 p.hz = 1;
@@ -33,7 +33,7 @@ x_start = [x;y1;y2;y3];
 % J = eval_num_jac(x_start, eval_f, p, eval_u, t, err_J)
 
 t_start=0;
-t_stop=0.01;
+t_stop=1;
 max_dt_FE = .0005;
 
 [X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,1);
