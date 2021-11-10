@@ -2,9 +2,9 @@ function visualizeNetwork(t,X,p)
 
 [Bx,By,Bz] = eval_Bfield(X,p);
 
-[xx, yy, zz] = meshgrid(1:p.hx:p.hx*(p.Nx-1), 1:p.hy:p.hy*(p.Ny-1), 1:p.hz:p.hz*(p.Nz-1));
+[yy, xx, zz] = meshgrid(p.hx:p.hx:p.hx*(p.Nx-1), p.hy:p.hy:p.hy*(p.Ny-1), p.hz:p.hz:p.hz*(p.Nz-1));
 
-[xx2, yy2, zz2] = meshgrid(p.hx:p.hx:p.hx*(p.Nx-2), p.hy:p.hy:p.hy*(p.Ny-2), p.hz:p.hz:p.hz*(p.Nz-2));
+[yy2, xx2, zz2] = meshgrid(p.hx:p.hx:p.hx*(p.Nx-2), p.hy:p.hy:p.hy*(p.Ny-2), p.hz:p.hz:p.hz*(p.Nz-2));
 xx = cube2column(xx);
 yy = cube2column(yy);
 zz = cube2column(zz);
@@ -21,7 +21,7 @@ n2 = (p.Nx-2)*(p.Ny-2)*(p.Nz-2);
     PHITZ = X(3*n+1:4*n,t);
 
     subplot(2,2,1)
-    scatter3(xx,yy,zz,36,abs(PSIT), 'filled', 'MarkerFaceAlpha', 0.5)
+    scatter3(xx,yy,zz,36,abs(PSIT).^2, 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
 %     caxis([0 max(max(abs(PSIT)))]);
     axis equal
