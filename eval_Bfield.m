@@ -17,11 +17,11 @@ for t = 1:size(X,2)
     PHIY = X(2*n+1:3*n,t);
     PHIZ = X(3*n+1:4*n,t);
 
-    Bx(m,t) = 1/(p.hy*p.hz) * (PHIY(m) - PHIY(m+mk) - PHIZ(m) + PHIZ(m+mj));
+    Bx(m,t) = 1/(p.hy*p.hz) * (PHIY(m) - PHIY(m+mk) - PHIZ(m) + PHIZ(m+1));
 
-    By(m,t) = 1/(p.hz*p.hx) * (PHIZ(m) - PHIZ(m+1) - PHIX(m) + PHIX(m+mk));
+    By(m,t) = 1/(p.hz*p.hx) * (PHIZ(m) - PHIZ(m+mj) - PHIX(m) + PHIX(m+mk));
 
-    Bz(m,t) = 1/(p.hx*p.hy) * (PHIX(m) - PHIX(m+mj) - PHIY(m) + PHIY(m+1));
+    Bz(m,t) = 1/(p.hx*p.hy) * (PHIX(m) - PHIX(m+1) - PHIY(m) + PHIY(m+mj));
 
 
 end

@@ -24,7 +24,7 @@ for n=1:ceil((t_stop-t_start)/timestep),
    X(:,n+1)= X(:,n) +  dt * f;
    if visualize
 % %       visualizeResults(t,X,n+1,'.b');
-%         visualizeNetwork(n,X,p)
+        visualizeNetwork(n,X,p)
         save('X.mat','X');
    end
    t_step = toc

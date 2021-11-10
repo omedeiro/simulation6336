@@ -5,25 +5,25 @@
 % x(N) = x(i-1)*exp(1i*x(N+i-1)); %psiN
 function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, kappa, N)
 
-    Jpsidpsi = zeros(N^3, N^3);
-    Jpsidphix = zeros(N^3, N^3);
-    Jpsidphiy = zeros(N^3, N^3);
-    Jpsidphiz = zeros(N^3, N^3);
+    Jpsidpsi = sparse(N^3, N^3);
+    Jpsidphix = sparse(N^3, N^3);
+    Jpsidphiy = sparse(N^3, N^3);
+    Jpsidphiz = sparse(N^3, N^3);
     
-    Jphixdpsi = zeros(N^3, N^3);
-    Jphixdphix = zeros(N^3, N^3);
-    Jphixdphiy = zeros(N^3, N^3);
-    Jphixdphiz = zeros(N^3, N^3);
+    Jphixdpsi = sparse(N^3, N^3);
+    Jphixdphix = sparse(N^3, N^3);
+    Jphixdphiy = sparse(N^3, N^3);
+    Jphixdphiz = sparse(N^3, N^3);
     
-    Jphiydpsi = zeros(N^3, N^3);
-    Jphiydphix = zeros(N^3, N^3);
-    Jphiydphiy = zeros(N^3, N^3);
-    Jphiydphiz = zeros(N^3, N^3);
+    Jphiydpsi = sparse(N^3, N^3);
+    Jphiydphix = sparse(N^3, N^3);
+    Jphiydphiy = sparse(N^3, N^3);
+    Jphiydphiz = sparse(N^3, N^3);
     
-    Jphizdpsi = zeros(N^3, N^3);
-    Jphizdphix = zeros(N^3, N^3);
-    Jphizdphiy = zeros(N^3, N^3);
-    Jphizdphiz = zeros(N^3, N^3);
+    Jphizdpsi = sparse(N^3, N^3);
+    Jphizdphix = sparse(N^3, N^3);
+    Jphizdphiy = sparse(N^3, N^3);
+    Jphizdphiz = sparse(N^3, N^3);
     
     for k = 1:N
     	for j = 1:N
@@ -127,7 +127,7 @@ function Janalytic = eval_analytical_jac_xyz(psi, phix, phiy, phiz, hx, hy, hz, 
     	end
     end
 % 	spy(Jpsidpsi)
-    Janalytic = [Jpsidpsi Jpsidphix Jpsidphiy Jpsidphiz; Jphixdpsi Jphixdphix Jphixdphiy Jphixdphiz; Jphiydpsi Jphiydphix Jphiydphiy Jphiydphiz; Jphizdpsi Jphizdphix Jphizdphiy Jphizdphiz];
+    Janalytic = sparse([Jpsidpsi Jpsidphix Jpsidphiy Jpsidphiz; Jphixdpsi Jphixdphix Jphixdphiy Jphixdphiz; Jphiydpsi Jphiydphix Jphiydphiy Jphiydphiz; Jphizdpsi Jphizdphix Jphizdphiy Jphizdphiz]);
 end
 
 
