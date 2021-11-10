@@ -52,10 +52,10 @@ function F = eval_f(X, p, u)
 %     y1(M2) = y1_int(m2);
 %     y2(M2) = y2_int(m2);
 %     y3(M2) = y3_int(m2);
-    x = sparse(M2, 1, x_int(m2), (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-    y1 = sparse(M2, 1, y1_int(m2), (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-    y2 = sparse(M2, 1, y2_int(m2), (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-    y3 = sparse(M2, 1, y3_int(m2), (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    x = sparse(M2, 1, x_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    y1 = sparse(M2, 1, y1_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    y2 = sparse(M2, 1, y2_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    y3 = sparse(M2, 1, y3_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     
 
 
