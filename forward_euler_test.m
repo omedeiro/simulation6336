@@ -5,7 +5,6 @@ eval_u = "analytical_u_xyz";
 
 eval_f = "eval_f";
 
-
 p.kappa = 5;
 p.Nx = 10;
 p.Ny = 10;
@@ -36,9 +35,12 @@ x_start = [x;y1;y2;y3];
 t_start=0;
 t_stop=.005;
 max_dt_FE = .0005;
+visualize = 0;
 
-[X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,1);
+[X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,visualize);
 
+%%
+visualizeNetworkFace(X,p)
 
 %% 
 [Bx,By,Bz] = eval_Bfield(X,p);
