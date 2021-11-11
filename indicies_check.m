@@ -15,7 +15,7 @@ p.hz = 1;
 
 p = contruct_indices(p);
 
-[xx, yy, zz] = meshgrid(1:p.hx:p.hx*(p.Nx+1), 1:p.hy:p.hy*(p.Ny+1), 1:p.hz:p.hz*(p.Nz+1));
+[yy, xx, zz] = meshgrid(1:p.hx:p.hx*(p.Nx+1), 1:p.hy:p.hy*(p.Ny+1), 1:p.hz:p.hz*(p.Nz+1));
 
 
 xx = cube2column(xx);
@@ -24,8 +24,35 @@ zz = cube2column(zz);
 
 
 N1cube = sparse(p.m,1,0);
-
-
+%%
+figure(10)
+for i = 1:p.Nx*p.Ny+p.Nz
+    N1cube = sparse(p.m,1,0);
+%     N1cube(p.m1x) = 1;
+    scatter3(xx(i),yy(i),zz(i),36,N1cube(i), 'filled', 'MarkerFaceAlpha', 0.5)
+    title('p.m1x')
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
+    pause(.005)
+    drawnow
+    hold on
+end
+%% 
+figure(11)
+for i = 1:p.Nx*p.Ny+p.Nz
+    N1cube = sparse(p.m,1,0);
+    N1cube(p.M2) = 1;
+    scatter3(xx(i),yy(i),zz(i),36,N1cube(i), 'filled', 'MarkerFaceAlpha', 0.5)
+    title('p.m1x')
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
+    pause(.005)
+    drawnow
+    hold on
+end
+%%
 
 figure(1)
 N1cube = sparse(p.m,1,0);
