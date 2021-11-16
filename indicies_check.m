@@ -40,18 +40,21 @@ for i = 1:p.Nx*p.Ny+p.Nz
 end
 %% 
 figure(11)
-for i = 1:p.Nx*p.Ny+p.Nz
-    N1cube = sparse(p.m,1,0);
-    N1cube(p.M2) = 1;
-    scatter3(xx(i),yy(i),zz(i),36,N1cube(i), 'filled', 'MarkerFaceAlpha', 0.5)
-    title('p.m1x')
-    xlabel('x')
-    ylabel('y')
-    zlabel('z')
-    pause(.005)
-    drawnow
-    hold on
-end
+[yy3, xx3, zz3] = meshgrid(1:p.hx:p.hx*(p.Nx-1), 1:p.hy:p.hy*(p.Ny-1), 1:p.hz:p.hz*(p.Nz-1));
+xx3 = cube2column(xx3);
+yy3 = cube2column(yy3);
+zz3 = cube2column(zz3);
+N1cube = sparse(p.m2,1,0);
+N1cube(p.M2B) = 1;
+scatter3(xx3,yy3,zz3,36,N1cube, 'filled', 'MarkerFaceAlpha', 0.5)
+title('p.M2B')
+xlabel('x')
+ylabel('y')
+zlabel('z')
+pause(.005)
+drawnow
+hold on
+
 %%
 
 figure(1)
@@ -290,6 +293,17 @@ N1cube = sparse(p.m,1,0);
 N1cube(p.mNzp1_int) = 1;
 scatter3(xx,yy,zz,36,N1cube, 'filled', 'MarkerFaceAlpha', 0.5)
 title('p.mNzp1\_int')
+xlabel('x')
+ylabel('y')
+zlabel('z')
+
+%% 
+
+figure
+N1cube = sparse(p.m,1,0);
+N1cube(p.M2B) = 1;
+scatter3(xx,yy,zz,36,N1cube, 'filled', 'MarkerFaceAlpha', 0.5)
+title('p.m1x')
 xlabel('x')
 ylabel('y')
 zlabel('z')
