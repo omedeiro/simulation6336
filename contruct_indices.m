@@ -15,7 +15,8 @@ function p = contruct_indices(p)
     h_z = 1;
     h_int_z = 1;
     h_M2 = 1;
-
+    h_M2B = 1;
+    
     for k = 1 : p.Nz+1
         for j = 1 : p.Ny+1
             for i = 1 : p.Nx+1
@@ -24,37 +25,40 @@ function p = contruct_indices(p)
                     p.M2(h_M2) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
                     h_M2 = h_M2 + 1;
                 end
+                
+
 
                 if i == 1
                     % x
-                    p.m1y(h_y) = 1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                    p.m2y(h_y) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                    p.mNy(h_y) = p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                    p.mNyp1(h_y) = p.Ny+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                    h_y = h_y + 1;
+                    p.m1x(h_x) = 1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                    p.m2x(h_x) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                    p.mNx(h_x) = p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                    p.mNxp1(h_x) = p.Ny+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                    h_x = h_x + 1;
                     if k ~= 1 && k ~= p.Nz+1 && j ~= 1 && j ~= p.Nx+1
-                        p.m1y_int(h_int_y) = 1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        p.m2y_int(h_int_y) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        p.mNy_int(h_int_y) = p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        p.mNyp1_int(h_int_y) = p.Ny+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        h_int_y = h_int_y + 1;
+                        p.m1x_int(h_int_x) = 1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.m2x_int(h_int_x) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNx_int(h_int_x) = p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNxp1_int(h_int_x) = p.Ny+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_int_x = h_int_x + 1;
                     end 
+                    
                 end
 
                 if j == 1
                     % y
-                    p.m1x(h_x) = i + (p.Nx+1)*(p.Ny+1)*(k-1);
-                    p.m2x(h_x) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                    p.mNx(h_x) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                    p.mNxp1(h_x) = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
-                    h_x = h_x + 1;
+                    p.m1y(h_y) = i + (p.Nx+1)*(p.Ny+1)*(k-1);
+                    p.m2y(h_y) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                    p.mNy(h_y) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                    p.mNyp1(h_y) = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
+                    h_y = h_y + 1;
                     if k ~= 1 && k ~= p.Nz+1 && i ~= 1 && i ~= p.Ny+1
-                        p.m1x_int(h_int_x) = i + (p.Nx+1)*(p.Ny+1)*(k-1);
-                        p.m2x_int(h_int_x) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        p.mNx_int(h_int_x) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        p.mNxp1_int(h_int_x) = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        h_int_x = h_int_x + 1;
-                    end           
+                        p.m1y_int(h_int_y) = i + (p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.m2y_int(h_int_y) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNy_int(h_int_y) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNyp1_int(h_int_y) = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_int_y = h_int_y + 1;
+                    end     
                 end
 
                 if k == 1
@@ -77,7 +81,20 @@ function p = contruct_indices(p)
         end
     end
     
-    
+    for k = 1 : p.Nz
+        for j = 1 : p.Ny
+            for i = 1 : p.Nx
+
+%                 if k ~= 1 && k ~= p.Nz && j ~= 1 && j ~= p.Ny && i ~= 1 && i ~= p.Nx
+                if k < p.Nz-1 && j < p.Ny-1 && i < p.Nx-1
+
+                    p.M2B(h_M2B) = i + (p.Nx-1)*(j-1)+(p.Nx-1)*(p.Ny-1)*(k-1);
+                    h_M2B = h_M2B + 1;
+                end
+                
+            end
+        end
+    end
 %     % indices for L
 %     m = p.M2; 
 %     dim_L = [(p.Nx+1)*(p.Ny+1)*(p.Nz+1),(p.Nx+1)*(p.Ny+1)*(p.Nz+1)];
