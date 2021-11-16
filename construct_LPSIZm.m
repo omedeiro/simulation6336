@@ -7,13 +7,9 @@ mk = (p.Nx+1)*(p.Ny+1);
 % mj = (p.Nx+1);
 m = p.M2;
 
-            
-% LPSI(p.L_m) = -2;
 LPSI = sparse(m, m, -2, N_L, N_L);
 
 if p.Nz > 1
-%     LPSI(p.L_pmk) = exp(1i*y(m));
-%     LPSI(p.L_mmk) = exp(-1i*y(m-mk));
     LPSI = LPSI + sparse(m, m+mk, exp(1i*y(m)), N_L, N_L);
     LPSI = LPSI + sparse(m, m-mk, exp(-1i*y(m-mk)), N_L, N_L);
 end
