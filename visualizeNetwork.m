@@ -63,13 +63,15 @@ if omm ==1
    
     sgtitle(t)
     drawnow
-    if t ==1
-        addpath(pwd+"\gifs")
-        filename = char(pwd+"\gifs\trapGif"+datestr(now,30)+".gif");
-        gif(filename);
-        save(filename(1:end-4),'p')
-    else
-        gif
+    if p.visualizeSave == 1
+        if t ==1
+            addpath(pwd+"\gifs")
+            filename = char(pwd+"\gifs\trapGif"+datestr(now,30)+".gif");
+            gif(filename);
+            save(filename(1:end-4),'p')
+        else
+            gif
+        end
     end
     % Capture the plot as an image 
 %     frame = getframe(gcf); 

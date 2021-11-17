@@ -15,7 +15,7 @@ p.hz = 1;
 
 p.magBx = 0;
 p.magBy = 0;
-p.magBz = 1;
+p.magBz = 0;
 
 p.periodic_x = 0;
 p.periodic_y = 0;
@@ -38,6 +38,7 @@ p.t_start=0;
 p.t_stop=.1;
 p.timestep = 1e-2;
 visualize = 1;
+p.visualizeSave = 0;
 [X] = Trapezoidal(eval_f,x_start,p,eval_u,p.t_start,p.t_stop,p.timestep,visualize);
 
 
