@@ -1,18 +1,26 @@
 function u = eval_u(t,p)
 
-x = sparse(M2, 1, x_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-y1 = sparse(M2, 1, y1_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-y2 = sparse(M2, 1, y2_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-y3 = sparse(M2, 1, y3_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+Bx = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+By = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+Bz = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 
+
+classicBx = [p.m1y_int p.m1z_int p.mNyp1_int, p.mNzp1_int];
+classicBy = [p.m1z_int p.m1x_int p.mNzp1_int, p.mNxp1_int];
+classicBz = [p.m1x_int p.m1y_int p.mNxp1_int, p.mNyp1_int];
 if t <0
-   u.Bx = 0;
-   u.By = 0;
-   u.Bz = 0;
+    Bx = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    By = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    Bz = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 else 
-   u.Bx = 0;
-   u.By = 0;
-   u.Bz = 1;
+    Bx = Bx + sparse(classicBx,1,p.magBx,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    By = By + sparse(classicBy,1,p.magBy,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    Bz = Bz + sparse(classicBz,1,p.magBz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 end
 
+u.Bx = Bx;
+u.By = By;
+u.Bz = Bz;
+
+p.u = u;
 end

@@ -60,9 +60,7 @@ if omm ==1
     xlabel('x')
     ylabel('y')
     zlabel('z')
-    
-
-    pause(0.05)    
+   
     sgtitle(t)
     drawnow
     if t ==1

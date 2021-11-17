@@ -33,7 +33,7 @@ for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
    t(n+1)= t(n) + dt;
    
    % Explicit solve for n+1 time
-   u = feval(eval_u,t(n));
+   u = feval(eval_u,t(n),p);
    f = feval(eval_f, X(:,n), p, u);
    Xpresent = X(:,n) +dt*f;
    gamma=X(:,n)+dt/2*f;
