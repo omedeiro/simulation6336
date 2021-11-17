@@ -14,24 +14,25 @@ zz2 = cube2column(zz2);
 n = (p.Nx-1)*(p.Ny-1)*(p.Nz-1);
 n2 = (p.Nx-2)*(p.Ny-2)*(p.Nz-2);
 % for t = 1:size(X, 2)
-    figure(2)
+omm=1;
+if omm ==1
     PSIT = X(1:n,t);
     PHITX = X(n+1:2*n,t);
     PHITY = X(2*n+1:3*n,t);
     PHITZ = X(3*n+1:4*n,t);
 
     subplot(2,2,1)
-    scatter3(xx,yy,zz,36,abs(PSIT).^2, 'filled', 'MarkerFaceAlpha', 0.5)
+    scatter3(xx,yy,zz,36,(abs(PSIT).^2)./max(max((abs(PSIT).^2))), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
 %     caxis([0 max(max(abs(PSIT)))]);
     axis equal
-    title('\psi')
+    title('|\psi|^2')
     xlabel('x')
     ylabel('y')
     zlabel('z')
     
     subplot(2,2,2)
-    scatter3(xx2,yy2,zz2,36,abs(Bx(:,t)), 'filled', 'MarkerFaceAlpha', 0.5)
+    scatter3(xx2,yy2,zz2,36,abs(Bx(:,t))./max(max(abs(Bx(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
 %     caxis([0 max(max(Bx))]);
     axis equal
@@ -41,7 +42,7 @@ n2 = (p.Nx-2)*(p.Ny-2)*(p.Nz-2);
     zlabel('z')
     
     subplot(2,2,3)
-    scatter3(xx2,yy2,zz2,36,abs(By(:,t)), 'filled', 'MarkerFaceAlpha', 0.5)
+    scatter3(xx2,yy2,zz2,36,abs(By(:,t))./max(max(abs(By(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
 %     caxis([0 max(max(By))]);
     axis equal
@@ -51,7 +52,7 @@ n2 = (p.Nx-2)*(p.Ny-2)*(p.Nz-2);
     zlabel('z')
     
     subplot(2,2,4)
-    scatter3(xx2,yy2,zz2,36,abs(Bz(:,t)), 'filled', 'MarkerFaceAlpha', 0.5)
+    scatter3(yy2,xx2,zz2,36,abs(Bz(:,t))./max(max(abs(Bz(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
 %     caxis([0 max(max(Bz))]);
     axis equal
@@ -61,65 +62,87 @@ n2 = (p.Nx-2)*(p.Ny-2)*(p.Nz-2);
     zlabel('z')
     
 
-    pause(0.5)    
+    pause(0.05)    
     sgtitle(t)
     drawnow
-    
-    
+    if t ==1
+        addpath(pwd+"\gifs")
+        filename = char(pwd+"\gifs\trapGif"+datestr(now,30)+".gif");
+        gif(filename);
+        save(filename(1:end-4),'p')
+    else
+        gif
+    end
+    % Capture the plot as an image 
+%     frame = getframe(gcf); 
+%     im = frame2im(frame); 
+%     [imind,cm] = rgb2ind(im,256); 
+%     % Write to the GIF File 
+%     if t == 1 
+%       imwrite(imind,cm,filename,'gif', 'Loopcount',inf); 
+%     else 
+%       imwrite(imind,cm,filename,'gif','WriteMode','append'); 
+%     end 
+end
     %%
 
     Bavg_x = mean(Bx(:,t),'all', 'omitnan');
     Bavg_y = mean(By(:,t),'all', 'omitnan');
     Bavg_z = mean(Bz(:,t),'all', 'omitnan');
     
+    om = 0;
+    if om==1
     figure(3)
     q = quiver3(1,1,1,Bavg_x,Bavg_y,Bavg_z);
     xlim([0 2])
     ylim([0 2])
-    
+    end
     
     %%
+    ommm = 0;
+    if ommm==1
     figure(4)
-    PSIT = X(1:n,t);
-    PHITX = X(n+1:2*n,t);
-    PHITY = X(2*n+1:3*n,t);
-    PHITZ = X(3*n+1:4*n,t);
+        PSIT = X(1:n,t);
+        PHITX = X(n+1:2*n,t);
+        PHITY = X(2*n+1:3*n,t);
+        PHITZ = X(3*n+1:4*n,t);
 
-    subplot(2,2,1)
-    scatter3(xx,yy,zz,36,abs(PSIT).^2, 'filled', 'MarkerFaceAlpha', 0.5)
-    colorbar
-    axis equal
-    xlabel('x')
-    ylabel('y')
-    zlabel('z')
-    
-    subplot(2,2,2)
-    scatter3(xx,yy,zz,36,abs(PHITX).^2, 'filled', 'MarkerFaceAlpha', 0.5)
-    colorbar
-    axis equal
-    xlabel('x')
-    ylabel('y')
-    zlabel('z')
-    
-    subplot(2,2,3)
-    scatter3(xx,yy,zz,36,abs(PHITY).^2, 'filled', 'MarkerFaceAlpha', 0.5)
-    colorbar
-    axis equal
-    xlabel('x')
-    ylabel('y')
-    zlabel('z')
-    
-    subplot(2,2,4)
-    scatter3(xx,yy,zz,36,abs(PHITZ).^2, 'filled', 'MarkerFaceAlpha', 0.5)
-    colorbar
-    axis equal
-    xlabel('x')
-    ylabel('y')
-    zlabel('z')
-    
-    pause(0.05)    
-    sgtitle(t)
-    drawnow
+        subplot(2,2,1)
+        scatter3(xx,yy,zz,36,abs(PSIT).^2./max(max(abs(PSIT).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
+        colorbar
+        axis equal
+        xlabel('x')
+        ylabel('y')
+        zlabel('z')
+
+        subplot(2,2,2)
+        scatter3(xx,yy,zz,36,abs(PHITX).^2./max(max(abs(PHITX).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
+        colorbar
+        axis equal
+        xlabel('x')
+        ylabel('y')
+        zlabel('z')
+
+        subplot(2,2,3)
+        scatter3(xx,yy,zz,36,abs(PHITY).^2./max(max(abs(PHITY).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
+        colorbar
+        axis equal
+        xlabel('x')
+        ylabel('y')
+        zlabel('z')
+
+        subplot(2,2,4)
+        scatter3(xx,yy,zz,36,abs(PHITZ).^2./max(max(abs(PHITZ).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
+        colorbar
+        axis equal
+        xlabel('x')
+        ylabel('y')
+        zlabel('z')
+
+        pause(0.05)    
+        sgtitle(t)
+        drawnow
+    end
 %     
 %     figure(4)
 %     subplot(1,3,1)
