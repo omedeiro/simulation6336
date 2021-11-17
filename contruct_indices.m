@@ -87,7 +87,6 @@ function p = contruct_indices(p)
 
 %                 if k ~= 1 && k ~= p.Nz && j ~= 1 && j ~= p.Ny && i ~= 1 && i ~= p.Nx
                 if k < p.Nz-1 && j < p.Ny-1 && i < p.Nx-1
-
                     p.M2B(h_M2B) = i + (p.Nx-1)*(j-1)+(p.Nx-1)*(p.Ny-1)*(k-1);
                     h_M2B = h_M2B + 1;
                 end
