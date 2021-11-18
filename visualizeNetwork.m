@@ -24,9 +24,9 @@ if omm ==1
     subplot(2,2,1)
     scatter3(xx,yy,zz,36,(abs(PSIT).^2)./max(max((abs(PSIT).^2))), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-%     caxis([0 max(max(abs(PSIT)))]);
+    caxis([0 1])
     axis equal
-    title('|\psi|^2')
+    title({'|\psi|^2',''})
     xlabel('x')
     ylabel('y')
     zlabel('z')
@@ -34,9 +34,9 @@ if omm ==1
     subplot(2,2,2)
     scatter3(xx2,yy2,zz2,36,abs(Bx(:,t))./max(max(abs(Bx(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-%     caxis([0 max(max(Bx))]);
+    caxis([0 1])
     axis equal
-    title('Bx')
+    title({'B_x',''})
     xlabel('x')
     ylabel('y')
     zlabel('z')
@@ -44,9 +44,9 @@ if omm ==1
     subplot(2,2,3)
     scatter3(xx2,yy2,zz2,36,abs(By(:,t))./max(max(abs(By(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-%     caxis([0 max(max(By))]);
+    caxis([0 1])
     axis equal
-    title('By')
+    title({'B_y',''})
     xlabel('x')
     ylabel('y')
     zlabel('z')
@@ -54,9 +54,9 @@ if omm ==1
     subplot(2,2,4)
     scatter3(yy2,xx2,zz2,36,abs(Bz(:,t))./max(max(abs(Bz(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-%     caxis([0 max(max(Bz))]);
+    caxis([0 1])
     axis equal
-    title('Bz')
+    title({'B_z',''})
     xlabel('x')
     ylabel('y')
     zlabel('z')
@@ -99,8 +99,8 @@ end
     end
     
     %%
-    ommm = 0;
-    if ommm==1
+    ommm = 1;
+    if ommm==0
     figure(4)
         PSIT = X(1:n,t);
         PHITX = X(n+1:2*n,t);
@@ -110,6 +110,7 @@ end
         subplot(2,2,1)
         scatter3(xx,yy,zz,36,abs(PSIT).^2./max(max(abs(PSIT).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
         colorbar
+        caxis([0 1])
         axis equal
         xlabel('x')
         ylabel('y')
@@ -118,6 +119,7 @@ end
         subplot(2,2,2)
         scatter3(xx,yy,zz,36,abs(PHITX).^2./max(max(abs(PHITX).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
         colorbar
+        caxis([0 1])
         axis equal
         xlabel('x')
         ylabel('y')
@@ -126,6 +128,7 @@ end
         subplot(2,2,3)
         scatter3(xx,yy,zz,36,abs(PHITY).^2./max(max(abs(PHITY).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
         colorbar
+        caxis([0 1])
         axis equal
         xlabel('x')
         ylabel('y')
@@ -134,6 +137,7 @@ end
         subplot(2,2,4)
         scatter3(xx,yy,zz,36,abs(PHITZ).^2./max(max(abs(PHITZ).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
         colorbar
+        caxis([0 1])
         axis equal
         xlabel('x')
         ylabel('y')
