@@ -24,44 +24,50 @@ if omm ==1
     subplot(2,2,1)
     scatter3(xx,yy,zz,36,(abs(PSIT).^2)./max(max((abs(PSIT).^2))), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-    caxis([0 1])
+%     caxis([0 1])
     axis equal
     title({'|\psi|^2',''})
     xlabel('x')
     ylabel('y')
     zlabel('z')
-    
+    view(0,90)
+
     subplot(2,2,2)
-    scatter3(xx2,yy2,zz2,36,abs(Bx(:,t))./max(max(abs(Bx(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
+    scatter3(xx2,yy2,zz2,36,real(Bx(:,t))./max(max(real(Bx(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-    caxis([0 1])
+%     caxis([-1 1])
     axis equal
     title({'B_x',''})
     xlabel('x')
     ylabel('y')
     zlabel('z')
-    
+    view(0,90)
+
+        
     subplot(2,2,3)
-    scatter3(xx2,yy2,zz2,36,abs(By(:,t))./max(max(abs(By(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
+    scatter3(xx2,yy2,zz2,36,real(By(:,t))./max(max(real(By(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-    caxis([0 1])
+%     caxis([-1 1])
     axis equal
     title({'B_y',''})
     xlabel('x')
     ylabel('y')
     zlabel('z')
-    
+    view(0,90)
+
     subplot(2,2,4)
-    scatter3(yy2,xx2,zz2,36,abs(Bz(:,t))./max(max(abs(Bz(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
+    scatter3(yy2,xx2,zz2,36,real(Bz(:,t)), 'filled', 'MarkerFaceAlpha', 0.5)
+
+%         scatter3(yy2,xx2,zz2,36,real(Bz(:,t))./max(max(real(Bz(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-    caxis([0 1])
+%     caxis([-1 1])
     axis equal
     title({'B_z',''})
     xlabel('x')
     ylabel('y')
     zlabel('z')
-   
-    sgtitle(t)
+    view(0,90)
+    sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.appliedBz)
     drawnow
     if p.visualizeSave == 1
         if t ==1
@@ -86,9 +92,9 @@ if omm ==1
 end
     %%
 
-    Bavg_x = mean(Bx(:,t),'all', 'omitnan');
-    Bavg_y = mean(By(:,t),'all', 'omitnan');
-    Bavg_z = mean(Bz(:,t),'all', 'omitnan');
+    Bavg_x = real(mean(Bx(:,t),'all', 'omitnan'));
+    Bavg_y = real(mean(By(:,t),'all', 'omitnan'));
+    Bavg_z = real(mean(Bz(:,t),'all', 'omitnan'));
     
     om = 0;
     if om==1
@@ -99,7 +105,7 @@ end
     end
     
     %%
-    ommm = 1;
+    ommm = 0;
     if ommm==0
     figure(4)
         PSIT = X(1:n,t);
@@ -144,34 +150,9 @@ end
         zlabel('z')
 
         pause(0.05)    
-        sgtitle(t)
+        sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.appliedBz)
         drawnow
     end
-%     
-%     figure(4)
-%     subplot(1,3,1)
-%     scatter3(xx2,yy2,zz2,36,real(Bx(:,t)),'filled', 'MarkerFaceAlpha',0.5)
-%     colorbar
-%     axis equal
-%     xlabel('x')
-%     ylabel('y')
-%     zlabel('z')
-%     
-%     subplot(1,3,2)
-%     scatter3(xx2,yy2,zz2,36,real(By(:,t)),'filled', 'MarkerFaceAlpha',0.5)
-%     colorbar
-%     axis equal
-%     xlabel('x')
-%     ylabel('y')
-%     zlabel('z')
-%     
-%     subplot(1,3,3)
-%     scatter3(xx2,yy2,zz2,36,real(Bz(:,t)),'filled', 'MarkerFaceAlpha',0.5)
-%     colorbar
-%     axis equal
-%     xlabel('x')
-%     ylabel('y')
-%     zlabel('z')
-% end
+
 
 end
