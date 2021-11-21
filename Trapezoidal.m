@@ -16,10 +16,10 @@ t(1) = t_start;
 % end
 
 
-tolrGCR   = 1e-3;  % convergence criteria on the GCR residual inside Newton
+tolrGCR   = 1e-2;  % convergence criteria on the GCR residual inside Newton
 epsMF     = 1e-4;
-errf	    = 1e-2;
-errDeltax   = 1e-2;
+errf	    = 1e-1;
+errDeltax   = 1e-1;
 relDeltax   = 1;     % note this is equivalent to NOT specifying it
 MaxIter     = 20;
 
@@ -33,7 +33,8 @@ for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
    t(n+1)= t(n) + dt;
    
    % Explicit solve for n+1 time
-   u = feval(eval_u,t(n),p);
+   [u,P] = feval(eval_u,t(n),X(:,n),p);
+   p = P;
    f = feval(eval_f, X(:,n), p, u);
    Xpresent = X(:,n) +dt*f;
    gamma=X(:,n)+dt/2*f;
