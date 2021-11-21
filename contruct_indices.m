@@ -17,6 +17,21 @@ function p = contruct_indices(p)
     h_M2 = 1;
     h_M2B = 1;
     
+    h_edge_x = 1;
+    h_edge_y = 1;
+    h_edge_z = 1;
+    
+    h_edge_x2 = 1;
+    h_edge_y2 = 1;
+    h_edge_z2 = 1;
+    
+    h_checkx1 = 1;
+    h_checkx2 = 1;
+    h_checky1 = 1;
+    h_checky2 = 1;
+    h_checkz1 = 1;
+    h_checkz2 = 1;
+    
     for k = 1 : p.Nz+1
         for j = 1 : p.Ny+1
             for i = 1 : p.Nx+1
@@ -40,8 +55,29 @@ function p = contruct_indices(p)
                         p.m2x_int(h_int_x) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
                         p.mNx_int(h_int_x) = p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
                         p.mNxp1_int(h_int_x) = p.Ny+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        if mod(j,2)==0
+                            p.m2x_int_cb1(h_checkx1) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                            p.mNx_int_cb1(h_checkx1) = p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                            h_checkx1 = h_checkx1+1;
+                        else
+                            p.m2x_int_cb2(h_checkx2) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                            p.mNx_int_cb2(h_checkx2) = p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);                
+                            h_checkx2 = h_checkx2+1;
+                        end
                         h_int_x = h_int_x + 1;
                     end 
+                    
+                    if (j==1 || j==p.Ny+1) 
+                        p.m1xedge(h_edge_x) = 1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNxedgep1(h_edge_x) =  p.Ny+1 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_edge_x = h_edge_x+1;
+                    end
+                    
+                    if (j==2 || j==p.Ny) && (k ~= 1 && k ~= p.Nz+1)
+                        p.m2xedge(h_edge_x2) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNxedge(h_edge_x2) =  p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_edge_x2 = h_edge_x2+1;
+                    end
                     
                 end
 
@@ -57,8 +93,30 @@ function p = contruct_indices(p)
                         p.m2y_int(h_int_y) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
                         p.mNy_int(h_int_y) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
                         p.mNyp1_int(h_int_y) = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        
+                        if mod(k,2)==0
+                            p.m2y_int_cb1(h_checky1) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                            p.mNy_int_cb1(h_checky1) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                            h_checky1 = h_checky1+1;
+                        else
+                            p.m2y_int_cb2(h_checky2) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                            p.mNy_int_cb2(h_checky2) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);                    
+                            h_checky2 = h_checky2+1;
+                        end
+                        
                         h_int_y = h_int_y + 1;
                     end     
+                    
+                    if (k==1 || k==p.Nz+1)
+                        p.m1yedge(h_edge_y) = i + (p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNyedgep1(h_edge_y) = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_edge_y = h_edge_y+1;
+                    end
+                    if (k==2 || k==p.Nz) && (i ~= 1 && i ~= p.Ny+1)
+                        p.m2yedge(h_edge_y2) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNyedge(h_edge_y2) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_edge_y2 = h_edge_y2+1;
+                    end
                 end
 
                 if k == 1
@@ -73,7 +131,28 @@ function p = contruct_indices(p)
                         p.m2z_int(h_int_z) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
                         p.mNz_int(h_int_z) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
                         p.mNzp1_int(h_int_z) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*p.Nz;
+                        
+                        if mod(i,2)==0
+                            p.m2z_int_cb1(h_checkz1) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
+                            p.mNz_int_cb1(h_checkz1) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
+                            h_checkz1 = h_checkz1+1;
+                        else
+                            p.m2z_int_cb2(h_checkz2) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
+                            p.mNz_int_cb2(h_checkz2) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);                        
+                            h_checkz2 = h_checkz2+1;
+                        end
                         h_int_z = h_int_z + 1;
+                    end
+                                        
+                    if (i==1 || i==p.Nz+1)
+                        p.m1zedge(h_edge_z) = i + (p.Nx+1)*(j-1);
+                        p.mNzedgep1(h_edge_z) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*p.Nz;
+                        h_edge_z = h_edge_z+1;
+                    end
+                    if (i==2 || i==p.Nz) && (j ~= 1 && j ~= p.Ny+1)
+                        p.m2zedge(h_edge_z2) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
+                        p.mNzedge(h_edge_z2) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
+                        h_edge_z2 = h_edge_z2+1;
                     end
                 end
 
