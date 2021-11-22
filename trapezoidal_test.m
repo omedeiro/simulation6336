@@ -19,7 +19,7 @@ p.hz = 1;
 
 p.magBx = 0;
 p.magBy = 0;
-p.magBz = 0;
+p.magBz = 0.3;
 p.appliedBz = 0;
 p.periodic_x = 1;
 p.periodic_y = 1;
@@ -32,6 +32,29 @@ p.LPHIY = construct_LPHIYm(p);
 p.LPHIZ = construct_LPHIZm(p);
 
 x = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, 1);
+% introduce surface roughness
+
+
+% initialize w/"defects"
+for i = 1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1)
+    random = rand(1, 1);
+    rphaser = rand(1, 1);
+    rphasei = rand(1, 1);
+    if random < 0.5
+        x(i, 1) = 1 - random*(rphaser + 1i*rphasei)/(sqrt(rphaser^2 + rphasei^2));
+    end
+end
+
+% initialize w/vortex
+%{
+offset = 7;
+for i=1:8
+    for j = 1:8
+        x(index_map(offset+i, offset+j, 1, p)) = 0;
+    end
+end
+%}
+
 
 %%
 x_start = [x;y1;y2;y3];
