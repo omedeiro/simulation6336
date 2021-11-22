@@ -1,4 +1,4 @@
-function [X, f, errf_k,errDeltax_k] = Trapezoidal(eval_f,x_start,p,eval_u,t_start,t_stop,timestep,visualize)
+function [X, p, f, errf_k,errDeltax_k] = Trapezoidal(eval_f,x_start,p,eval_u,t_start,t_stop,timestep,visualize)
 % uses Forward Euler to simulate states model dx/dt=f(x,p,u)
 % from state x_start at time t_start
 % until time t_stop, with time intervals timestep
@@ -31,10 +31,11 @@ eval_Jf = 0;
 for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
    dt = min(timestep, (t_stop-t(n)));
    t(n+1)= t(n) + dt;
-   
+   t(n)
    % Explicit solve for n+1 time
    [u,P] = feval(eval_u,t(n),X(:,n),p);
    p = P;
+   p.Brealt(n) = p.Breal;
    f = feval(eval_f, X(:,n), p, u);
    Xpresent = X(:,n) +dt*f;
    gamma=X(:,n)+dt/2*f;
@@ -44,7 +45,6 @@ for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
    % Exit Newton loop
 
    X(:,n+1)= x ;
-   h = figure(1);
    if visualize
 %       visualizeResults(t,X,n+1,'.b');
         visualizeNetwork(n,X,p)
