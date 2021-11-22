@@ -75,7 +75,7 @@ iterations = k-1;
 
 if errf_k<=errf & errDeltax_k<=errDeltax & relDeltax_k<=relDeltax
    converged = 1;
-   fprintf(1, 'Newton converged in %d iterations\n', iterations);
+%    fprintf(1, 'Newton converged in %d iterations\n', iterations);
 else
    converged=0;
    fprintf(1, 'Newton did NOT converge! Maximum Number of Iterations reached\n');
