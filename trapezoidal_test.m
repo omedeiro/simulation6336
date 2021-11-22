@@ -64,8 +64,13 @@ end
 x_start = [x;y1;y2;y3];
 
 p.t_start=0;
-p.t_stop=100;
+p.t_stop=50;
 p.timestep = 1e-1;
-visualize = 1;
-p.visualizeSave = 1;
-[X] = Trapezoidal(eval_f,x_start,p,eval_u,p.t_start,p.t_stop,p.timestep,visualize);
+visualize = 0;
+p.visualizeSave = 0;
+[X,p] = Trapezoidal(eval_f,x_start,p,eval_u,p.t_start,p.t_stop,p.timestep,visualize);
+
+
+%% 
+p.visualizeSave=1;
+visualizeNetworkX(X,p)
