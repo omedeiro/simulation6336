@@ -21,10 +21,14 @@ function p = contruct_indices(p)
     h_edge_y = 1;
     h_edge_z = 1;
     
-    h_edge_x2 = 1;
-    h_edge_y2 = 1;
-    h_edge_z2 = 1;
+    h_edge_x21 = 1;
+    h_edge_y21 = 1;
+    h_edge_z21 = 1;
     
+    h_edge_x22 = 1;
+    h_edge_y22 = 1;
+    h_edge_z22 = 1;
+
     h_checkx1 = 1;
     h_checkx2 = 1;
     h_checky1 = 1;
@@ -73,12 +77,18 @@ function p = contruct_indices(p)
                         h_edge_x = h_edge_x+1;
                     end
                     
-                    if (j==2 || j==p.Ny) && (k ~= 1 && k ~= p.Nz+1)
-                        p.m2xedge(h_edge_x2) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        p.mNxedge(h_edge_x2) =  p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        h_edge_x2 = h_edge_x2+1;
-                    end
+
+                    if (j==2) && (k ~= 1 && k ~= p.Nz+1)
+                        p.m2xedge1(h_edge_x21) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNxedge1(h_edge_x21) =  p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_edge_x21 = h_edge_x21+1;
+                    end     
                     
+                    if (j==p.Ny) && (k ~= 1 && k ~= p.Nz+1)
+                        p.m2xedge2(h_edge_x22) = 2 + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNxedge2(h_edge_x22) =  p.Ny + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_edge_x22 = h_edge_x22+1;
+                    end
                 end
 
                 if j == 1
@@ -112,10 +122,16 @@ function p = contruct_indices(p)
                         p.mNyedgep1(h_edge_y) = i + (p.Nx+1)*p.Ny+(p.Nx+1)*(p.Ny+1)*(k-1);
                         h_edge_y = h_edge_y+1;
                     end
-                    if (k==2 || k==p.Nz) && (i ~= 1 && i ~= p.Ny+1)
-                        p.m2yedge(h_edge_y2) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        p.mNyedge(h_edge_y2) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
-                        h_edge_y2 = h_edge_y2+1;
+                    
+                    if (k==2) && (i ~= 1 && i ~= p.Ny+1)
+                        p.m2yedge1(h_edge_y21) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNyedge1(h_edge_y21) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_edge_y21 = h_edge_y21+1;
+                    end
+                    if (k==p.Nz) && (i ~= 1 && i ~= p.Ny+1)
+                        p.m2yedge2(h_edge_y22) = i + (p.Nx+1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        p.mNyedge2(h_edge_y22) = i + (p.Nx+1)*(p.Ny-1)+(p.Nx+1)*(p.Ny+1)*(k-1);
+                        h_edge_y22 = h_edge_y22+1;
                     end
                 end
 
@@ -149,10 +165,15 @@ function p = contruct_indices(p)
                         p.mNzedgep1(h_edge_z) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*p.Nz;
                         h_edge_z = h_edge_z+1;
                     end
-                    if (i==2 || i==p.Nz) && (j ~= 1 && j ~= p.Ny+1)
-                        p.m2zedge(h_edge_z2) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
-                        p.mNzedge(h_edge_z2) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
-                        h_edge_z2 = h_edge_z2+1;
+                    if (i==2) && (j ~= 1 && j ~= p.Ny+1)
+                        p.m2zedge1(h_edge_z21) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
+                        p.mNzedge1(h_edge_z21) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
+                        h_edge_z21 = h_edge_z21+1;
+                    end
+                    if (i==p.Nz) && (j ~= 1 && j ~= p.Ny+1)
+                        p.m2zedge2(h_edge_z22) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1);
+                        p.mNzedge2(h_edge_z22) = i + (p.Nx+1)*(j-1)+(p.Nx+1)*(p.Ny+1)*(p.Nz-1);
+                        h_edge_z22 = h_edge_z22+1;
                     end
                 end
 
