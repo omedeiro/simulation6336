@@ -71,8 +71,8 @@ if omm ==1
     drawnow
     if p.visualizeSave == 1
         if t ==1
-            addpath(pwd+"\gifs")
-            filename = char(pwd+"\gifs\trapGif"+datestr(now,30)+".gif");
+            addpath(pwd+"/gifs")
+            filename = char(pwd+"/gifs/trapGif"+datestr(now,30)+".gif");
             gif(filename);
             save(filename(1:end-4),'p')
         else

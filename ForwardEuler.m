@@ -19,7 +19,8 @@ for n=1:ceil((t_stop-t_start)/timestep),
    n
    dt = min(timestep, (t_stop-t(n)));
    t(n+1)= t(n) + dt;
-   u = feval(eval_u, t(n));
+   [u, P] = feval(eval_u, t(n), X(:,n), p);
+   p = P;
    f = feval(eval_f, X(:,n), p, u);
    X(:,n+1)= X(:,n) +  dt * f;
    if visualize

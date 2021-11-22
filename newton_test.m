@@ -5,7 +5,7 @@ eval_u = "analytical_u_xyz";
 eval_f = "eval_f";
 
 
-p.kappa = 1;
+p.kappa = 5;
 p.Nx = 10;
 p.Ny = 10;
 p.Nz = 10;
@@ -19,7 +19,7 @@ p.LPHIX = construct_LPHIXm(p);
 p.LPHIY = construct_LPHIYm(p);
 p.LPHIZ = construct_LPHIZm(p);
 
-x = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, sqrt(1/((p.Nx-1)*(p.Ny-1)*(p.Nz-1))));
+x = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, 1);
 y1 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y2 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
@@ -37,13 +37,13 @@ u = feval(eval_u, 0);
 errf = 1E-8;
 errDeltax = 1E-8;
 relDeltax = 1E-8;
-MaxIter = 20;
-visualize = false;
+MaxIter = 200;
+visualize = true;
 tolrGCR = 1E-8;
 epsMF = 1E-3;
 
-[X,converged,errf_k,errDeltax_k,relDeltax_k,iterations] = NewtonGCR(eval_f,x_start,p,u,errf, errDeltax, relDeltax, MaxIter, visualize, false, 0, tolrGCR, epsMF)
+[X_field,converged,errf_k,errDeltax_k,relDeltax_k,iterations] = NewtonGCR(eval_f,x_start,p,u,errf, errDeltax, relDeltax, MaxIter, visualize, false, 0, tolrGCR, epsMF)
 
 
 %% 
-visualizeNetwork(1, X,p)
+visualizeNetwork(1, X_field,p)

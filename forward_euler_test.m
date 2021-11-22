@@ -1,21 +1,26 @@
 
 clear all
 close all
-eval_u = "analytical_u_xyz";
+eval_u = "eval_u";
 
 eval_f = "eval_f";
 
 p.kappa = 5;
-p.Nx = 50;
-p.Ny = 50;
-p.Nz = 10;
+p.Nx = 30;
+p.Ny = 30;
+p.Nz = 3;
 p.hx = 1;
 p.hy = 1;
 p.hz = 1;
 
+p.magBx = 0;
+p.magBy = 0;
+p.magBz = 0;
+p.appliedBz = 1;
 p.periodic_x = 1;
 p.periodic_y = 1;
 p.periodic_z = 0;
+
 
 p = contruct_indices(p);
 
@@ -28,16 +33,37 @@ y1 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y2 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 
+
+% initialize w/"defects"
+
+for i = 1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1)
+    random = rand(1, 1);
+    rphaser = rand(1, 1);
+    rphasei = rand(1, 1);
+    if random < 0.5
+        x(i, 1) = 1 - random*(rphaser + 1i*rphasei)/(sqrt(rphaser^2 + rphasei^2));
+    end
+end
+
 x_start = [x;y1;y2;y3];
 
 t_start=0;
-t_stop=.01;
-max_dt_FE = .0005;
+t_stop=.1;
+max_dt_FE = 1E-4;
 visualize = 1;
 
+p.t_start=t_start;
+p.t_stop =t_stop;
+p.timestep = max_dt_FE;
+p.visualizeSave = 0;
+
+tic;
 [X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,visualize);
+toc
 
+visualizeNetwork(t_stop, X, p)
 
+%{
 %% 
 OM=0;
 if OM == 1
@@ -72,3 +98,4 @@ for i = 1:p.Nx*p.Ny+p.Nz
 end
 
 end
+%}

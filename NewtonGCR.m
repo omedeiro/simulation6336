@@ -37,7 +37,7 @@ relDeltax_k = 0;
 disp('hi')
 
 if visualize
-   visualizeResults(1,X,1,'.b');
+   visualizeResults(1,real(X),1,'.b');
 end
 
 while k<=MaxIter & (errf_k>errf | errDeltax_k>errDeltax | relDeltax_k>relDeltax),
@@ -60,7 +60,7 @@ while k<=MaxIter & (errf_k>errf | errDeltax_k>errDeltax | relDeltax_k>relDeltax)
    errDeltax_k = norm(Deltax,inf);
    relDeltax_k = norm(Deltax,inf)/max(abs(X(:,k)));
    if visualize
-      visualizeResults([1:1:k],normest(X),k,'.b');
+      visualizeResults([1:1:k],real(X),k,'.b');
    end
 end
 
@@ -79,3 +79,16 @@ else
    fprintf(1, 'Newton did NOT converge! Maximum Number of Iterations reached\n');
 end
 
+%{
+plot_y = sparse(k);
+plot_x = sparse(k);
+for i=2:k
+   disp(size(X(:, i-1)))
+   disp(size(X(:, k)))
+   plot_x(i) = real(X(:, i-1) - X(:, k));
+   plot_y(i) = real(X(:,i) - X(:,k));
+end
+
+figure
+semilogy(plot_x, plot_y)
+%}
