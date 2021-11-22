@@ -34,8 +34,8 @@ y2 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 
 
-% initialize w/"defects"
-
+% initialize as quenched normal state
+%{
 for i = 1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1)
     random = rand(1, 1);
     rphaser = rand(1, 1);
@@ -44,13 +44,14 @@ for i = 1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1)
         x(i, 1) = 1 - random*(rphaser + 1i*rphasei)/(sqrt(rphaser^2 + rphasei^2));
     end
 end
+%}
 
 x_start = [x;y1;y2;y3];
 
 t_start=0;
-t_stop=.1;
+t_stop=30;
 max_dt_FE = 1E-4;
-visualize = 1;
+visualize = 0;
 
 p.t_start=t_start;
 p.t_stop =t_stop;
@@ -61,7 +62,8 @@ tic;
 [X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,visualize);
 toc
 
-visualizeNetwork(t_stop, X, p)
+p.visualizeSave=1;
+visualizeNetworkX(X, p)
 
 %{
 %% 

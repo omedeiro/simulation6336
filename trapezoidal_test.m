@@ -35,10 +35,8 @@ x = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, 1);
 y1 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y2 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
-% introduce surface roughness
 
-
-% initialize w/"defects"
+% initialize as quenched normal state
 
 % for i = 1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1)
 %     random = rand(1, 1);
