@@ -16,10 +16,10 @@ t(1) = t_start;
 % end
 
 
-tolrGCR   = 1e-2;  % convergence criteria on the GCR residual inside Newton
+tolrGCR   = 1e-3;  % convergence criteria on the GCR residual inside Newton
 epsMF     = 1e-4;
-errf	    = 1e-1;
-errDeltax   = 1e-1;
+errf	    = 1e-2;
+errDeltax   = 1e-2;
 relDeltax   = 1;     % note this is equivalent to NOT specifying it
 MaxIter     = 20;
 

@@ -45,5 +45,14 @@ epsMF = 1E-3;
 [X_field,converged,errf_k,errDeltax_k,relDeltax_k,iterations] = NewtonGCR(eval_f,x_start,p,u,errf, errDeltax, relDeltax, MaxIter, visualize, false, 0, tolrGCR, epsMF)
 
 
+psi = X(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1));
+        psi2 = column2cube(abs(psi).^2, (p.Nx-1), (p.Ny-1), (p.Nz-1));
+        psi_surf = psi2(:,:,1);
+        figure(2)
+        s = surf(psi_surf)
+        view(0,90)
+        colorbar
+        caxis([0 max(max(psi_surf))])
+
 %% 
 visualizeNetwork(1, X_field,p)

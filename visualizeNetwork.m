@@ -67,7 +67,7 @@ if omm ==1
     ylabel('y')
     zlabel('z')
     view(0,90)
-    sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.appliedBz)
+    sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.Breal)
     drawnow
     if p.visualizeSave == 1
         if t ==1
@@ -150,7 +150,7 @@ end
         zlabel('z')
 
         pause(0.05)    
-        sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.appliedBz)
+        sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.Breal)
         drawnow
     end
 

@@ -32,14 +32,15 @@ function F = eval_f(X, p, u)
                 % zero current on x
                 x = x + sparse(p.m1x_int, 1, x00(p.m2x_int).*exp(-1i*y100(p.m1x_int)), dim_x, 1);
                 x = x + sparse(p.mNxp1_int, 1, x00(p.mNx_int).*exp(1i*y100(p.mNx_int)), dim_x, 1);
-            end
-            % Magnetic field x boundary conditions eq 37 
+                            % Magnetic field x boundary conditions eq 37 
             y2 = y2 + sparse(p.m1x_int, 1, -u.Bz(p.m1x_int)*p.hx*p.hy + y200(p.m2x_int), dim_x, 1);
             y2 = y2 + sparse(p.mNxp1_int, 1, u.Bz(p.mNxp1_int)*p.hx*p.hy + y200(p.mNx_int), dim_x, 1);
 
             y3 = y3 + sparse(p.m1x_int, 1, u.By(p.m1x_int)*p.hz*p.hx + y300(p.m2x_int), dim_x, 1);
             y3 = y3 + sparse(p.mNxp1_int, 1, -u.By(p.mNxp1_int)*p.hz*p.hx + y300(p.mNx_int), dim_x, 1);
   
+            end
+
 
     % y boundaries            
             if p.periodic_y
@@ -53,15 +54,16 @@ function F = eval_f(X, p, u)
                 % zero current on y
                 x = x + sparse(p.m1y_int, 1, x00(p.m2y_int).*exp(-1i*y200(p.m1y_int)), dim_x, 1);
                 x = x + sparse(p.mNyp1_int, 1, x00(p.mNy_int).*exp(1i*y200(p.mNy_int)), dim_x, 1);
-            end
-
-            % Magnetic field y boundary conditions eq 37 
+                 % Magnetic field y boundary conditions eq 37 
             y1 = y1 + sparse(p.m1y_int, 1, u.Bz(p.m1y_int)*p.hx*p.hy + y100(p.m2y_int), dim_x, 1);
             y1 = y1 + sparse(p.mNyp1_int, 1, -u.Bz(p.mNyp1_int)*p.hx*p.hy + y100(p.mNy_int), dim_x, 1);
  
             y3 = y3 + sparse(p.m1y_int, 1, -u.Bx(p.m1y_int)*p.hy*p.hz + y300(p.m2y_int), dim_x, 1);
             y3 = y3 + sparse(p.mNyp1_int, 1, u.Bx(p.mNyp1_int)*p.hy*p.hz + y300(p.mNy_int), dim_x, 1);
                     
+            end
+
+           
     % z boundaries
             if p.periodic_z
                 % periodic boundaries 
@@ -74,14 +76,15 @@ function F = eval_f(X, p, u)
                 % zero current on z
                 x = x + sparse(p.m1z_int, 1, x00(p.m2z_int).*exp(-1i*y300(p.m1z_int)), dim_x, 1);
                 x = x + sparse(p.mNzp1_int, 1, x00(p.mNz_int).*exp(1i*y300(p.mNz_int)), dim_x, 1);
-            end
-            
-            % Magnetic field z boundary conditions eq 37 
+                            % Magnetic field z boundary conditions eq 37 
             y1 = y1 + sparse(p.m1z_int, 1, -u.By(p.m1z_int)*p.hz*p.hx + y100(p.m2z_int), dim_x, 1);
             y1 = y1 + sparse(p.mNzp1_int, 1, u.By(p.mNzp1_int)*p.hz*p.hx + y100(p.mNz_int), dim_x, 1);
 
             y2 = y2 + sparse(p.m1z_int, 1, u.Bx(p.m1z_int)*p.hy*p.hz + y200(p.m2z_int), dim_x, 1);
             y2 = y2 + sparse(p.mNzp1_int, 1, -u.Bx(p.mNzp1_int)*p.hy*p.hz + y200(p.mNz_int), dim_x, 1);
+
+            end
+            
 
     
 %             x([p.m2xedge p.mNxedge]) = x(p.M2(1));
@@ -144,8 +147,6 @@ function F = eval_f(X, p, u)
     LPHIY(~any(LPHIY,2), :) = [];
     LPHIZ(~any(LPHIZ,2), :) = [];
 
-    
-    D = p.kappa^2;
 
     dPsidt = (LPSIX/p.hx^2 + LPSIY/p.hy^2 + LPSIZ/p.hz^2)*x + FPSI;
     dPhidtX = (LPHIY + LPHIZ)*y1 + FPHIX;
