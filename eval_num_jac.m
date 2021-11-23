@@ -1,9 +1,13 @@
-function J = eval_num_jac(X0, eval_f, p, eval_u, t, err)
-    eps_Im = .01;
-    eps_Re = .01;
+function J = eval_num_jac(X0, eval_f, p, eval_u, t, err, fu)
+    eps_Im = .000001;
+    eps_Re = .000001;
     S_Im = 2;
     S_Re = 2;
-    u = feval(eval_u,t);
+    if fu == 1
+        u = 0; 
+    else
+        u = feval(eval_u,t,X0,p);
+    end
    
     J = sparse(size(feval(eval_f, X0, p, u),1), numel(X0));
     Jp = sparse(size(feval(eval_f, X0, p, u),1), numel(X0),1);

@@ -82,6 +82,7 @@ function F = eval_f(X, p, u)
 
             y2 = y2 + sparse(p.m1z_int, 1, u.Bx(p.m1z_int)*p.hy*p.hz + y200(p.m2z_int), dim_x, 1);
             y2 = y2 + sparse(p.mNzp1_int, 1, -u.Bx(p.mNzp1_int)*p.hy*p.hz + y200(p.mNz_int), dim_x, 1);
+            
 
             end
             
