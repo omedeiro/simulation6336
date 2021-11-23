@@ -36,6 +36,8 @@ y1 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y2 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 
+p.c = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, 1/numel(x), numel(p.X0), 1);
+
 % initialize as quenched normal state
 
 % for i = 1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1)
