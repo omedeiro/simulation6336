@@ -15,11 +15,11 @@ if t > 0 && t <= p.t_stop
     p.appliedBx = 0; 
     p.appliedBy = 0; 
     p.appliedBz = p.magBz; 
-% 
-% elseif t > p.t_stop/4 && t <= p.t_stop*2
-%     p.appliedBx = 0; 
+
+% elseif t > p.t_stop/2 && t <= p.t_stop
+%     p.appliedBx = p.magBx; 
 %     p.appliedBy = 0; 
-%     p.appliedBz = 1/(p.hx*p.hy)*p.magBz; 
+%     p.appliedBz = p.magBz; 
 %     
 % elseif t > p.t_stop/2 && t <= p.t_stop*3/4
 %     p.appliedBx = 0; 

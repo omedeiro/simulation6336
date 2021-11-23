@@ -40,7 +40,7 @@ y2 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
 
 p.X0 = [x;y1;y2;y3];
-p.U0 = 1;
+p.U0 = 10;
 p.magBz = p.U0;
 p.t = 1;
 
@@ -69,23 +69,22 @@ p.t = 1;
 
 
 %define F
-    p.magBz = p.U0;
-    [u,p] = feval(p.eval_u, p.t,p.X0,p);
-    F = @(X) feval(p.eval_f, X, p, u);
+[u,p] = feval(p.eval_u, p.t,p.X0,p);
+F = @(X) feval(p.eval_f, X, p, u);
 
-    err = 1e-5;
-    fu = 0;
-    J0F = eval_num_jac(p.X0, p.eval_f, p, p.eval_u, p.t, err, fu);
-    p.A = J0F;
+err = 1e-5;
+fu = 0;
+J0F = eval_num_jac(p.X0, p.eval_f, p, p.eval_u, p.t, err, fu);
+p.A = J0F;
 
-    fu = 1;
-    J0U = eval_num_jac(p.U0, p.eval_fu, p, p.eval_u, 1, err, fu);
-    K0 = F(p.X0) - J0F*p.X0 - J0U*p.U0;
-    p.B = [K0 J0U];
-    
-    p2.Breal = p.Breal;
-    
-    p.c = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, 1/numel(x), numel(p.X0), 1);
+fu = 1;
+J0U = eval_num_jac(p.U0, p.eval_fu, p, p.eval_u, 1, err, fu);
+K0 = F(p.X0) - J0F*p.X0 - J0U*p.U0;
+p.B = [K0 J0U];
+
+p2.Breal = p.Breal;
+
+p.c = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, 1/numel(x), numel(p.X0), 1);
 
     
 p.t_start=0;
@@ -93,7 +92,7 @@ p.t_stop=10;
 p.timestep = 1e-1;
 visualize = 0;
 p.visualizeSave = 0;
-[X,p] = Trapezoidal_lin(eval_linf,p.X0,p,p.t_start,p.t_stop,p.timestep,visualize);
+% [X,p] = Trapezoidal_lin(eval_linf,p.X0,p,p.t_start,p.t_stop,p.timestep,visualize);
 
     
 %% reduced
