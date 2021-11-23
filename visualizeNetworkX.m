@@ -13,10 +13,10 @@ yy2 = cube2column(yy2);
 zz2 = cube2column(zz2);
 n = (p.Nx-1)*(p.Ny-1)*(p.Nz-1);
 n2 = (p.Nx-2)*(p.Ny-2)*(p.Nz-2);
-for t = floor(linspace(1,size(X,2),50))
+for t = floor(linspace(1,size(X,2)-1,p.frames))
 omm=1;
 if omm ==1
-    figure(3)
+    figure(1)
     PSIT = X(1:n,t);
     PHITX = X(n+1:2*n,t);
     PHITY = X(2*n+1:3*n,t);
@@ -48,7 +48,6 @@ if omm ==1
     subplot(2,2,3)
     scatter3(xx2,yy2,zz2,36,real(By(:,t)), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-%     caxis([-1 1])
     axis equal
     title({'B_y',''})
     xlabel('x')
@@ -61,14 +60,14 @@ if omm ==1
 
 %         scatter3(yy2,xx2,zz2,36,real(Bz(:,t))./max(max(real(Bz(:,t))),1), 'filled', 'MarkerFaceAlpha', 0.5)
     colorbar
-%     caxis([-1 1])
+%     caxis([-.05 .05])
     axis equal
     title({'B_z',''})
     xlabel('x')
     ylabel('y')
     zlabel('z')
     view(0,90)
-    sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.Brealt(t))
+    sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.Brealzt(t))
     pause(0.005)
     drawnow
     if p.visualizeSave == 1
@@ -81,16 +80,7 @@ if omm ==1
             gif
         end
     end
-    % Capture the plot as an image 
-%     frame = getframe(gcf); 
-%     im = frame2im(frame); 
-%     [imind,cm] = rgb2ind(im,256); 
-%     % Write to the GIF File 
-%     if t == 1 
-%       imwrite(imind,cm,filename,'gif', 'Loopcount',inf); 
-%     else 
-%       imwrite(imind,cm,filename,'gif','WriteMode','append'); 
-%     end 
+
 end
     %%
 
@@ -109,7 +99,7 @@ end
     %%
     ommm = 0;
     if ommm==0
-    figure(4)
+    figure(2)
         PSIT = X(1:n,t);
         PHITX = X(n+1:2*n,t);
         PHITY = X(2*n+1:3*n,t);
@@ -119,40 +109,41 @@ end
         scatter3(xx,yy,zz,36,abs(PSIT).^2./max(max(abs(PSIT).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
         colorbar
         caxis([0 1])
+%         view(0,90)
         axis equal
         xlabel('x')
         ylabel('y')
         zlabel('z')
 
         subplot(2,2,2)
-        scatter3(xx,yy,zz,36,abs(PHITX).^2./max(max(abs(PHITX).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
+        scatter3(xx,yy,zz,36,real(PHITX), 'filled', 'MarkerFaceAlpha', 0.5)
         colorbar
-        caxis([0 1])
+%         view(0,90)
         axis equal
         xlabel('x')
         ylabel('y')
         zlabel('z')
 
         subplot(2,2,3)
-        scatter3(xx,yy,zz,36,abs(PHITY).^2./max(max(abs(PHITY).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
+        scatter3(xx,yy,zz,36,real(PHITY), 'filled', 'MarkerFaceAlpha', 0.5)
         colorbar
-        caxis([0 1])
+%         view(0,90)
         axis equal
         xlabel('x')
         ylabel('y')
         zlabel('z')
 
         subplot(2,2,4)
-        scatter3(xx,yy,zz,36,abs(PHITZ).^2./max(max(abs(PHITZ).^2),1), 'filled', 'MarkerFaceAlpha', 0.5)
+        scatter3(xx,yy,zz,36,real(PHITZ), 'filled', 'MarkerFaceAlpha', 0.5)
         colorbar
-        caxis([0 1])
+%         view(0,90)
         axis equal
         xlabel('x')
         ylabel('y')
         zlabel('z')
 
         pause(0.005)    
-        sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.Brealt(t))
+        sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.Brealzt(t))
         drawnow
     end
 

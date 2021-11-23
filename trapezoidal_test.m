@@ -70,5 +70,6 @@ p.visualizeSave = 0;
 
 
 %% 
+p.frames = 20;
 p.visualizeSave=1;
 visualizeNetworkX(X,p)
