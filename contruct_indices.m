@@ -1,7 +1,7 @@
 function p = contruct_indices(p)
 
-    mk = (p.Nx+1)*(p.Ny+1);
-    mj = (p.Nx+1);
+    p.mk = (p.Nx+1)*(p.Ny+1);
+    p.mj = (p.Nx+1);
 
     p.m2 = 1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1);
     p.m = 1:(p.Nx+1)*(p.Ny+1)*(p.Nz+1);
