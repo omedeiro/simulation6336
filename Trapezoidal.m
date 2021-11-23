@@ -48,6 +48,11 @@ for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
    % Exit Newton loop
 
    X(:,n+1)= x ;
+   
+    y(n) = eval_y(X(:,n),p);
+        figure(1000)
+        plot(t(1:n), abs(y), 'o')
+
    if visualize
 %       visualizeResults(t,X,n+1,'.b');
         visualizeNetwork(n,X,p)
