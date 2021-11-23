@@ -45,7 +45,7 @@ xx3 = cube2column(xx3);
 yy3 = cube2column(yy3);
 zz3 = cube2column(zz3);
 N1cube = sparse(p.m,1,0);
-N1cube(p.mNxedge) = 1;
+N1cube(p.mNxedge1) = 1;
 scatter3(xx,yy,zz,36,N1cube, 'filled', 'MarkerFaceAlpha', 0.5)
 title('p.M2B')
 xlabel('x')
