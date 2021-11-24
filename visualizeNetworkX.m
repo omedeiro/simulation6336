@@ -67,7 +67,7 @@ if omm ==1
     ylabel('y')
     zlabel('z')
     view(0,90)
-    sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.Brealzt(t))
+    sgtitle({"applied Bx = "+p.Brealxt(t)+", applied By = "+p.Brealyt(t)+", applied Bz = "+p.Brealzt(t),"t = "+ t*p.timestep,})
     pause(0.005)
     drawnow
     if p.visualizeSave == 1
@@ -143,7 +143,7 @@ end
         zlabel('z')
 
         pause(0.005)    
-        sgtitle("t = "+ t*p.timestep + ", applied Bz = "+p.Brealzt(t))
+        sgtitle({"applied Bx = "+p.Brealxt(t)+", applied By = "+p.Brealyt(t)+", applied Bz = "+p.Brealzt(t),"t = "+ t*p.timestep,})
         drawnow
     end
 
