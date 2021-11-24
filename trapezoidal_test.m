@@ -61,7 +61,7 @@ end
 
 %%
 x_start = [x;y1;y2;y3];
-
+p.linearize = 0;
 p.t_start=0;
 p.t_stop=50;
 p.timestep = 1e-1;

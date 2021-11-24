@@ -49,7 +49,7 @@ p.t_stop=10;
 p.timestep = 1e-1;
 visualize = 0;
 p.visualizeSave = 0;
-
+p.linearize = 1;
 p.c = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, 1/numel(x), numel(p.X0), 1);
 
 [X,p] = Trapezoidal(p.eval_f,p.X0,p,p.eval_u,p.t_start,p.t_stop,p.timestep,visualize);
@@ -181,7 +181,7 @@ p.t = 1;
 
 
 %%
-
+p.linearize = 1;
 p.t_start=0;
 p.t_stop=10;
 p.timestep = 1e-1;
