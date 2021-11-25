@@ -1,8 +1,10 @@
 function LPSI = construct_LPSIXm(y,p)
-% Nx = p.Nx;
-% Ny = p.Ny;
-% Nz = p.Nz;
-N_L = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
+
+if p.Nz > 1
+    N_L = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
+else
+    N_L = (p.Nx+1)*(p.Ny+1);
+end
 m = p.M2;
 
 LPSI = sparse(m, m-1, exp(-1i*y(m-1)), N_L, N_L);
