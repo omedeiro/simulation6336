@@ -7,7 +7,11 @@ kappa = p.kappa;
 % Ny = p.Ny;
 % Nz = p.Nz;
 
-N_L = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
+if p.Nz>1
+    N_L = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
+else
+    N_L = (p.Nx+1)*(p.Ny+1);
+end
 
 mk = (p.Nx+1)*(p.Ny+1);
 mj = (p.Nx+1);
