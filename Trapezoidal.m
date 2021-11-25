@@ -16,6 +16,10 @@ t(1) = t_start;
 % end
 
 
+p.BXT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
+p.BYT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
+p.BZT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
+
 tolrGCR   = 1e-4;  % convergence criteria on the GCR residual inside Newton
 epsMF     = 1e-4;
 errf	    = 1e-3;
@@ -26,14 +30,17 @@ MaxIter     = 20;
 FiniteDifference=0;
 visualizeGCR = 0;
 eval_Jf = 0;
+converged = 1;
 
 p.Breal=0;
-for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
-   dt = min(timestep, (t_stop-t(n)));
-   t(n+1)= t(n) + dt;
-   t(n)
+
+dt = timestep;
+n = 1;
+t(n) = 0;
+% for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
+while t(n) < t_stop % TIME INTEGRATION LOOP
    % Explicit solve for n+1 time
-   [u,P] = feval(eval_u,t(n),X(:,n),p);
+   [u,P] = feval(eval_u,t(n),X(:,n),p,n);
    p = P;
    p.Brealxt(n) = p.Brealx;
    p.Brealyt(n) = p.Brealy;
@@ -46,9 +53,19 @@ for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
    % Newton loop to solve nonlinear equation
    [x,converged,errf_k,errDeltax_k,relDeltax_k,iterations] = NewtonGCRtrap(eval_f,Xpresent,p,u,errf,errDeltax,relDeltax,MaxIter,visualizeGCR,FiniteDifference,eval_Jf,tolrGCR,epsMF, gamma, dt);
    % Exit Newton loop
+   if converged 
+        X(:,n+1)= x ;
+        dt = dt+1e-3;
+        t(n+1)= t(n) + dt;
+        t(n)
+        n = n + 1;  
+   else
+       t(n)
+       dt = dt/2
+   end
 
-   X(:,n+1)= x ;
 
+   
    if p.linearize == 1
     y(n) = eval_y(X(:,n),p);
         figure(1000)
