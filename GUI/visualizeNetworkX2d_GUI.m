@@ -160,14 +160,14 @@ if p.visualizeSave == 1
     end
 end
 
-h1.ButtonDownFcn = @mouseClick;
-function mouseClick(~,~)
-    global cord
-    global click
-    c = get(app.UIAxes,'CurrentPoint');
-    cord = c;
-    click = 1;
-end
+% h1.ButtonDownFcn = @mouseClick;
+% function mouseClick(~,~)
+%     global cord
+%     global click
+%     c = get(app.UIAxes,'CurrentPoint');
+%     cord = c;
+%     click = 1;
+% end
 
 
 
