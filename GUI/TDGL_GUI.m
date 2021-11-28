@@ -1,6 +1,10 @@
 classdef TDGL_GUI < GUI_B_boundary
     properties 
-        
+        % Startup values
+        Nx
+        Ny
+        Nz
+        kappaIO
         
     end
     
