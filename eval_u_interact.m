@@ -1,4 +1,4 @@
-function [u,p] = eval_u(t,X,p,n)
+function [u,p] = eval_u_interact(t,X,p,n)
 
 global cord
 global click
@@ -50,8 +50,9 @@ end
 if p.appliedBx>0
     sumBx = (2*(p.Nx-2)*(p.Ny-2) + 2*(p.Nx-2)*(p.Nz-2))*p.appliedBx - sum(Bx0);
     sumBx0 = (2*(p.Nx-2)*(p.Ny-2) + 2*(p.Nx-2)*(p.Nz-2))*p.appliedBx;
-    p.Brealx = p.appliedBx*abs(sumBx)/abs(sumBx0);
-    Bx = Bx + sparse(classicBx,1,p.Brealx,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    p.Brealx = p.appliedBx;%*abs(sumBx)/abs(sumBx0);
+    Bx = Bx + sparse(p.m1z_int(click_location),1,p.Brealx,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    Bx = Bx + sparse(p.mNzp1_int(click_location),1,p.Brealx,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 else
     p.Brealx = 0;
     Bx = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
@@ -64,7 +65,7 @@ if p.appliedBy>0
     sumBy0 = (2*(p.Ny-2)*(p.Nx-2) + 2*(p.Ny-2)*(p.Nz-2))*p.appliedBy;
     p.Brealy = p.appliedBy;%*abs(sumBy)/abs(sumBy0);
     By = By + sparse(p.m1z_int(click_location),1,p.Brealy,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-    disp(p.Brealy)
+    By = By + sparse(p.mNzp1_int(click_location),1,p.Brealy,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 else
     p.Brealy = 0;
     By = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
@@ -73,10 +74,11 @@ end
 if p.appliedBz>0
     sumBz = (2*(p.Nz-2)*(p.Ny-2) + 2*(p.Nz-2)*(p.Nx-2))*p.appliedBz - sum(Bz0);
     sumBz0 = (2*(p.Nz-2)*(p.Ny-2) + 2*(p.Nz-2)*(p.Nx-2))*p.appliedBz;
-    p.Brealz = p.appliedBz;
+    p.Brealz = p.appliedBz;%*abs(sumBz)/abs(sumBz0);
 %     p.Brealz = p.appliedBz*abs(sumBz)/abs(sumBz0);
 %     p.Brealz = real(p.appliedBz - max(Bz0));
-    Bz = Bz + sparse(classicBz,1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    Bz = Bz + sparse(p.m1z_int(click_location),1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    Bz = Bz + sparse(p.mNzp1_int(click_location),1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 else
     p.Brealz = 0;
     Bz = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
