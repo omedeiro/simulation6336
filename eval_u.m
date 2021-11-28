@@ -1,6 +1,9 @@
-function [u,p] = eval_u(t,X,p)
+function [u,p] = eval_u(t,X,p,n)
 
 [Bx0, By0, Bz0] = eval_Bfield(X,p);
+p.BXT(:,n) = Bx0;
+p.BYT(:,n) = By0;
+p.BZT(:,n) = Bz0;
 
 
 Bx = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
@@ -41,7 +44,7 @@ end
 if p.appliedBx>0
     sumBx = (2*(p.Nx-2)*(p.Ny-2) + 2*(p.Nx-2)*(p.Nz-2))*p.appliedBx - sum(Bx0);
     sumBx0 = (2*(p.Nx-2)*(p.Ny-2) + 2*(p.Nx-2)*(p.Nz-2))*p.appliedBx;
-    p.Brealx = p.appliedBx*abs(sumBx)/abs(sumBx0);
+    p.Brealx = p.appliedBx;%*abs(sumBx)/abs(sumBx0);
     Bx = Bx + sparse(classicBx,1,p.Brealx,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 else
     p.Brealx = 0;
@@ -53,7 +56,7 @@ end
 if p.appliedBy>0
     sumBy = (2*(p.Ny-2)*(p.Nx-2) + 2*(p.Ny-2)*(p.Nz-2))*p.appliedBy - sum(By0);
     sumBy0 = (2*(p.Ny-2)*(p.Nx-2) + 2*(p.Ny-2)*(p.Nz-2))*p.appliedBy;
-    p.Brealy = p.appliedBy*abs(sumBy)/abs(sumBy0);
+    p.Brealy = p.appliedBy;%*abs(sumBy)/abs(sumBy0);
     By = By + sparse(classicBy,1,p.Brealy,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 else
     p.Brealy = 0;
@@ -63,7 +66,7 @@ end
 if p.appliedBz>0
     sumBz = (2*(p.Nz-2)*(p.Nx-2) + 2*(p.Nz-2)*(p.Ny-2))*p.appliedBz - sum(Bz0);
     sumBz0 = (2*(p.Nz-2)*(p.Nx-2) + 2*(p.Nz-2)*(p.Ny-2))*p.appliedBz;
-    p.Brealz = p.appliedBz*abs(sumBz)/abs(sumBz0);
+    p.Brealz = p.appliedBz;%*abs(sumBz)/abs(sumBz0);
     Bz = Bz + sparse(classicBz,1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 else
     p.Brealz = 0;

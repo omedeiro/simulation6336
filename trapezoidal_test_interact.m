@@ -14,7 +14,7 @@ global click_location
 
 click_location = [];
 
-p.kappa = 5;
+p.kappa = .1;
 p.Nx = 30;
 p.Ny = 30;
 p.Nz = 3;
@@ -24,7 +24,7 @@ p.hz = 1;
 
 p.magBx = 0;
 p.magBy = 0;
-p.magBz = 50;
+p.magBz = 500;
 p.appliedBz = 0;
 p.periodic_x = 0;
 p.periodic_y = 0;

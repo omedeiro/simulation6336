@@ -9,17 +9,17 @@ eval_f = "eval_f";
 eval_u = "eval_u";
 
 
-p.kappa = 5;
+p.kappa = .5;
 p.Nx = 20;
 p.Ny = 20;
 p.Nz = 3;
-p.hx = .5;
-p.hy = .5;
-p.hz = .5;
+p.hx = 1;
+p.hy = 1;
+p.hz = 1;
 
 p.magBx = 0;
 p.magBy = 0;
-p.magBz = 6;
+p.magBz = .5;
 p.appliedBz = 0;
 p.periodic_x = 0;
 p.periodic_y = 0;
@@ -69,9 +69,9 @@ end
 x_start = [x;y1;y2;y3];
 p.linearize = 0;
 p.t_start=0;
-p.t_stop=50;
-p.timestep = 1e-2;
-visualize = 0;
+p.t_stop=100;
+p.timestep = 1e-1;
+visualize = 1;
 p.visualizeSave = 0;
 [X,p] = Trapezoidal(eval_f,x_start,p,eval_u,p.t_start,p.t_stop,p.timestep,visualize);
 
