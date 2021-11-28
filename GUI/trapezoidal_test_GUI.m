@@ -15,17 +15,21 @@ eval_u = "eval_u_GUI";
 % 
 % click_location = [];
 
-p.kappa = 5;
-p.Nx = 30;
-p.Ny = 30;
-p.Nz = 3;
+p.kappa = app.kappaIO;
+disp(p.kappa)
+p.Nx = app.Nx;
+p.Ny = app.Ny;
+p.Nz = app.Nz;
 p.hx = 1;
 p.hy = 1;
 p.hz = 1;
 
 p.magBx = 0;
 p.magBy = 0;
-p.magBz = 50;
+p.magBz = app.Bz;
+if p.magBz > 0
+    disp(p.magBz)
+end
 p.appliedBz = 0;
 p.periodic_x = 0;
 p.periodic_y = 0;
@@ -80,13 +84,13 @@ x_start = [x;y1;y2;y3];
 p.linearize = 0;
 p.cord = 0;
 p.t_start=0;
-p.t_stop=100;
-p.timestep = 1e-1;
+p.t_stop= 10;
+p.timestep = 1e-2;
 visualize = 1;
 p.visualizeSave = 0;
 [X,p] = Trapezoidal_GUI(eval_f,x_start,p,eval_u,p.t_start,p.t_stop,p.timestep,visualize, app);
 
-
+app.StartButton.Enable = 'on'
 %% 
 p.frames = 40;
 p.visualizeSave=0;

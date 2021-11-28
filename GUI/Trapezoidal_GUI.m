@@ -43,9 +43,14 @@ p.t(n) = 0;
 
 
 % for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
-while p.t(n) < t_stop % TIME INTEGRATION LOOP
+while app.stop==0 % TIME INTEGRATION LOOP
     
-
+    if app.BzButtonPushed == 1
+        p.magBz = app.Bz;
+        text = "Applied Bz Field = " + p.magBz;
+        app.StatusEditField.Value = text;
+    end
+    app.BzButtonPushed = 0;
     
     
     [u,P] = feval(eval_u,p.t(n),X(:,n),p,n);
@@ -67,7 +72,7 @@ while p.t(n) < t_stop % TIME INTEGRATION LOOP
         X(:,n+1)= x ;
         p.t(n+1)= p.t(n) + dt;
 %         p.t(n)
-        
+        app.TimeEditField.Value = p.t(n);
         n = n + 1;
 %         dt = dt*2;
     else
