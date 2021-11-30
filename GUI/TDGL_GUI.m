@@ -23,7 +23,7 @@ classdef TDGL_GUI < GUI_B_boundary
     
     
 %% COPIED FROM APP DESIGNER
- % Callbacks that handle component events
+  % Callbacks that handle component events
     methods (Access = private)
 
         % Button pushed function: StartButton
@@ -70,7 +70,14 @@ classdef TDGL_GUI < GUI_B_boundary
             app.StatusEditField.Value = "Simulation Stopped";
 
         end
+
+        % Value changed function: NxSpinner
+        function NxSpinnerValueChanged(app, event)
+            value = app.NxSpinner.Value;
+            app.NySpinner.Value = value;
+        end
     end
+
 
 
     

@@ -6,6 +6,9 @@ Bx = p.BXT;
 By = p.BYT;
 Bz = p.BZT;
 
+
+    
+
 [yy, xx] = meshgrid(p.hx:p.hx:p.hx*(p.Nx-1), p.hy:p.hy:p.hy*(p.Ny-1));
 
 [yy2, xx2] = meshgrid(p.hx:p.hx:p.hx*(p.Nx-2), p.hy:p.hy:p.hy*(p.Ny-2));
@@ -107,9 +110,26 @@ title(app.UIAxes,'|\psi|^2')
 % 
 % 
 % 
+
+
+
 Bxx  = reshape(Bx(ss2:se2,t-1),p.Nx-2,p.Ny-2);
 Byy  = reshape(By(ss2:se2,t-1),p.Nx-2,p.Ny-2);
 Bzz  = reshape(Bz(ss2:se2,t-1),p.Nx-2,p.Ny-2);
+
+
+% if t*p.timestep == 5
+%     p.Bbg_x = Bxx;
+%     p.Bbg_y = Byy;
+%     p.Bbg_z = Bzz;
+% end
+% 
+% if t*p.timestep > 5
+%     Bxx = Bxx - p.Bbg_x;
+%     Byy = Byy - p.Bbg_y;
+%     Bzz = Bzz - p.Bbg_z;
+% end
+
 % 
 % subplot(5,3,13)
 % imagesc(xx2,yy2,real(Bxx))
