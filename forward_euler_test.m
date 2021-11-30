@@ -6,8 +6,8 @@ eval_u = "eval_u";
 eval_f = "eval_f";
 
 p.kappa = 5;
-p.Nx = 30;
-p.Ny = 30;
+p.Nx = 20;
+p.Ny = 20;
 p.Nz = 3;
 p.hx = 1;
 p.hy = 1;
@@ -15,23 +15,29 @@ p.hz = 1;
 
 p.magBx = 0;
 p.magBy = 0;
-p.magBz = 0;
-p.appliedBz = 1;
-p.periodic_x = 1;
-p.periodic_y = 1;
+p.magBz = 0.5;
+p.appliedBz = 0;
+p.periodic_x = 0;
+p.periodic_y = 0;
 p.periodic_z = 0;
-
-
+p.slice=1;
 p = contruct_indices(p);
 
 p.LPHIX = construct_LPHIXm(p);
 p.LPHIY = construct_LPHIYm(p);
 p.LPHIZ = construct_LPHIZm(p);
 
-x = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, 1);
-y1 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
-y2 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
-y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
+if p.Nz > 1
+    x = sparse(1:(p.Nx-1)*(p.Ny-1)*(p.Nz-1),1, 1);
+    y1 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
+    y2 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
+    y3 = sparse((p.Nx-1)*(p.Ny-1)*(p.Nz-1),1);
+else
+    x = sparse(1:(p.Nx-1)*(p.Ny-1),1, 1);
+    y1 = sparse((p.Nx-1)*(p.Ny-1),1);
+    y2 = sparse((p.Nx-1)*(p.Ny-1),1);
+    y3 = [];
+end
 
 
 % initialize as quenched normal state
@@ -49,7 +55,7 @@ end
 x_start = [x;y1;y2;y3];
 
 t_start=0;
-t_stop=30;
+t_stop=100;
 max_dt_FE = 1E-4;
 visualize = 0;
 
