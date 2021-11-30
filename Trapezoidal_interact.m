@@ -56,6 +56,7 @@ while p.t(n) < t_stop % TIME INTEGRATION LOOP
     % Exit Newton loop
     if converged
         X(:,n+1)= x ;
+%         X(round(p.Nx/2) + round(p.Ny/2)*(p.Nx-1) + [0:p.Nz-2]*(p.Nx-1)*(p.Ny-1), n+1) = 0;
         p.t(n+1)= p.t(n) + dt;
 %         p.t(n)
         

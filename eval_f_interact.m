@@ -1,4 +1,5 @@
-function F = eval_f(X, p, u)
+function F = eval_f_interact(X, p, u)
+
 
     colN = (p.Nx-1)*(p.Ny-1)*(p.Nz-1);
     dim_x = (p.Nx+1)*(p.Ny+1)*(p.Nz+1);
@@ -7,6 +8,7 @@ function F = eval_f(X, p, u)
     y1_int = X(colN+1:2*colN);
     y2_int = X(2*colN+1:3*colN);
     y3_int = X(3*colN+1:4*colN);
+    
     
     %%%%%%% set internal values
     x = sparse(p.M2, 1, x_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
@@ -77,18 +79,18 @@ function F = eval_f(X, p, u)
                 x = x + sparse(p.m1z_int, 1, x00(p.m2z_int).*exp(-1i*y300(p.m1z_int)), dim_x, 1);
                 x = x + sparse(p.mNzp1_int, 1, x00(p.mNz_int).*exp(1i*y300(p.mNz_int)), dim_x, 1);
                             % Magnetic field z boundary conditions eq 37 
-%             y1 = y1 + sparse(p.m1z_int, 1, -u.By(p.m1z_int)*p.hz*p.hx + y100(p.m2z_int), dim_x, 1);
-%             y1 = y1 + sparse(p.mNzp1_int, 1, u.By(p.mNzp1_int)*p.hz*p.hx + y100(p.mNz_int), dim_x, 1);
-% 
-%             y2 = y2 + sparse(p.m1z_int, 1, u.Bx(p.m1z_int)*p.hy*p.hz + y200(p.m2z_int), dim_x, 1);
-%             y2 = y2 + sparse(p.mNzp1_int, 1, -u.Bx(p.mNzp1_int)*p.hy*p.hz + y200(p.mNz_int), dim_x, 1);
-%             
+            y1 = y1 + sparse(p.m1z_int, 1, -u.By(p.m1z_int)*p.hz*p.hx + y100(p.m2z_int), dim_x, 1);
+            y1 = y1 + sparse(p.mNzp1_int, 1, u.By(p.mNzp1_int)*p.hz*p.hx + y100(p.mNz_int), dim_x, 1);
 
-                y1 = y1 + sparse(p.m1z_int, 1, u.Bz(p.m1z_int)*p.hy*p.hx/2, dim_x, 1);
-                y2 = y2 + sparse(p.m1z_int, 1, -u.Bz(p.m1z_int)*p.hy*p.hx/2, dim_x, 1);
-                
-                y1 = y1 + sparse(p.mNzp1_int, 1, u.Bz(p.mNzp1_int)*p.hy*p.hx/2, dim_x, 1);
-                y2 = y2 + sparse(p.mNzp1_int, 1, -u.Bz(p.mNzp1_int)*p.hy*p.hx/2, dim_x, 1);
+            y2 = y2 + sparse(p.m1z_int, 1, u.Bx(p.m1z_int)*p.hy*p.hz + y200(p.m2z_int), dim_x, 1);
+            y2 = y2 + sparse(p.mNzp1_int, 1, -u.Bx(p.mNzp1_int)*p.hy*p.hz + y200(p.mNz_int), dim_x, 1);
+            
+
+%                 y1 = y1 + sparse(p.m1z_int, 1, u.Bz(p.m1z_int)*p.hy*p.hx/2, dim_x, 1);
+%                 y2 = y2 + sparse(p.m1z_int, 1, -u.Bz(p.m1z_int)*p.hy*p.hx/2, dim_x, 1);
+%                 
+%                 y1 = y1 + sparse(p.mNzp1_int, 1, u.Bz(p.mNzp1_int)*p.hy*p.hx/2, dim_x, 1);
+%                 y2 = y2 + sparse(p.mNzp1_int, 1, -u.Bz(p.mNzp1_int)*p.hy*p.hx/2, dim_x, 1);
 
             end
             

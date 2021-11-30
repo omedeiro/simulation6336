@@ -47,7 +47,7 @@ end
 %% normalization
 
 %%%%%%% x
-if p.appliedBx>0
+if abs(p.appliedBx)>0
     sumBx = (2*(p.Nx-2)*(p.Ny-2) + 2*(p.Nx-2)*(p.Nz-2))*p.appliedBx - sum(Bx0);
     sumBx0 = (2*(p.Nx-2)*(p.Ny-2) + 2*(p.Nx-2)*(p.Nz-2))*p.appliedBx;
     p.Brealx = p.appliedBx;%*abs(sumBx)/abs(sumBx0);
@@ -61,7 +61,7 @@ end
 
 
 %%%%%%% y
-if p.appliedBy>0
+if abs(p.appliedBy)>0
     sumBy = (2*(p.Ny-2)*(p.Nx-2) + 2*(p.Ny-2)*(p.Nz-2))*p.appliedBy - sum(By0);
     sumBy0 = (2*(p.Ny-2)*(p.Nx-2) + 2*(p.Ny-2)*(p.Nz-2))*p.appliedBy;
     p.Brealy = p.appliedBy;%*abs(sumBy)/abs(sumBy0);
@@ -73,7 +73,7 @@ else
     By = sparse((p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
 end
 
-if p.appliedBz>0
+if abs(p.appliedBz)>0
     sumBz = (2*(p.Nz-2)*(p.Ny-2) + 2*(p.Nz-2)*(p.Nx-2))*p.appliedBz - sum(Bz0);
     sumBz0 = (2*(p.Nz-2)*(p.Ny-2) + 2*(p.Nz-2)*(p.Nx-2))*p.appliedBz;
     p.Brealz = p.appliedBz;%*abs(sumBz)/abs(sumBz0);
