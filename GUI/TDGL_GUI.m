@@ -5,6 +5,7 @@ classdef TDGL_GUI < GUI_B_boundary
         Ny
         Nz
         Bz
+        BzClick
         BzButtonPushed
         kappaIO
         stop
@@ -23,7 +24,8 @@ classdef TDGL_GUI < GUI_B_boundary
     
     
 %% COPIED FROM APP DESIGNER
-  % Callbacks that handle component events
+
+    % Callbacks that handle component events
     methods (Access = private)
 
         % Button pushed function: StartButton
@@ -47,14 +49,8 @@ classdef TDGL_GUI < GUI_B_boundary
             
         end
 
-        % Window button down function: UIFigure
-        function UIFigureWindowButtonDown(app, event)
-            P = get(app.UIAxes,'CurrentPoint');
-
-        end
-
-        % Button pushed function: ApplyFIeldButton
-        function ApplyFIeldButtonPushed(app, event)
+        % Button pushed function: ApplyFIeldEverywhereButton
+        function ApplyFIeldEverywhereButtonPushed(app, event)
             app.Bz = app.BzSlider.Value;
             app.BzButtonPushed = 1;
         end
@@ -68,7 +64,7 @@ classdef TDGL_GUI < GUI_B_boundary
         function StopButtonPushed(app, event)
             app.stop = 1;
             app.StatusEditField.Value = "Simulation Stopped";
-
+            app.StartButton.Enable = 'on';
         end
 
         % Value changed function: NxSpinner
@@ -76,11 +72,16 @@ classdef TDGL_GUI < GUI_B_boundary
             value = app.NxSpinner.Value;
             app.NySpinner.Value = value;
         end
+
+        % Button down function: UIAxes
+        function UIAxesButtonDown(app, event)
+            global cord
+            global click
+            cord = get(app.UIAxes,'CurrentPoint');
+            click = 1;
+        end
     end
 
-
-
-    
 %%    
 end
             

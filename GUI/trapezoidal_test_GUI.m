@@ -3,6 +3,8 @@ function trapezoidal_test_GUI(app)
 % clear all
 % close all
 
+
+
 % eval_f = "eval_f_B";
 % eval_u = "analytical_u_xyz";
 
@@ -16,7 +18,6 @@ eval_u = "eval_u_GUI";
 % click_location = [];
 
 p.kappa = app.kappaIO;
-disp(p.kappa)
 p.Nx = app.Nx;
 p.Ny = app.Ny;
 p.Nz = app.Nz;
@@ -40,6 +41,12 @@ p = contruct_indices(p);
 % 
 % cord = [1 (p.Ny-1)];
 % 
+
+p.click_location1 = [];
+p.click_location2 = [];
+p.click_location3 = [];
+p.click_location4 = [];
+
 
 p.LPHIX = construct_LPHIXm(p);
 p.LPHIY = construct_LPHIYm(p);
@@ -90,7 +97,7 @@ visualize = 1;
 p.visualizeSave = 0;
 [X,p] = Trapezoidal_GUI(eval_f,x_start,p,eval_u,p.t_start,p.t_stop,p.timestep,visualize, app);
 
-app.StartButton.Enable = 'on'
+app.StartButton.Enable = 'on';
 %% 
 p.frames = 40;
 p.visualizeSave=0;

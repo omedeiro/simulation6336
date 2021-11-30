@@ -14,9 +14,10 @@ t(1) = t_start;
 % %    visualizeResults(t,X,1,'.b');
 %     visualizeNetwork(t,X,p);
 % end
-% global cord
-% global click
 
+global cord
+global click
+click = 0;
 
 p.BXT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
 p.BYT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
@@ -40,16 +41,41 @@ dt = timestep;
 n = 1;
 p.t(n) = 0;
 
-
+p.magBz = 0;
+p.magBzAll = 0;
+p.appliedBzAll = 0;
+text = " ";
 
 % for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
 while app.stop==0 % TIME INTEGRATION LOOP
     
+%     if app.BzButtonPushed == 1
+
     if app.BzButtonPushed == 1
-        p.magBz = app.Bz;
-        text = "Applied Bz Field = " + p.magBz;
-        app.StatusEditField.Value = text;
+        p.magBzAll = app.BzSlider.Value;
+%         disp(text)
     end
+    
+    p.magBz = app.BzSlider.Value;
+    
+    if p.magBzAll ~= 0
+        text = "Applied Bz Field (Everywhere) = " + p.magBzAll;
+    else
+        if click == 1
+            text = "Applied Bz Field = " + p.magBz;
+        end
+    end
+    if p.magBzAll == 0 && p.magBz == 0
+        text = "Applied Bz Field = " + p.magBzAll;
+    end
+    app.StatusEditField.Value = text;
+%     
+%     if click == 1
+%         p.magBz = app.Bz;
+%         text = "Applied Bz Field = " + p.magBz;
+%         app.StatusEditField.Value = text;
+%     end
+    
     app.BzButtonPushed = 0;
     
     
@@ -66,7 +92,7 @@ while app.stop==0 % TIME INTEGRATION LOOP
     
     % Newton loop to solve nonlinear equation
     [x,converged,errf_k,errDeltax_k,relDeltax_k,iterations] = NewtonGCRtrap(eval_f,Xpresent,p,u,errf,errDeltax,relDeltax,MaxIter,visualizeGCR,FiniteDifference,eval_Jf,tolrGCR,epsMF, gamma, dt);
-%     click = 0;
+    click = 0;
     % Exit Newton loop
     if converged
         X(:,n+1)= x ;

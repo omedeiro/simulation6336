@@ -57,7 +57,7 @@ PHITZ = reshape(PHITZ,p.Nx-1,p.Ny-1);
 h1 = app.UIAxes;
 % h1.Position = [900 200 550 800];
 
-imagesc(app.UIAxes,abs(PSIT).^2./max(abs(PSIT).^2,1))
+imagesc(app.UIAxes,abs(PSIT').^2./max(abs(PSIT').^2,1))
 % ax = gca;
 set(app.UIAxes,'YDir','normal')
 colorbar(app.UIAxes)
@@ -155,10 +155,10 @@ Bzz  = reshape(Bz(ss2:se2,t-1),p.Nx-2,p.Ny-2);
 % zlabel('z')
 % 
 % figure(2)
-imagesc(app.UIAxes2,real(Bzz))
+imagesc(app.UIAxes2,real(Bzz'))
 set(app.UIAxes2,'YDir','normal')
 colorbar(app.UIAxes2)
-caxis(app.UIAxes2, [min(min(real(Bzz))) max(max(real(Bzz)))])
+caxis(app.UIAxes2, [min(min(real(Bzz'))) max(max(real(Bzz')))]);
 colormap(app.UIAxes2,'turbo')
 axis(app.UIAxes2, 'equal')
 axis(app.UIAxes2, 'tight')
