@@ -11,25 +11,23 @@ y = round(cord(1,2),0);
 
 a = (p.Ny-1)/(p.Nx-1);
 
-if y < -a*x + p.Ny-1 && y < a*x             % BOTTOM
-    int_val1 = x + (p.Nx-1)*[0:p.Nz-2];
-elseif y >= -a*x + p.Ny-1 && y < a*x        % RIGHT
-    int_val2 = y + (p.Ny-1)*[0:p.Nz-2];
-elseif y >= -a*x + p.Ny-1 && y >= a*x       % TOP
-    int_val3 = x + (p.Nx-1)*[0:p.Nz-2];
-elseif y < -a*x + p.Ny-1 && y >= a*x        % LEFT
-    int_val4 = y + (p.Ny-1)*[0:p.Nz-2];
-end
-
 % int_val = y + (p.Nx-1)*(x-1);
     if click == 1
-        if y < -a*x + p.Ny-1 && y < a*x                     
+        if y < -a*x + p.Ny-1 && y < a*x
+            int_val1 = x + (p.Nx-1)*[0:p.Nz-2];
+            disp('BOTTOM')
             click_location1 = [click_location1 int_val1];
-        elseif y >= -a*x + p.Ny-1 && y < a*x                
+        elseif y >= -a*x + p.Ny-1 && y < a*x             
+            int_val2 = y + (p.Ny-1)*[0:p.Nz-2];
+            disp('RIGHT')
             click_location2 = [click_location2 int_val2];
         elseif y >= -a*x + p.Ny-1 && y >= a*x
+            int_val3 = x + (p.Nx-1)*[0:p.Nz-2];
+            disp('TOP')
             click_location3 = [click_location3 int_val3];
         elseif y < -a*x + p.Ny-1 && y >= a*x
+            int_val4 = y + (p.Ny-1)*[0:p.Nz-2];
+            disp('LEFT')
             click_location4 = [click_location4 int_val4];
         end
         disp("x: "+x + " y: " + y + " click = " + click)
@@ -37,6 +35,7 @@ end
         disp("loc2 " + string(click_location2))
         disp("loc3 " + string(click_location3))
         disp("loc4 " + string(click_location4))
+        
 
     end
     
@@ -109,14 +108,14 @@ if abs(p.appliedBz)>0
 %     p.Brealz = p.appliedBz*abs(sumBz)/abs(sumBz0);
 %     p.Brealz = real(p.appliedBz - max(Bz0));
     
-        % LEFT
-        Bz = Bz + sparse(p.m1x_int(click_location1),1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-        % TOP
+        % B
+        Bz = Bz + sparse(p.m1y_int(click_location1),1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+        % R
         Bz = Bz + sparse(p.mNxp1_int(click_location2),1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-        % RIGHT
+        % T
         Bz = Bz + sparse(p.mNyp1_int(click_location3),1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
-        % BOTTOM
-        Bz = Bz + sparse(p.m1y_int(click_location4),1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+        % L
+        Bz = Bz + sparse(p.m1x_int(click_location4),1,p.Brealz,(p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     
 else
     p.Brealz = 0;
