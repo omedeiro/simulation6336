@@ -15,13 +15,15 @@ t(1) = t_start;
 %    visualizeResults(t,X,1,'.b');
 % end
 for n=1:ceil((t_stop-t_start)/timestep),
-   tic
+   %tic
    n
    dt = min(timestep, (t_stop-t(n)));
    t(n+1)= t(n) + dt;
-   [u, P] = feval(eval_u, t(n), X(:,n), p);
+   [u, P] = feval(eval_u, t(n), X(:,n), p, n);
    p = P;
-   p.Brealt(n) = p.Breal;
+   p.Brealxt(n) = p.Brealx;
+   p.Brealyt(n) = p.Brealy;
+   p.Brealzt(n) = p.Brealz;
    f = feval(eval_f, X(:,n), p, u);
    X(:,n+1)= X(:,n) +  dt * f;
    if visualize
@@ -29,5 +31,5 @@ for n=1:ceil((t_stop-t_start)/timestep),
         visualizeNetwork(n,X,p)
         save('X.mat','X');
    end
-   t_step = toc
+   %t_step = toc
 end
