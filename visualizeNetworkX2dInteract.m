@@ -54,14 +54,14 @@ PHITZ = reshape(PHITZ,p.Nx-1,p.Ny-1);
 h1 = figure(1);
 % h1.Position = [900 200 550 800];
 
-imagesc(xx,yy,abs(PSIT).^2./max(abs(PSIT).^2,1))
+imagesc(xx,yy,abs(PSIT').^2./max(abs(PSIT).^2,1))
 ax = gca;
 set(gca,'YDir','normal')
 colorbar
 caxis([0 1])
 axis equal
 axis tight
-axis off
+% axis off
 title('|\psi|^2')
 xlabel('x')
 ylabel('y')
@@ -134,13 +134,13 @@ Bzz  = reshape(Bz(ss2:se2,t-1),p.Nx-2,p.Ny-2);
 % zlabel('z')
 % 
 figure(2)
-imagesc(xx2,yy2,real(Bzz))
+imagesc(xx2,yy2,real(Bzz'))
 set(gca,'YDir','normal')
 colorbar
 caxis auto
 axis equal
 axis tight
-axis off
+% axis off
 title('B_z')
 xlabel('x')
 ylabel('y')
@@ -165,8 +165,6 @@ function mouseClick(~,~)
     global cord
     global click
     c = get(gca,'CurrentPoint');
-%     x=get(gco,'Xdata');
-%     y=get(gco,'Ydata');
     cord = c;
     click = 1;
 end
