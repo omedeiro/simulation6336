@@ -236,7 +236,34 @@ function p = contruct_indices(p)
             end
         end
     end
+    
+%     h1 = 1;
+%     h2 = 1;
+%     h3 = 1;
+%      for k = 1 : p.Nz-1
+%         for j = 1 : p.Ny-1
+%             for i = 1 : p.Nx-1
+%                 
+%                 if i == 1
+%                     p.mNxF(h1) = p.Nx-1 + (p.Nx-1)*(j-1)+(p.Nx-1)*(p.Ny-1)*(k-1);
+%                     h1 = h1+1;
+%                 end
+%                 
+%                 if j == 1
+%                     p.mNyF(h2) = i + (p.Nx-1)*p.Ny+(p.Nx-1)*(p.Ny-1)*(k-1);
+%                     h2 = h2+1;
+%                 end
+%                 
+%                 if k == 1
+%                     p.mNzF(h3) = i + (p.Nx-1)*(j-1)+(p.Nx-1)*(p.Ny-1)*p.Nz;
+%                     h3 = h3+1;
+%                 end
+%                 
+%             end
+%         end
+%     end
 
+    
     
 end
 

@@ -14,10 +14,18 @@ function F = eval_f_GUI(X, p, u)
     y2 = sparse(p.M2, 1, y2_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     y3 = sparse(p.M2, 1, y3_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     
+     y1(p.mNx) = 0;
+    y2(p.mNy) = 0;
+    y3(p.mNz) = 0;
+    
     x00 = sparse(p.M2, 1, x_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     y100 = sparse(p.M2, 1, y1_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     y200 = sparse(p.M2, 1, y2_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
     y300 = sparse(p.M2, 1, y3_int, (p.Nx+1)*(p.Ny+1)*(p.Nz+1), 1);
+    
+    y100(p.mNx) = 0;
+    y200(p.mNy) = 0;
+    y300(p.mNz) = 0;
     %% %%% BOUNDARY CONDITIONS %%%
         
     % x boundaries            
