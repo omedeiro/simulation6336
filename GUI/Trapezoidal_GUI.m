@@ -1,4 +1,4 @@
-function [X, p, f, errf_k,errDeltax_k] = Trapezoidal_GUI(eval_f,x_start,p,eval_u,t_start,t_stop,timestep,visualize, app)
+function [X, p, f, errf_k,errDeltax_k] = Trapezoidal_GUI(eval_f,x_start,p,eval_u,t_start,t_stop,timestep,visualize, app, event)
 % uses Forward Euler to simulate states model dx/dt=f(x,p,u)
 % from state x_start at time t_start
 % until time t_stop, with time intervals timestep
@@ -15,9 +15,8 @@ t(1) = t_start;
 %     visualizeNetwork(t,X,p);
 % end
 
-global cord
-global click
-click = 0;
+
+app.click = 0;
 
 p.BXT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
 p.BYT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
@@ -48,7 +47,6 @@ text = " ";
 
 % for n=1:ceil((t_stop-t_start)/timestep) % TIME INTEGRATION LOOP
 while app.stop==0 % TIME INTEGRATION LOOP
-    
 %     if app.BzButtonPushed == 1
 
     if app.BzButtonPushed == 1
@@ -61,8 +59,8 @@ while app.stop==0 % TIME INTEGRATION LOOP
     if p.magBzAll ~= 0
         text = "Applied Bz Field (Everywhere) = " + p.magBzAll;
     else
-        if click == 1
-            text = "Applied Bz Field = " + p.magBz;
+        if app.click == 1
+            text = "Applied Bz Field (Click) = " + p.magBz;
         end
     end
     if p.magBzAll == 0 && p.magBz == 0
@@ -79,7 +77,7 @@ while app.stop==0 % TIME INTEGRATION LOOP
     app.BzButtonPushed = 0;
     
     
-    [u,P] = feval(eval_u,p.t(n),X(:,n),p,n);
+    [u,P] = feval(eval_u,p.t(n),X(:,n),p,n,app);
     p = P;
     p.Brealxt(n) = p.Brealx;
     p.Brealyt(n) = p.Brealy;
@@ -92,7 +90,7 @@ while app.stop==0 % TIME INTEGRATION LOOP
     
     % Newton loop to solve nonlinear equation
     [x,converged,errf_k,errDeltax_k,relDeltax_k,iterations] = NewtonGCRtrap(eval_f,Xpresent,p,u,errf,errDeltax,relDeltax,MaxIter,visualizeGCR,FiniteDifference,eval_Jf,tolrGCR,epsMF, gamma, dt);
-    click = 0;
+    app.click = 0;
     % Exit Newton loop
     if converged
         X(:,n+1)= x ;
@@ -117,7 +115,7 @@ while app.stop==0 % TIME INTEGRATION LOOP
     
     if visualize
 %       visualizeResults(t,X,n+1,'.b');
-        p = visualizeNetworkX2d_GUI(n,X,p, app);
+        p = visualizeNetworkX2d_GUI(n,X,p, app, event);
         
     end
 end

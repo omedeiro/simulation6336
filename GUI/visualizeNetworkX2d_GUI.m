@@ -1,13 +1,9 @@
-function p = visualizeNetworkX2dInteract(t,X,p, app)
-
+function p = visualizeNetworkX2dInteract(t,X,p, app, event)
 
 %     [Bx,By,Bz] = eval_Bfield(X,p);
 Bx = p.BXT;
 By = p.BYT;
 Bz = p.BZT;
-
-
-    
 
 [yy, xx] = meshgrid(p.hx:p.hx:p.hx*(p.Nx-1), p.hy:p.hy:p.hy*(p.Ny-1));
 
@@ -36,8 +32,6 @@ else
     se2 = n;
 end
 
-
-
 PSIT = X(1:n,t);
 PHITX = X(n+1:2*n,t);
 PHITY = X(2*n+1:3*n,t);
@@ -57,120 +51,45 @@ PHITZ = reshape(PHITZ,p.Nx-1,p.Ny-1);
 h1 = app.UIAxes;
 % h1.Position = [900 200 550 800];
 
-imagesc(app.UIAxes,abs(PSIT').^2./max(abs(PSIT').^2,1))
+imagesc(app.UIAxes,'CData', abs(PSIT').^2./max(abs(PSIT').^2,1), 'HitTest','off')
 % ax = gca;
 set(app.UIAxes,'YDir','normal')
+set(app.UIAxes, 'NextPlot','replacechildren')
 colorbar(app.UIAxes)
 caxis(app.UIAxes,[0 1])
 colormap(app.UIAxes,'turbo')
 axis(app.UIAxes, 'equal')
 axis(app.UIAxes, 'tight')
-axis(app.UIAxes, 'off')
+% axis(app.UIAxes, 'off')
 title(app.UIAxes,'|\psi|^2')
 % xlabel(app.UIAxes,'x')
 % ylabel(app.UIAxes,'y')
 % zlabel(app.UIAxes,'z')
 
-% 
-% subplot(5,3,10)
-% imagesc(xx,yy,real(PHITX))
-% colorbar
-% title('\phi_x')
-% axis equal
-% axis tight
-% axis off
-% xlabel('x')
-% ylabel('y')
-% zlabel('z')
-% 
-% subplot(5,3,11)
-% imagesc(xx,yy,real(PHITY))
-% colorbar
-% title('\phi_y')
-% axis equal
-% axis tight
-% axis off
-% xlabel('x')
-% ylabel('y')
-% zlabel('z')
-% 
-% subplot(5,3,12)
-% imagesc(xx,yy,real(PHITZ))
-% colorbar
-% title('\phi_z')
-% axis equal
-% axis tight
-% axis off
-% xlabel('x')
-% ylabel('y')
-% zlabel('z')
-% 
-% 
-% 
-% 
-% 
-% 
 
+% app.UIFigureButtonDown(app);
+pause(0.1)
 
 
 Bxx  = reshape(Bx(ss2:se2,t-1),p.Nx-2,p.Ny-2);
 Byy  = reshape(By(ss2:se2,t-1),p.Nx-2,p.Ny-2);
 Bzz  = reshape(Bz(ss2:se2,t-1),p.Nx-2,p.Ny-2);
 
-
-% if t*p.timestep == 5
-%     p.Bbg_x = Bxx;
-%     p.Bbg_y = Byy;
-%     p.Bbg_z = Bzz;
-% end
-% 
-% if t*p.timestep > 5
-%     Bxx = Bxx - p.Bbg_x;
-%     Byy = Byy - p.Bbg_y;
-%     Bzz = Bzz - p.Bbg_z;
-% end
-
-% 
-% subplot(5,3,13)
-% imagesc(xx2,yy2,real(Bxx))
-% colorbar
-% axis equal
-% axis tight
-% axis off
-% title('B_x')
-% xlabel('x')
-% ylabel('y')
-% zlabel('z')
-% 
-% 
-% subplot(5,3,14)
-% imagesc(xx2,yy2,real(Byy))
-% colorbar
-% axis equal
-% axis tight
-% axis off
-% title('B_y')
-% xlabel('x')
-% ylabel('y')
-% zlabel('z')
-% 
-% figure(2)
 imagesc(app.UIAxes2,real(Bzz'))
 set(app.UIAxes2,'YDir','normal')
 colorbar(app.UIAxes2)
-caxis(app.UIAxes2, [min(min(real(Bzz'))) max(max(real(Bzz')))]);
+% caxis(app.UIAxes2, [min(min(real(Bzz'))) max(max(real(Bzz')))]);
 colormap(app.UIAxes2,'turbo')
 axis(app.UIAxes2, 'equal')
 axis(app.UIAxes2, 'tight')
-axis(app.UIAxes2, 'off')
+% axis(app.UIAxes2, 'off')
 title(app.UIAxes2, 'B_z')
-% xlabel(app.UIAxes2, 'x')
-% ylabel(app.UIAxes2, 'y')
-% zlabel(app.UIAxes2, 'z')
 
-% sgtitle({"applied Bx = "+p.Brealxt(t-1)+", applied By = "+p.Brealyt(t-1)+", applied Bz = "+p.Brealzt(t-1),"t = "+ p.t(t),})
 
-drawnow;
+
+
+drawnow
+
 if p.visualizeSave == 1
     if t ==1
         addpath(pwd+"/gifs")
@@ -181,16 +100,6 @@ if p.visualizeSave == 1
         gif
     end
 end
-
-% h1.ButtonDownFcn = @mouseClick;
-% function mouseClick(~,~)
-%     global cord
-%     global click
-%     c = get(app.UIAxes,'CurrentPoint');
-%     cord = c;
-%     click = 1;
-% end
-
 
 
 %%

@@ -1,41 +1,44 @@
 classdef TDGL_GUI < GUI_B_boundary
     properties 
         % Startup values
-        Nx
-        Ny
-        Nz
         Bz
         BzClick
         BzButtonPushed
+        cord
+        click
         kappaIO
+        Nx
+        Ny
+        Nz
         stop
     end
     
+
     methods
         function app = TDGL_GUI()
             app = app@GUI_B_boundary();
-            
         end
-        
-            
     end
     
     
     
     
 %% COPIED FROM APP DESIGNER
-
     % Callbacks that handle component events
-    methods (Access = private)
+    methods 
 
         % Button pushed function: StartButton
         function StartButtonPushed(app, event)
+
             app.StartButton.Enable = 'off';
+
             app.stop = 0;
+            app.Bz = 0;
+
             app.Nx = app.NxSpinner.Value;
             app.Ny = app.NySpinner.Value;
             app.Nz = app.NzSpinner.Value;
-            app.Bz = 0;
+            
             if app.SCTypeButtonGroup.Buttons(1).Value == 1
                 app.kappaIO = 5;
             else
@@ -43,10 +46,9 @@ classdef TDGL_GUI < GUI_B_boundary
             end
             
             app.StatusEditField.Value = "Simulation Started";
-            trapezoidal_test_GUI(app);
 
-            
-            
+            trapezoidal_test_GUI(app, event);
+
         end
 
         % Button pushed function: ApplyFIeldEverywhereButton
@@ -73,14 +75,15 @@ classdef TDGL_GUI < GUI_B_boundary
             app.NySpinner.Value = value;
         end
 
-        % Button down function: UIAxes
-        function UIAxesButtonDown(app, event)
-            global cord
-            global click
-            cord = get(app.UIAxes,'CurrentPoint');
-            click = 1;
+        % Button down function: UIFigure
+        function UIFigureButtonDown(app, event)
+            if ~isempty(app.UIAxes.CurrentPoint)
+                app.cord = get(app.UIAxes,'CurrentPoint');
+            end
+            app.click = 1;  
         end
     end
+
 
 %%    
 end

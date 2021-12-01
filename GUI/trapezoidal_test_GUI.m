@@ -1,4 +1,4 @@
-function trapezoidal_test_GUI(app)
+function trapezoidal_test_GUI(app, event)
 
 % clear all
 % close all
@@ -11,11 +11,7 @@ function trapezoidal_test_GUI(app)
 eval_f = "eval_f_GUI";
 eval_u = "eval_u_GUI";
 
-% global p
-% global cord
-% global click_location
-% 
-% click_location = [];
+
 
 p.kappa = app.kappaIO;
 p.Nx = app.Nx;
@@ -47,6 +43,15 @@ p.click_location2 = [];
 p.click_location3 = [];
 p.click_location4 = [];
 
+p.Bzlist1 = [];
+p.Bzlist2 = [];
+p.Bzlist3 = [];
+p.Bzlist4 = [];
+
+p.Bzlist_h1 = 1;
+p.Bzlist_h2 = 1;
+p.Bzlist_h3 = 1;
+p.Bzlist_h4 = 1;
 
 p.LPHIX = construct_LPHIXm(p);
 p.LPHIY = construct_LPHIYm(p);
@@ -95,7 +100,7 @@ p.t_stop= 10000;
 p.timestep = 1e-1;
 visualize = 1;
 p.visualizeSave = 0;
-[X,p] = Trapezoidal_GUI(eval_f,x_start,p,eval_u,p.t_start,p.t_stop,p.timestep,visualize, app);
+[X,p] = Trapezoidal_GUI(eval_f,x_start,p,eval_u,p.t_start,p.t_stop,p.timestep,visualize, app, event);
 
 app.StartButton.Enable = 'on';
 %% 
