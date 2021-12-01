@@ -29,9 +29,10 @@ classdef TDGL_GUI < GUI_B_boundary
 
         % Button pushed function: StartButton
         function StartButtonPushed(app, event)
-
+ 
             app.StartButton.Enable = 'off';
-
+            cla(app.UIAxes)
+            cla(app.UIAxes2)
             app.stop = 0;
             app.Bz = 0;
 
