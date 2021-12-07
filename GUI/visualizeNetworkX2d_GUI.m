@@ -78,7 +78,12 @@ Bzz  = reshape(Bz(ss2:se2,t-1),p.Nx-2,p.Ny-2);
 imagesc(app.UIAxes2,real(Bzz'))
 set(app.UIAxes2,'YDir','normal')
 colorbar(app.UIAxes2)
-% caxis(app.UIAxes2, [min(min(real(Bzz'))) max(max(real(Bzz')))]);
+
+if max(max(abs(Bzz)))< 30e-3 && t>10/1e-1
+    caxis(app.UIAxes2, [-30e-3 30e-3]);
+else
+    caxis(app.UIAxes2, [-1 1]);
+end
 colormap(app.UIAxes2,'turbo')
 axis(app.UIAxes2, 'equal')
 axis(app.UIAxes2, 'tight')
