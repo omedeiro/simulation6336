@@ -24,22 +24,20 @@ classdef TDGL_GUI < GUI_B_boundary
     
     
 %% COPIED FROM APP DESIGNER
+   
     % Callbacks that handle component events
-    methods 
+    methods (Access = private)
 
         % Button pushed function: StartButton
         function StartButtonPushed(app, event)
- 
             app.StartButton.Enable = 'off';
             cla(app.UIAxes)
             cla(app.UIAxes2)
             app.stop = 0;
-            app.Bz = 0;
-
             app.Nx = app.NxSpinner.Value;
             app.Ny = app.NySpinner.Value;
             app.Nz = app.NzSpinner.Value;
-            
+            app.Bz = 0;
             if app.SCTypeButtonGroup.Buttons(1).Value == 1
                 app.kappaIO = 5;
             else
@@ -47,9 +45,10 @@ classdef TDGL_GUI < GUI_B_boundary
             end
             
             app.StatusEditField.Value = "Simulation Started";
-
             trapezoidal_test_GUI(app, event);
 
+            
+            
         end
 
         % Button pushed function: ApplyFIeldEverywhereButton
@@ -76,12 +75,18 @@ classdef TDGL_GUI < GUI_B_boundary
             app.NySpinner.Value = value;
         end
 
-        % Button down function: UIFigure
+        % Button down function: UIAxes, UIFigure
         function UIFigureButtonDown(app, event)
             if ~isempty(app.UIAxes.CurrentPoint)
                 app.cord = get(app.UIAxes,'CurrentPoint');
             end
             app.click = 1;  
+        end
+
+        % Value changed function: NySpinner
+        function NySpinnerValueChanged(app, event)
+            value = app.NySpinner.Value;
+            app.NxSpinner.Value = value;
         end
     end
 
