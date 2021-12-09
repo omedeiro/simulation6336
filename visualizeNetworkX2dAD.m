@@ -1,10 +1,10 @@
-function visualizeNetworkX2d(X,p)
+function h1 = visualizeNetworkX2d(X,p)
 
 
-    [Bx,By,Bz] = eval_Bfield(X,p);
-%     Bx = p.BXT;
-%     By = p.BYT;
-%     Bz = p.BZT;
+%     [Bx,By,Bz] = eval_Bfield(X,p);
+    Bx = p.BXT;
+    By = p.BYT;
+    Bz = p.BZT;
    
     [yy, xx] = meshgrid(p.hx:p.hx:p.hx*(p.Nx-1), p.hy:p.hy:p.hy*(p.Ny-1));
 
@@ -53,11 +53,10 @@ for t = floor(linspace(1,size(X,2)-1,p.frames))
     PHITZ = reshape(PHITZ,p.Nx-1,p.Ny-1);
 
     h1 = figure(1);
-    h1.Position = [900 200 550 800];
-    h1.Color = [1 1 1];
-    subplot(2,1,1)
+%     h1.Position = [900 200 550 800];
+    
+    subplot(5,3,1:9)
     imagesc(xx,yy,abs(PSIT).^2./max(abs(PSIT).^2,1))
-    ax = gca;
     colorbar
     caxis([0 1])
     axis equal
@@ -68,39 +67,39 @@ for t = floor(linspace(1,size(X,2)-1,p.frames))
     ylabel('y')
     zlabel('z')
 
-% 
-%     subplot(5,3,10)
-%     imagesc(xx,yy,real(PHITX))
-%     colorbar
-%     title('\phi_x')
-%     axis equal
-%     axis tight
-%     axis off
-%     xlabel('x')
-%     ylabel('y')
-%     zlabel('z')
-% 
-%     subplot(5,3,11)
-%     imagesc(xx,yy,real(PHITY))
-%     colorbar
-%     title('\phi_y')
-%     axis equal
-%     axis tight
-%     axis off
-%     xlabel('x')
-%     ylabel('y')
-%     zlabel('z')
-% 
-%     subplot(5,3,12)
-%     imagesc(xx,yy,real(PHITZ))
-%     colorbar
-%     title('\phi_z')
-%     axis equal
-%     axis tight
-%     axis off
-%     xlabel('x')
-%     ylabel('y')
-%     zlabel('z')
+
+    subplot(5,3,10)
+    imagesc(xx,yy,real(PHITX))
+    colorbar
+    title('\phi_x')
+    axis equal
+    axis tight
+    axis off
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
+
+    subplot(5,3,11)
+    imagesc(xx,yy,real(PHITY))
+    colorbar
+    title('\phi_y')
+    axis equal
+    axis tight
+    axis off
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
+
+    subplot(5,3,12)
+    imagesc(xx,yy,real(PHITZ))
+    colorbar
+    title('\phi_z')
+    axis equal
+    axis tight
+    axis off
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
 
 
 
@@ -111,33 +110,32 @@ for t = floor(linspace(1,size(X,2)-1,p.frames))
     Byy  = reshape(By(ss2:se2,t),p.Nx-2,p.Ny-2);
     Bzz  = reshape(Bz(ss2:se2,t),p.Nx-2,p.Ny-2);
 
-%     subplot(5,3,13)
-%     imagesc(xx2,yy2,real(Bxx))
-%     colorbar
-%     axis equal
-%     axis tight
-%     axis off
-%     title('B_x')
-%     xlabel('x')
-%     ylabel('y')
-%     zlabel('z')
-% 
-% 
-%     subplot(5,3,14)
-%     imagesc(xx2,yy2,real(Byy))
-%     colorbar
-%     axis equal
-%     axis tight
-%     axis off
-%     title('B_y')
-%     xlabel('x')
-%     ylabel('y')
-%     zlabel('z')
+    subplot(5,3,13)
+    imagesc(xx2,yy2,real(Bxx))
+    colorbar
+    axis equal
+    axis tight
+    axis off
+    title('B_x')
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
 
-    subplot(2,1,2)
+
+    subplot(5,3,14)
+    imagesc(xx2,yy2,real(Byy))
+    colorbar
+    axis equal
+    axis tight
+    axis off
+    title('B_y')
+    xlabel('x')
+    ylabel('y')
+    zlabel('z')
+
+    subplot(5,3,15)
     imagesc(xx2,yy2,real(Bzz))
     colorbar
-    caxis([-0.03 0.03])
 %     hold on
 %     contour(real(Bzz), [-0.02 0 0.02],'--', 'LineWidth', 2)
     axis equal
@@ -148,21 +146,19 @@ for t = floor(linspace(1,size(X,2)-1,p.frames))
     ylabel('y')
     zlabel('z')
 
-    sgtitle({"applied Bz = "+p.Brealzt(t),"t = "+ p.t(t),})
+    sgtitle({"applied Bx = "+p.Brealxt(t)+", applied By = "+p.Brealyt(t)+", applied Bz = "+p.Brealzt(t),"t = "+ p.t(t),})
 
-    drawnow
-    if p.visualizeSave == 1
-        if t ==1
-            addpath(pwd+"/gifs")
-            filename = char(pwd+"/gifs/trapGif"+datestr(now,30)+".gif");
-            gif(filename);
-            save(filename(1:end-4),'p')
-        else
-            gif
-        end
-    end
-    
-
+%     drawnow
+%     if p.visualizeSave == 1
+%         if t ==1
+%             addpath(pwd+"/gifs")
+%             filename = char(pwd+"/gifs/trapGif"+datestr(now,30)+".gif");
+%             gif(filename);
+%             save(filename(1:end-4),'p')
+%         else
+%             gif
+%         end
+%     end
 
 end
 

@@ -6,9 +6,9 @@ eval_f = "eval_f";
 
 
 p.kappa = 5;
-p.Nx = 10;
-p.Ny = 10;
-p.Nz = 10;
+p.Nx = 20;
+p.Ny = 20;
+p.Nz = 20;
 p.hx = 1;
 p.hy = 1;
 p.hz = 1;
@@ -44,9 +44,9 @@ figure(11)
 xx3 = cube2column(xx3);
 yy3 = cube2column(yy3);
 zz3 = cube2column(zz3);
-N1cube = sparse(p.m,1,0);
-N1cube(p.mNxedge1) = 1;
-scatter3(xx,yy,zz,36,N1cube, 'filled', 'MarkerFaceAlpha', 0.5)
+N1cube = sparse(p.m2,1,0);
+N1cube(p.M2B) = 1;
+scatter3(xx3,yy3,zz3,36,N1cube, 'filled', 'MarkerFaceAlpha', 0.5)
 title('p.M2B')
 xlabel('x')
 ylabel('y')

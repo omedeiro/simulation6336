@@ -4,18 +4,18 @@ close all
 eval_u = "eval_u";
 
 eval_f = "eval_f";
-
+aa = 30;
 p.kappa = 5;
-p.Nx = 20;
-p.Ny = 20;
-p.Nz = 3;
+p.Nx = aa;
+p.Ny = aa;
+p.Nz = aa;
 p.hx = 1;
 p.hy = 1;
 p.hz = 1;
 
 p.magBx = 0;
 p.magBy = 0;
-p.magBz = 0.5;
+p.magBz = 0.6;
 p.appliedBz = 0;
 p.periodic_x = 0;
 p.periodic_y = 0;
@@ -55,8 +55,8 @@ end
 x_start = [x;y1;y2;y3];
 
 t_start=0;
-t_stop=100;
-max_dt_FE = 1E-4;
+t_stop=1;
+max_dt_FE = 1E-3;
 visualize = 0;
 
 p.t_start=t_start;
@@ -68,6 +68,7 @@ tic;
 [X] = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,max_dt_FE,visualize);
 toc
 
+p.frames = 5;
 p.visualizeSave=1;
 visualizeNetworkX(X, p)
 

@@ -4,7 +4,7 @@ function [X, p, f, errf_k,errDeltax_k] = Trapezoidal(eval_f,x_start,p,eval_u,t_s
 % until time t_stop, with time intervals timestep
 % eval_f is a string including the name of the function that evaluates f(x,p,u)
 % eval_u is a string including the name of the funciton that evaluates u(t)
-% 
+%
 % X = ForwardEuler(eval_f,x_start,p,eval_u,t_start,t_stop,timestep,visualize)
 
 % copyright Luca Daniel, MIT 2018
@@ -20,10 +20,10 @@ p.BXT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
 p.BYT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
 p.BZT = sparse(length(p.M2B),ceil((t_stop-t_start)/timestep));
 
-tolrGCR   = 1e-4;  % convergence criteria on the GCR residual inside Newton
-epsMF     = 1e-4;
-errf	    = 1e-3;
-errDeltax   = 1e-3;
+tolrGCR   = 1e-3;  % convergence criteria on the GCR residual inside Newton
+epsMF     = 1e-5;
+errf	    = 1e-2;
+errDeltax   = 1e-2;
 relDeltax   = 1;     % note this is equivalent to NOT specifying it
 MaxIter     = 20;
 
@@ -59,8 +59,9 @@ while p.t(n) < t_stop % TIME INTEGRATION LOOP
         p.t(n)
         
         n = n + 1;
+%         dt = dt*2;
     else
-%         p.t(n)
+        p.t(n)
         dt = dt/10;
         disp("timestep reduced : " + dt)
     end
@@ -73,11 +74,10 @@ while p.t(n) < t_stop % TIME INTEGRATION LOOP
         plot(t(1:n), abs(y), 'o')
     end
     
-   if visualize
-%       visualizeResults(t,X,n+1,'.b');
-        visualizeNetwork(n,X,p)
-
-   end
+    if visualize
+        visualizeNetworkX2dAD(n,X,p)
+        
+    end
 end
 
 end
